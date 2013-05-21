@@ -1,13 +1,13 @@
 /*
 combined files : 
 
-gallery/autoResponse/1.0/config
-gallery/autoResponse/1.0/plugin/effect
-gallery/autoResponse/1.0/anim
-gallery/autoResponse/1.0/linkedlist
-gallery/autoResponse/1.0/gridsort
-gallery/autoResponse/1.0/base
-gallery/autoResponse/1.0/plugin/hash
+gallery/autoResponsive/1.0/config
+gallery/autoResponsive/1.0/plugin/effect
+gallery/autoResponsive/1.0/anim
+gallery/autoResponsive/1.0/linkedlist
+gallery/autoResponsive/1.0/gridsort
+gallery/autoResponsive/1.0/base
+gallery/autoResponsive/1.0/plugin/hash
 gallery/autoResponse/1.0/index
 
 */
@@ -16,7 +16,7 @@ gallery/autoResponse/1.0/index
  * @Author:         dafeng.xdf[at]taobao.com
  * @Date:           2013.3.5
  */
-;KISSY.add('gallery/autoResponse/1.0/config',function(){
+;KISSY.add('gallery/autoResponsive/1.0/config',function(){
     "use strict";
     var EMPTY = '';
     /**
@@ -65,7 +65,7 @@ gallery/autoResponse/1.0/index
  * @Author:      dafeng.xdf[at]taobao.com
  * @Date:        2013.3.5
  */
-;KISSY.add('gallery/autoResponse/1.0/plugin/effect',function(S){
+;KISSY.add('gallery/autoResponsive/1.0/plugin/effect',function(S){
     "use strict";
     var EMPTY = '';
     function effect(cfg){
@@ -122,7 +122,7 @@ gallery/autoResponse/1.0/index
  * @Author:      dafeng.xdf[at]taobao.com
  * @Date:        2013.3.5
  */
-;KISSY.add('gallery/autoResponse/1.0/anim',function(S,Effect){
+;KISSY.add('gallery/autoResponsive/1.0/anim',function(S,Effect){
     "use strict";
     var D = S.DOM, Anim = S.Anim,BLANK = ' ',
         notSupport = S.UA.ie < 11;
@@ -200,7 +200,7 @@ gallery/autoResponse/1.0/index
  * @Author:      dafeng.xdf[at]taobao.com
  * @Date:        2013.3.5
  */
-;KISSY.add('gallery/autoResponse/1.0/linkedlist',function(S){
+;KISSY.add('gallery/autoResponsive/1.0/linkedlist',function(S){
     "use strict";
     /**
      * @name LinkedList
@@ -298,7 +298,7 @@ gallery/autoResponse/1.0/index
  * @Date:           2013.3.5
  * @Todo:           gridSort
  */
-;KISSY.add('gallery/autoResponse/1.0/gridsort',function(S,AutoAnim,LinkedList){
+;KISSY.add('gallery/autoResponsive/1.0/gridsort',function(S,AutoAnim,LinkedList){
     "use strict";
     var D = S.DOM,EMPTY = '' ,DD = S.DD,
         DraggableDelegate = DD.DraggableDelegate,
@@ -519,7 +519,7 @@ gallery/autoResponse/1.0/index
  * @Author:         dafeng.xdf[at]taobao.com
  * @Date:           2013.3.5
  */
-;KISSY.add('gallery/autoResponse/1.0/base',function(S,Config,GridSort,Base){
+;KISSY.add('gallery/autoResponsive/1.0/base',function(S,Config,GridSort,Base){
     "use strict";
     var D = S.DOM,E = S.Event,win = window;
     /**
@@ -671,7 +671,7 @@ gallery/autoResponse/1.0/index
  * @Author:         dafeng.xdf[at]taobao.com
  * @Date:           2013.3.5
  */
-;KISSY.add('gallery/autoResponse/1.0/plugin/hash',function(S){
+;KISSY.add('gallery/autoResponsive/1.0/plugin/hash',function(S){
     "use strict";
     var D = S.DOM, E = S.Event,
         EMPTY = '';
