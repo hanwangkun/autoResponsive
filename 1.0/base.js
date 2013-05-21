@@ -7,17 +7,17 @@
     "use strict";
     var D = S.DOM,E = S.Event,win = window;
     /**
-     * @name AutoResponse
+     * @name AutoResponsive
      * @class 网页自适应布局
      * @constructor
      * @extends Base
      */
-    function AutoResponse() {
+    function AutoResponsive() {
         var self = this;
-        AutoResponse.superclass.constructor.apply(self,arguments);
+        AutoResponsive.superclass.constructor.apply(self,arguments);
         self._init();
     };
-    S.extend(AutoResponse, Base, {
+    S.extend(AutoResponsive, Base, {
         /**
          * 初始化组件
          * @return  排序实例
@@ -148,5 +148,5 @@
             self.render();
         }
     },{ ATTRS : new Config()});
-    return AutoResponse;
+    return AutoResponsive;
 },{requires:['./config','./gridsort','base','dom','event']});

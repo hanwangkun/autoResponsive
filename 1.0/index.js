@@ -1,3 +1,3 @@
-;KISSY.add('gallery/autoResponse/1.0/index',function(S,AutoResponse){
-    return AutoResponse;
+;KISSY.add(function(S,AutoResponsive){
+    return AutoResponsive;
 },{requires:['./base','./plugin/hash']});

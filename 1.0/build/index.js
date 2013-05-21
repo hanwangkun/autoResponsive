@@ -8,7 +8,7 @@ gallery/autoResponsive/1.0/linkedlist
 gallery/autoResponsive/1.0/gridsort
 gallery/autoResponsive/1.0/base
 gallery/autoResponsive/1.0/plugin/hash
-gallery/autoResponse/1.0/index
+gallery/autoResponsive/1.0/index
 
 */
 /**
@@ -523,17 +523,17 @@ gallery/autoResponse/1.0/index
     "use strict";
     var D = S.DOM,E = S.Event,win = window;
     /**
-     * @name AutoResponse
+     * @name AutoResponsive
      * @class 网页自适应布局
      * @constructor
      * @extends Base
      */
-    function AutoResponse() {
+    function AutoResponsive() {
         var self = this;
-        AutoResponse.superclass.constructor.apply(self,arguments);
+        AutoResponsive.superclass.constructor.apply(self,arguments);
         self._init();
     };
-    S.extend(AutoResponse, Base, {
+    S.extend(AutoResponsive, Base, {
         /**
          * 初始化组件
          * @return  排序实例
@@ -664,7 +664,7 @@ gallery/autoResponse/1.0/index
             self.render();
         }
     },{ ATTRS : new Config()});
-    return AutoResponse;
+    return AutoResponsive;
 },{requires:['./config','./gridsort','base','dom','event']});
 /**
  * @Description:    hash回溯插件
@@ -692,6 +692,6 @@ gallery/autoResponse/1.0/index
     });
     return hash;
 });
-;KISSY.add('gallery/autoResponse/1.0/index',function(S,AutoResponse){
-    return AutoResponse;
+;KISSY.add('gallery/autoResponsive/1.0/index',function(S,AutoResponsive){
+    return AutoResponsive;
 },{requires:['./base','./plugin/hash']});
