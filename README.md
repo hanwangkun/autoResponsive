@@ -1,4 +1,0 @@
-autoResponsive
-==============
-
-autoResponsive
