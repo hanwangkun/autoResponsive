@@ -1,13 +1,13 @@
 ## 综述
 
-autoResponse，是基于kissy 1.3.0或者更高版本的自适应组件。
+autoResponsive，是基于kissy 1.3.0或者更高版本的自适应组件。
 
 * 版本：1.0
 * 作者：达峰
 
 ## docs
 
-[更多文档](http://xudafeng.github.io/autoResponse/cat/demos/)
+[更多文档](http://xudafeng.github.io/autoResponsive/cat/demos/)
 
 ## 说明
 
