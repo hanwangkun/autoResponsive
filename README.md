@@ -1,6 +1,6 @@
-## autoResponse
+## autoResponsive
 ===
-[docs](http://xudafeng.github.io/autoResponse/ "docs")
+[docs](http://xudafeng.github.io/autoResponsive/ "docs")
 ===
 * 自适应排布组件
 * 支持条件排序，乱序等
