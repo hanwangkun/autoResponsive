@@ -1,5 +1,7 @@
 ## autoResponse
 ===
+[docs](http://xudafeng.github.io/autoResponse/ "docs")
+===
 * 自适应排布组件
 * 支持条件排序，乱序等
 * 支持瀑布流，拖拽等功能
