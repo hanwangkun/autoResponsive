@@ -15,7 +15,7 @@ autoResponse，是基于kissy 1.3.0或者更高版本的自适应组件。
 
 ## demo
 
-[更多文档](http://xudafeng.github.com/autoResponse/)
+[更多文档](http://xudafeng.github.io/autoResponse/cat/demos/)
 
 ## 组件使用
 
