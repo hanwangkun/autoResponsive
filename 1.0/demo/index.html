@@ -2,31 +2,32 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-    <title>demo标题</title>
+    <title>autoResponsive</title>
     <script src="http://a.tbcdn.cn/s/kissy/1.3.0/kissy-min.js" charset="utf-8"></script>
 </head>
 <body>
-<h2>demo标题</h2>
+<h2>autoResponsive</h2>
 
-<script>
-    var S = KISSY;
-    if (S.Config.debug) {
-        var srcPath = "../../../";
-        S.config({
-            packages:[
-                {
-                    name:"gallery",
-                    path:srcPath,
-                    charset:"utf-8",
-                    ignorePackageNameInUri:true
-                }
-            ]
-        });
-    }
+<div>
+    <p>
+        priority : <a target="_blank" href="http://xudafeng.github.io/autoResponsive/cat/demos/#priority">priority</a>
+    </p>
+</div>
+<div>
+    <p>
+        waterfall : <a target="_blank" href="http://xudafeng.github.io/autoResponsive/demo/waterfall/">waterfall</a>
+    </p>
+</div>
 
-    S.use('gallery/autoResponsive/1.0/index', function (S, AutoResponsive) {
-         var autoResponsive = new AutoResponsive();
-    })
-</script>
+<div>
+    <p>
+        animate : <a target="_blank" href="http://xudafeng.github.io/autoResponsive/demo/animate/">animate</a>
+    </p>
+</div>
+<div>
+    <p>
+        resize : <a target="_blank" href="http://xudafeng.github.io/autoResponsive/demo/resize/">resize</a>
+    </p>
+</div>
 </body>
 </html>
