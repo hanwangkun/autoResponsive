@@ -118,7 +118,6 @@
         _setFrame:function(){
             var self = this;
             self._self.frame ++;
-            console.log(self._self.frame)
         },
         _cellSort:function(_items){
             var self = this,

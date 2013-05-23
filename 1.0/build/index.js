@@ -7,7 +7,6 @@ gallery/autoResponsive/1.0/anim
 gallery/autoResponsive/1.0/linkedlist
 gallery/autoResponsive/1.0/gridsort
 gallery/autoResponsive/1.0/base
-gallery/autoResponsive/1.0/plugin/hash
 gallery/autoResponsive/1.0/index
 
 */
@@ -667,31 +666,10 @@ gallery/autoResponsive/1.0/index
     return AutoResponsive;
 },{requires:['./config','./gridsort','base','dom','event']});
 /**
- * @Description:    hash回溯插件
- * @Author:         dafeng.xdf[at]taobao.com
- * @Date:           2013.3.5
+ * @Description: 目前先挂载base
+ * @Author:      dafeng.xdf[at]taobao.com
+ * @Date:        2013.3.5
  */
-;KISSY.add('gallery/autoResponsive/1.0/plugin/hash',function(S){
-    "use strict";
-    var D = S.DOM, E = S.Event,
-        EMPTY = '';
-    /**
-     * @name hash
-     * @class 自适应布局
-     * @constructor
-     */
-    function hash() {
-        var self = this;
-        self._init();
-    };
-    /**
-     */
-    S.augment(hash, {
-        _init:function(){
-        }
-    });
-    return hash;
-});
 ;KISSY.add('gallery/autoResponsive/1.0/index',function(S,AutoResponsive){
     return AutoResponsive;
-},{requires:['./base','./plugin/hash']});
+},{requires:['./base']});
