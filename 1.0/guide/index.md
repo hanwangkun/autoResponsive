@@ -250,13 +250,55 @@ kissy1.3无需配置配置。
     </tbody>
 </table>
 
-##Uploader方法说明
+##常用方法说明
 
-####upload (index)：上传指定队列索引的文件
+####adjust ()：重新调整排序
 
 ```javascript
-//上传队列中的第一个文件
-uploader.upload(0)
+//重新调整排序
+ autoResponsive.adjust();
+```
+####priority ()：重新调整排序
+
+```javascript
+//优先排序
+ autoResponsive.priority();
+```
+####filter ()：过滤排序
+
+```javascript
+//过滤排序
+ autoResponsive.filter();
+```
+####margin ()：边距设置
+
+```javascript
+//边距设置
+ autoResponsive.margin({ x:10, y:20 });
+```
+####random ()：随机排序
+
+```javascript
+//随机排序
+ autoResponsive.random();
+```
+####option ()：自定义配置
+
+```javascript
+//自定义配置
+ autoResponsive.option();
+```
+####append ()：append节点
+
+```javascript
+//append节点
+ autoResponsive.append();
+```
+####prepend ()：prepend节点
+
+```javascript
+//prepend节点
+ autoResponsive.prepend();
 ```
 
 ####uploadFiles (status)：批量上传队列中的指定状态下的文件
