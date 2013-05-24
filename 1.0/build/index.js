@@ -226,7 +226,7 @@ gallery/autoResponsive/1.0/index
     return AutoAnim;
 },{requires:['./plugin/effect','dom','anim']});
 /**
- * @Description: 为了灵活操作方便，集成一个双向链表
+ * @Description: 集成一个双向链表方便操作
  * @Author:      dafeng.xdf[at]taobao.com
  * @Date:        2013.3.5
  */
@@ -249,8 +249,8 @@ gallery/autoResponsive/1.0/index
         add:function(value){
             var node = {
                 value:value,
-                next:null,   //前驱
-                prev:null    //后继
+                next:null,//前驱
+                prev:null//后继
             };
             if(this.length == 0){
                 this.head = this.tail = node;

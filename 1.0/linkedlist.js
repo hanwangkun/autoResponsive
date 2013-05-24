@@ -22,8 +22,8 @@
         add:function(value){
             var node = {
                 value:value,
-                next:null,   //前驱
-                prev:null    //后继
+                next:null,//前驱
+                prev:null//后继
             };
             if(this.length == 0){
                 this.head = this.tail = node;
