@@ -3,7 +3,7 @@
  * @Author:      dafeng.xdf[at]taobao.com
  * @Date:        2013.3.5
  */
-;KISSY.add(function(S,Effect){
+;KISSY.add('gallery/autoResponsive/1.0/anim',function(S,Effect){
     "use strict";
     var D = S.DOM, Anim = S.Anim,BLANK = ' ',
         notSupport = S.UA.ie < 11;
@@ -49,6 +49,16 @@
                 self.cssPrefixes('transform','translate('+ self.x +'px,'+ self.y +'px) '+_type),
                 self.cssPrefixes('transition-duration',self.duration +'s'))
             );
+            /**
+             * 单元素计算排序后触发
+             */
+            self._self.fire('afterElemSort',{autoResponsive:{
+                elm:self.elm,
+                position:{
+                    x:self.x,
+                    y:self.y
+                }
+            }});
         },
         /**
          * 降级模拟css3动画
@@ -61,7 +71,18 @@
                 direction = 'right';
             }
             cssRules[direction] = self.x;
-            new Anim(self.elm,cssRules,self.duration,self.easing).run();
+            new Anim(self.elm,cssRules,self.duration,self.easing,function(){
+                /**
+                 * 单元素计算排序后触发
+                 */
+                self._self.fire('afterElemSort',{autoResponsive:{
+                    elm:self.elm,
+                    position:{
+                        x:self.x,
+                        y:self.y
+                    }
+                }});
+            }).run();
         },
         /**
          * 无动画
@@ -72,6 +93,16 @@
                 left: self.left,
                 top: self.top
             });
+            /**
+             * 单元素计算排序后触发
+             */
+            self._self.fire('afterElemSort',{autoResponsive:{
+                elm:self.elm,
+                position:{
+                    x:self.x,
+                    y:self.y
+                }
+            }});
         }
     });
     return AutoAnim;

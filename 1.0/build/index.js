@@ -167,6 +167,16 @@ gallery/autoResponsive/1.0/index
                 self.cssPrefixes('transform','translate('+ self.x +'px,'+ self.y +'px) '+_type),
                 self.cssPrefixes('transition-duration',self.duration +'s'))
             );
+            /**
+             * 单元素计算排序后触发
+             */
+            self._self.fire('afterElemSort',{autoResponsive:{
+                elm:self.elm,
+                position:{
+                    x:self.x,
+                    y:self.y
+                }
+            }});
         },
         /**
          * 降级模拟css3动画
@@ -179,7 +189,18 @@ gallery/autoResponsive/1.0/index
                 direction = 'right';
             }
             cssRules[direction] = self.x;
-            new Anim(self.elm,cssRules,self.duration,self.easing).run();
+            new Anim(self.elm,cssRules,self.duration,self.easing,function(){
+                /**
+                 * 单元素计算排序后触发
+                 */
+                self._self.fire('afterElemSort',{autoResponsive:{
+                    elm:self.elm,
+                    position:{
+                        x:self.x,
+                        y:self.y
+                    }
+                }});
+            }).run();
         },
         /**
          * 无动画
@@ -190,6 +211,16 @@ gallery/autoResponsive/1.0/index
                 left: self.left,
                 top: self.top
             });
+            /**
+             * 单元素计算排序后触发
+             */
+            self._self.fire('afterElemSort',{autoResponsive:{
+                elm:self.elm,
+                position:{
+                    x:self.x,
+                    y:self.y
+                }
+            }});
         }
     });
     return AutoAnim;
@@ -358,7 +389,8 @@ gallery/autoResponsive/1.0/index
                 easing : self.easing,
                 direction : self.direction,
                 effect:self.effect,
-                frame:self._self.frame
+                frame:self._self.frame,
+                _self:self._self
             });
         },
         _cache:function(elm){
@@ -383,6 +415,12 @@ gallery/autoResponsive/1.0/index
             if(self.random == 'on'){
                 _items = _items.shuffle();
             }
+            /**
+             * 排序之前触发beforeSort
+             */
+            self._self.fire('beforeSort',{autoResponsive:{
+                elms:_items
+            }});
             S.each(_items,function(i){
                 if(self._filter(i)){
                     return;
@@ -390,6 +428,12 @@ gallery/autoResponsive/1.0/index
                 if(self._cache(i)){
                     return;
                 }
+                /**
+                 * 遍历单个元素之前触发
+                 */
+                self._self.fire('beforeElemSort',{autoResponsive:{
+                    elm:i
+                }});
                 var coordinate = self.coordinate(curQuery,i);
                 if(_maxHeight<coordinate[1]+ D.outerHeight(i)){
                     _maxHeight = coordinate[1]+D.outerHeight(i);
@@ -398,6 +442,12 @@ gallery/autoResponsive/1.0/index
                 self._bindDrop(i);
             });
             S.each(self.cacheQuery,function(i){
+                /**
+                 * 遍历单个元素之后触发
+                 */
+                self._self.fire('beforeElemSort',{autoResponsive:{
+                    elm:i
+                }});
                 var coordinate = self.coordinate(curQuery,i);
                 if(_maxHeight<coordinate[1]+ D.outerHeight(i)){
                     _maxHeight = coordinate[1]+D.outerHeight(i);
@@ -405,13 +455,18 @@ gallery/autoResponsive/1.0/index
                 self.callAnim(i,coordinate);
                 self._bindDrop(i);
             });
+            /**
+             * 排序之后触发
+             */
+            self._self.fire('afterSort',{autoResponsive:{
+                elms:_items
+            }});
             self._bindBrag();
             self.setHeight(_maxHeight);
         },
         _setFrame:function(){
             var self = this;
             self._self.frame ++;
-            console.log(self._self.frame)
         },
         _cellSort:function(_items){
             var self = this,
@@ -419,9 +474,7 @@ gallery/autoResponsive/1.0/index
                 _row = 0,
                 curQuery = [];
             S.each(_items,function(i,key){
-
                 S.log('star from here!');
-
                 curQuery.push(self._getCells());
                 //self.callAnim(i,coordinate);
             });
@@ -578,6 +631,10 @@ gallery/autoResponsive/1.0/index
             var self = this;
             self._bind(S.throttle(function(){
                 self.render();
+                /**
+                 * 浏览器改变触发resize事件
+                 */
+                self.fire('resize');
             }, 200, self));
         },
         /**

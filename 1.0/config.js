@@ -3,7 +3,7 @@
  * @Author:         dafeng.xdf[at]taobao.com
  * @Date:           2013.3.5
  */
-;KISSY.add(function(){
+;KISSY.add('gallery/autoResponsive/1.0/config',function(){
     "use strict";
     var EMPTY = '';
     /**

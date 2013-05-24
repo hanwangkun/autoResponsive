@@ -4,7 +4,7 @@
  * @Date:           2013.3.5
  * @Todo:           gridSort
  */
-;KISSY.add(function(S,AutoAnim,LinkedList){
+;KISSY.add('gallery/autoResponsive/1.0/gridsort',function(S,AutoAnim,LinkedList){
     "use strict";
     var D = S.DOM,EMPTY = '' ,DD = S.DD,
         DraggableDelegate = DD.DraggableDelegate,
@@ -65,7 +65,8 @@
                 easing : self.easing,
                 direction : self.direction,
                 effect:self.effect,
-                frame:self._self.frame
+                frame:self._self.frame,
+                _self:self._self
             });
         },
         _cache:function(elm){
@@ -90,6 +91,12 @@
             if(self.random == 'on'){
                 _items = _items.shuffle();
             }
+            /**
+             * 排序之前触发beforeSort
+             */
+            self._self.fire('beforeSort',{autoResponsive:{
+                elms:_items
+            }});
             S.each(_items,function(i){
                 if(self._filter(i)){
                     return;
@@ -97,6 +104,12 @@
                 if(self._cache(i)){
                     return;
                 }
+                /**
+                 * 遍历单个元素之前触发
+                 */
+                self._self.fire('beforeElemSort',{autoResponsive:{
+                    elm:i
+                }});
                 var coordinate = self.coordinate(curQuery,i);
                 if(_maxHeight<coordinate[1]+ D.outerHeight(i)){
                     _maxHeight = coordinate[1]+D.outerHeight(i);
@@ -105,6 +118,12 @@
                 self._bindDrop(i);
             });
             S.each(self.cacheQuery,function(i){
+                /**
+                 * 遍历单个元素之后触发
+                 */
+                self._self.fire('beforeElemSort',{autoResponsive:{
+                    elm:i
+                }});
                 var coordinate = self.coordinate(curQuery,i);
                 if(_maxHeight<coordinate[1]+ D.outerHeight(i)){
                     _maxHeight = coordinate[1]+D.outerHeight(i);
@@ -112,6 +131,12 @@
                 self.callAnim(i,coordinate);
                 self._bindDrop(i);
             });
+            /**
+             * 排序之后触发
+             */
+            self._self.fire('afterSort',{autoResponsive:{
+                elms:_items
+            }});
             self._bindBrag();
             self.setHeight(_maxHeight);
         },
@@ -125,9 +150,7 @@
                 _row = 0,
                 curQuery = [];
             S.each(_items,function(i,key){
-
                 S.log('star from here!');
-
                 curQuery.push(self._getCells());
                 //self.callAnim(i,coordinate);
             });

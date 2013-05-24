@@ -3,7 +3,7 @@
  * @Author:         dafeng.xdf[at]taobao.com
  * @Date:           2013.3.5
  */
-;KISSY.add(function(S,Config,GridSort,Base){
+;KISSY.add('gallery/autoResponsive/1.0/base',function(S,Config,GridSort,Base){
     "use strict";
     var D = S.DOM,E = S.Event,win = window;
     /**
@@ -63,6 +63,10 @@
             var self = this;
             self._bind(S.throttle(function(){
                 self.render();
+                /**
+                 * 浏览器改变触发resize事件
+                 */
+                self.fire('resize');
             }, 200, self));
         },
         /**
