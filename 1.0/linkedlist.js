@@ -1,5 +1,5 @@
 /**
- * @Description: 为了灵活操作方便，集成一个双向链表
+ * @Description: 集成一个双向链表方便操作
  * @Author:      dafeng.xdf[at]taobao.com
  * @Date:        2013.3.5
  */
