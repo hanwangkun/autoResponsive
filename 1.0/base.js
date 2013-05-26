@@ -15,17 +15,29 @@
     function AutoResponsive() {
         var self = this;
         AutoResponsive.superclass.constructor.apply(self,arguments);
-        self._init();
+        if(!S.get(self.get('container'))){
+            S.log('lack container!');
+            return;
+        }
+        if(self.get('init') =='on'){
+            self.init();
+        }
+        self.fire('init',{autoResponsive:self});
     };
     S.extend(AutoResponsive, Base, {
         /**
          * 初始化组件
          * @return  排序实例
          */
-        _init:function(){
+        init:function(){
             var self = this;
-            self.render();
+            self.addPlug();
             self._bindEvent();
+            self.render();
+        },
+        addPlug:function(){
+            var self = this;
+            self.plug = [];
         },
         /**
          * 渲染排序结果
@@ -150,6 +162,14 @@
             var self = this;
             D.prepend(node,self.get('container'));
             self.render();
+        },
+        /**
+         * 添加插件方法
+         * @param {Object} 插件对象
+         */
+        plugin:function(plug){
+            var self = this;
+            self.plug.push(plug);
         }
     },{ ATTRS : new Config()});
     return AutoResponsive;

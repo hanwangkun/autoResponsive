@@ -2,11 +2,11 @@
 combined files : 
 
 gallery/autoResponsive/1.0/config
-gallery/autoResponsive/1.0/plugin/effect
 gallery/autoResponsive/1.0/anim
 gallery/autoResponsive/1.0/linkedlist
 gallery/autoResponsive/1.0/gridsort
 gallery/autoResponsive/1.0/base
+gallery/autoResponsive/1.0/plugin/effect
 gallery/autoResponsive/1.0/index
 
 */
@@ -54,77 +54,21 @@ gallery/autoResponsive/1.0/index
             drag:{value:'off'},
             autoHeight:{value:'on'},
             resize:{value:'on'},
-            effect:{value:'off'}
+            init:{value:'on'}
         };
     }
     return Config;
 });
 /**
- * @Description: css3动画效果插件
- * @Author:      dafeng.xdf[at]taobao.com
- * @Date:        2013.3.5
- */
-;KISSY.add('gallery/autoResponsive/1.0/plugin/effect',function(S){
-    "use strict";
-    var EMPTY = '';
-    function effect(cfg){
-        var self = this;
-        S.mix(self,cfg);
-        self._init();
-    };
-    S.augment(effect,{
-        _init:function(){
-            var self = this;
-            self.router();
-        },
-        router:function(){
-            var self = this;
-            switch (self.effect){
-                case 'roll':
-                    self.roll();
-                    break;
-                case 'appear':
-                    self.appear();
-                    break;
-                case 'off':
-                default:
-                    self.still();
-                    break;
-            }
-        },
-        /**
-         * 增添二级缓存
-         */
-        roll:function(){
-            var self = this;
-            S.mix(self,{
-                type:'rotate('+360*self.frame+'deg)'
-            });
-        },
-        appear:function(){
-            var self = this;
-            S.mix(self,{
-                type:'scale(1)'
-            });
-        },
-        still:function(){
-            var self = this;
-            S.mix(self,{
-                type:EMPTY
-            })
-        }
-    });
-    return effect;
-},{requires:['dom','anim']});
-/**
  * @Description: 兼容css3和低版本浏览器动画效果
  * @Author:      dafeng.xdf[at]taobao.com
  * @Date:        2013.3.5
  */
-;KISSY.add('gallery/autoResponsive/1.0/anim',function(S,Effect){
+;KISSY.add('gallery/autoResponsive/1.0/anim',function(S){
     "use strict";
     var D = S.DOM, Anim = S.Anim,BLANK = ' ',
         notSupport = S.UA.ie < 11;
+
     /**
      * @name AutoAnim
      * @class css动画，采用帧重复
@@ -145,6 +89,18 @@ gallery/autoResponsive/1.0/index
             notSupport || self.direction == 'right' || self.drag == 'on' ? self.fixedAnim() : self.css3Anim();
         },
         /**
+         * 插件处理
+         */
+        addPlugin:function(){
+            var self = this,_self = self._self,_plug = BLANK;
+            if(_self.plug){
+                S.each(_self.plug,function(i){
+                    _plug  += i.applicate(_self.frame);
+                });
+            }
+            return _plug;
+        },
+        /**
          * css3动画
          */
         cssPrefixes:function(styleKey,styleValue){
@@ -159,24 +115,24 @@ gallery/autoResponsive/1.0/index
              * css3效果代码添加
              */
             var self = this;
-            var _type = new Effect({
-                effect:self.effect,
-                frame:self.frame
-            }).type;
+            /**
+             * 添加插件
+             */
             D.css(self.elm, S.merge(
-                self.cssPrefixes('transform','translate('+ self.x +'px,'+ self.y +'px) '+_type),
+                self.cssPrefixes('transform','translate('+ self.x +'px,'+ self.y +'px)'+self.addPlugin()),
                 self.cssPrefixes('transition-duration',self.duration +'s'))
             );
             /**
              * 单元素计算排序后触发
              */
-            self._self.fire('afterElemSort',{autoResponsive:{
-                elm:self.elm,
-                position:{
-                    x:self.x,
-                    y:self.y
-                }
-            }});
+            self._self.fire('afterElemSort',{
+                autoResponsive:{
+                    elm:self.elm,
+                    position:{
+                        x:self.x,
+                        y:self.y
+                    }
+                }});
         },
         /**
          * 降级模拟css3动画
@@ -193,13 +149,14 @@ gallery/autoResponsive/1.0/index
                 /**
                  * 单元素计算排序后触发
                  */
-                self._self.fire('afterElemSort',{autoResponsive:{
-                    elm:self.elm,
-                    position:{
-                        x:self.x,
-                        y:self.y
-                    }
-                }});
+                self._self.fire('afterElemSort',{
+                    autoResponsive:{
+                        elm:self.elm,
+                        position:{
+                            x:self.x,
+                            y:self.y
+                        }
+                    }});
             }).run();
         },
         /**
@@ -214,17 +171,19 @@ gallery/autoResponsive/1.0/index
             /**
              * 单元素计算排序后触发
              */
-            self._self.fire('afterElemSort',{autoResponsive:{
-                elm:self.elm,
-                position:{
-                    x:self.x,
-                    y:self.y
-                }
-            }});
+            self._self.fire('afterElemSort',{
+                autoResponsive:{
+                    elm:self.elm,
+                    position:{
+                        x:self.x,
+                        y:self.y
+                    }
+                }});
         }
     });
     return AutoAnim;
-},{requires:['./plugin/effect','dom','anim']});
+},{requires:['dom','anim']});
+
 /**
  * @Description: 集成一个双向链表方便操作
  * @Author:      dafeng.xdf[at]taobao.com
@@ -354,8 +313,12 @@ gallery/autoResponsive/1.0/index
     };
     S.augment(GridSort, {
         _init:function(){
-            var self = this,
-                items = S.query(self.selector,self.container);
+            var self = this;
+            if(!self.selector){
+                S.log('lack selector');
+                return;
+            }
+            var items = S.query(self.selector,self.container);
             switch (self.layout){
                 case EMPTY:
                 case 'grid':
@@ -388,7 +351,6 @@ gallery/autoResponsive/1.0/index
                 duration : self.duration,
                 easing : self.easing,
                 direction : self.direction,
-                effect:self.effect,
                 frame:self._self.frame,
                 _self:self._self
             });
@@ -418,9 +380,10 @@ gallery/autoResponsive/1.0/index
             /**
              * 排序之前触发beforeSort
              */
-            self._self.fire('beforeSort',{autoResponsive:{
-                elms:_items
-            }});
+            self._self.fire('beforeSort',{
+                autoResponsive:{
+                    elms:_items
+                }});
             S.each(_items,function(i){
                 if(self._filter(i)){
                     return;
@@ -431,9 +394,10 @@ gallery/autoResponsive/1.0/index
                 /**
                  * 遍历单个元素之前触发
                  */
-                self._self.fire('beforeElemSort',{autoResponsive:{
-                    elm:i
-                }});
+                self._self.fire('beforeElemSort',{
+                    autoResponsive:{
+                        elm:i
+                    }});
                 var coordinate = self.coordinate(curQuery,i);
                 if(_maxHeight<coordinate[1]+ D.outerHeight(i)){
                     _maxHeight = coordinate[1]+D.outerHeight(i);
@@ -445,9 +409,10 @@ gallery/autoResponsive/1.0/index
                 /**
                  * 遍历单个元素之后触发
                  */
-                self._self.fire('beforeElemSort',{autoResponsive:{
-                    elm:i
-                }});
+                self._self.fire('beforeElemSort',{
+                    autoResponsive:{
+                        elm:i
+                    }});
                 var coordinate = self.coordinate(curQuery,i);
                 if(_maxHeight<coordinate[1]+ D.outerHeight(i)){
                     _maxHeight = coordinate[1]+D.outerHeight(i);
@@ -458,9 +423,10 @@ gallery/autoResponsive/1.0/index
             /**
              * 排序之后触发
              */
-            self._self.fire('afterSort',{autoResponsive:{
-                elms:_items
-            }});
+            self._self.fire('afterSort',{
+                autoResponsive:{
+                    elms:_items
+                }});
             self._bindBrag();
             self.setHeight(_maxHeight);
         },
@@ -583,17 +549,29 @@ gallery/autoResponsive/1.0/index
     function AutoResponsive() {
         var self = this;
         AutoResponsive.superclass.constructor.apply(self,arguments);
-        self._init();
+        if(!S.get(self.get('container'))){
+            S.log('lack container!');
+            return;
+        }
+        if(self.get('init') =='on'){
+            self.init();
+        }
+        self.fire('init',{autoResponsive:self});
     };
     S.extend(AutoResponsive, Base, {
         /**
          * 初始化组件
          * @return  排序实例
          */
-        _init:function(){
+        init:function(){
             var self = this;
-            self.render();
+            self.addPlug();
             self._bindEvent();
+            self.render();
+        },
+        addPlug:function(){
+            var self = this;
+            self.plug = [];
         },
         /**
          * 渲染排序结果
@@ -718,15 +696,84 @@ gallery/autoResponsive/1.0/index
             var self = this;
             D.prepend(node,self.get('container'));
             self.render();
+        },
+        /**
+         * 添加插件方法
+         * @param {Object} 插件对象
+         */
+        plugin:function(plug){
+            var self = this;
+            self.plug.push(plug);
         }
     },{ ATTRS : new Config()});
     return AutoResponsive;
 },{requires:['./config','./gridsort','base','dom','event']});
 /**
- * @Description: 目前先挂载base
+ * @Description: css3动画效果插件
  * @Author:      dafeng.xdf[at]taobao.com
  * @Date:        2013.3.5
  */
-;KISSY.add('gallery/autoResponsive/1.0/index',function(S,AutoResponsive){
+;KISSY.add('gallery/autoResponsive/1.0/plugin/effect',function(S){
+    "use strict";
+    var EMPTY = '';
+    function effect(cfg){
+        var self = this;
+        S.mix(self,cfg);
+        self._init();
+    };
+    S.augment(effect,{
+        _init:function(){
+            var self = this;
+            self.router();
+        },
+        router:function(){
+            var self = this;
+            switch (self.effect){
+                case 'roll':
+                    self.roll();
+                    break;
+                case 'appear':
+                    self.appear();
+                    break;
+                case 'off':
+                case 'still':
+                default:
+                    self.still();
+                    break;
+            }
+        },
+        /**
+         * 增添二级缓存
+         */
+        roll:function(){
+            var self = this;
+            S.mix(self,{
+                applicate:function(frame){
+                    return 'rotate('+360*frame+'deg)';
+                }
+            });
+        },
+        appear:function(){
+            var self = this;
+            S.mix(self,{
+                type:'scale(1)'
+            });
+        },
+        still:function(){
+            var self = this;
+            S.mix(self,{
+                type:EMPTY
+            });
+        }
+    });
+    return effect;
+},{requires:['dom','anim']});
+/**
+ * @Description: 目前先挂载base，effect效果插件，hash插件
+ * @Author:      dafeng.xdf[at]taobao.com
+ * @Date:        2013.3.5
+ */
+;KISSY.add('gallery/autoResponsive/1.0/index',function(S,AutoResponsive,Effect){
+    AutoResponsive.Effect = Effect;
     return AutoResponsive;
-},{requires:['./base']});
+},{requires:['./base','./plugin/effect']});

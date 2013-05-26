@@ -26,6 +26,7 @@
                     self.appear();
                     break;
                 case 'off':
+                case 'still':
                 default:
                     self.still();
                     break;
@@ -37,7 +38,9 @@
         roll:function(){
             var self = this;
             S.mix(self,{
-                type:'rotate('+360*self.frame+'deg)'
+                applicate:function(frame){
+                    return 'rotate('+360*frame+'deg)';
+                }
             });
         },
         appear:function(){
@@ -50,7 +53,7 @@
             var self = this;
             S.mix(self,{
                 type:EMPTY
-            })
+            });
         }
     });
     return effect;

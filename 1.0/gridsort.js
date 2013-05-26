@@ -30,8 +30,12 @@
     };
     S.augment(GridSort, {
         _init:function(){
-            var self = this,
-                items = S.query(self.selector,self.container);
+            var self = this;
+            if(!self.selector){
+                S.log('lack selector');
+                return;
+            }
+            var items = S.query(self.selector,self.container);
             switch (self.layout){
                 case EMPTY:
                 case 'grid':
@@ -64,7 +68,6 @@
                 duration : self.duration,
                 easing : self.easing,
                 direction : self.direction,
-                effect:self.effect,
                 frame:self._self.frame,
                 _self:self._self
             });
@@ -94,9 +97,10 @@
             /**
              * 排序之前触发beforeSort
              */
-            self._self.fire('beforeSort',{autoResponsive:{
-                elms:_items
-            }});
+            self._self.fire('beforeSort',{
+                autoResponsive:{
+                    elms:_items
+                }});
             S.each(_items,function(i){
                 if(self._filter(i)){
                     return;
@@ -107,9 +111,10 @@
                 /**
                  * 遍历单个元素之前触发
                  */
-                self._self.fire('beforeElemSort',{autoResponsive:{
-                    elm:i
-                }});
+                self._self.fire('beforeElemSort',{
+                    autoResponsive:{
+                        elm:i
+                    }});
                 var coordinate = self.coordinate(curQuery,i);
                 if(_maxHeight<coordinate[1]+ D.outerHeight(i)){
                     _maxHeight = coordinate[1]+D.outerHeight(i);
@@ -121,9 +126,10 @@
                 /**
                  * 遍历单个元素之后触发
                  */
-                self._self.fire('beforeElemSort',{autoResponsive:{
-                    elm:i
-                }});
+                self._self.fire('beforeElemSort',{
+                    autoResponsive:{
+                        elm:i
+                    }});
                 var coordinate = self.coordinate(curQuery,i);
                 if(_maxHeight<coordinate[1]+ D.outerHeight(i)){
                     _maxHeight = coordinate[1]+D.outerHeight(i);
@@ -134,9 +140,10 @@
             /**
              * 排序之后触发
              */
-            self._self.fire('afterSort',{autoResponsive:{
-                elms:_items
-            }});
+            self._self.fire('afterSort',{
+                autoResponsive:{
+                    elms:_items
+                }});
             self._bindBrag();
             self.setHeight(_maxHeight);
         },

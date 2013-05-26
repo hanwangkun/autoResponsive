@@ -42,7 +42,7 @@
             drag:{value:'off'},
             autoHeight:{value:'on'},
             resize:{value:'on'},
-            effect:{value:'off'}
+            init:{value:'on'}
         };
     }
     return Config;

@@ -3,10 +3,11 @@
  * @Author:      dafeng.xdf[at]taobao.com
  * @Date:        2013.3.5
  */
-;KISSY.add('gallery/autoResponsive/1.0/anim',function(S,Effect){
+;KISSY.add('gallery/autoResponsive/1.0/anim',function(S){
     "use strict";
     var D = S.DOM, Anim = S.Anim,BLANK = ' ',
         notSupport = S.UA.ie < 11;
+
     /**
      * @name AutoAnim
      * @class css动画，采用帧重复
@@ -27,6 +28,18 @@
             notSupport || self.direction == 'right' || self.drag == 'on' ? self.fixedAnim() : self.css3Anim();
         },
         /**
+         * 插件处理
+         */
+        addPlugin:function(){
+            var self = this,_self = self._self,_plug = BLANK;
+            if(_self.plug){
+                S.each(_self.plug,function(i){
+                    _plug  += i.applicate(_self.frame);
+                });
+            }
+            return _plug;
+        },
+        /**
          * css3动画
          */
         cssPrefixes:function(styleKey,styleValue){
@@ -41,24 +54,24 @@
              * css3效果代码添加
              */
             var self = this;
-            var _type = new Effect({
-                effect:self.effect,
-                frame:self.frame
-            }).type;
+            /**
+             * 添加插件
+             */
             D.css(self.elm, S.merge(
-                self.cssPrefixes('transform','translate('+ self.x +'px,'+ self.y +'px) '+_type),
+                self.cssPrefixes('transform','translate('+ self.x +'px,'+ self.y +'px)'+self.addPlugin()),
                 self.cssPrefixes('transition-duration',self.duration +'s'))
             );
             /**
              * 单元素计算排序后触发
              */
-            self._self.fire('afterElemSort',{autoResponsive:{
-                elm:self.elm,
-                position:{
-                    x:self.x,
-                    y:self.y
-                }
-            }});
+            self._self.fire('afterElemSort',{
+                autoResponsive:{
+                    elm:self.elm,
+                    position:{
+                        x:self.x,
+                        y:self.y
+                    }
+                }});
         },
         /**
          * 降级模拟css3动画
@@ -75,13 +88,14 @@
                 /**
                  * 单元素计算排序后触发
                  */
-                self._self.fire('afterElemSort',{autoResponsive:{
-                    elm:self.elm,
-                    position:{
-                        x:self.x,
-                        y:self.y
-                    }
-                }});
+                self._self.fire('afterElemSort',{
+                    autoResponsive:{
+                        elm:self.elm,
+                        position:{
+                            x:self.x,
+                            y:self.y
+                        }
+                    }});
             }).run();
         },
         /**
@@ -96,14 +110,15 @@
             /**
              * 单元素计算排序后触发
              */
-            self._self.fire('afterElemSort',{autoResponsive:{
-                elm:self.elm,
-                position:{
-                    x:self.x,
-                    y:self.y
-                }
-            }});
+            self._self.fire('afterElemSort',{
+                autoResponsive:{
+                    elm:self.elm,
+                    position:{
+                        x:self.x,
+                        y:self.y
+                    }
+                }});
         }
     });
     return AutoAnim;
-},{requires:['./plugin/effect','dom','anim']});
+},{requires:['dom','anim']});
