@@ -74,6 +74,10 @@ kissy1.3无需配置配置。
     </thead>
     <tbody>
     <tr>
+        <td>init </td>
+        <td>组件初始化完成后触发</td>
+    </tr>
+    <tr>
         <td>resize </td>
         <td>浏览器resize时添加动作</td>
     </tr>
@@ -305,6 +309,6 @@ kissy1.3无需配置配置。
 
 ###effect：效果增强
 
-####hash：hash回溯定位
+###hash：hash回溯定位
 
 ##Q&A
