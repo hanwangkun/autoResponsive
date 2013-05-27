@@ -120,7 +120,7 @@ kissy1.3无需配置配置。
     })
 ```
 
-####常用参数：*****
+###常用参数：
 
 <table class="table table-bordered table-striped">
     <thead>
