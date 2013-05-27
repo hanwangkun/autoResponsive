@@ -12,15 +12,15 @@
      * @class 自适应布局
      * @constructor
      */
-    function hash() {
+    function Hash() {
         var self = this;
         self._init();
     };
     /**
      */
-    S.augment(hash, {
+    S.augment(Hash, {
         _init:function(){
         }
     });
-    return hash;
+    return Hash;
 });
