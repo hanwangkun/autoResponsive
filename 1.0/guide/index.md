@@ -95,6 +95,7 @@ kissy1.3无需配置配置。
     </tr>
     </tbody>
 </table>
+###例子：
 ```javascript
     KISSY.use('gallery/autoResponsive/1.0/index', function (S, AutoResponsive) {
         var AutoResponsive = new AutoResponsive({
