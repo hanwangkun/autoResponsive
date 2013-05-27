@@ -71,7 +71,8 @@
                         x:self.x,
                         y:self.y
                     }
-                }});
+                }
+            });
         },
         /**
          * 降级模拟css3动画
@@ -95,7 +96,8 @@
                             x:self.x,
                             y:self.y
                         }
-                    }});
+                    }
+                });
             }).run();
         },
         /**
@@ -117,7 +119,8 @@
                         x:self.x,
                         y:self.y
                     }
-                }});
+                }
+            });
         }
     });
     return AutoAnim;
