@@ -19,6 +19,10 @@
             S.log('lack container!');
             return;
         }
+        /**
+         * 添加插件
+         */
+        self.plug = [];
         if(self.get('init') =='on'){
             self.init();
         }
@@ -31,13 +35,8 @@
          */
         init:function(){
             var self = this;
-            self.addPlug();
             self._bindEvent();
             self.render();
-        },
-        addPlug:function(){
-            var self = this;
-            self.plug = [];
         },
         /**
          * 渲染排序结果
@@ -169,6 +168,7 @@
          */
         plugin:function(plug){
             var self = this;
+            console.log(plug)
             self.plug.push(plug);
         }
     },{ ATTRS : new Config()});

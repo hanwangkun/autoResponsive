@@ -132,7 +132,8 @@ gallery/autoResponsive/1.0/index
                         x:self.x,
                         y:self.y
                     }
-                }});
+                }
+            });
         },
         /**
          * 降级模拟css3动画
@@ -156,7 +157,8 @@ gallery/autoResponsive/1.0/index
                             x:self.x,
                             y:self.y
                         }
-                    }});
+                    }
+                });
             }).run();
         },
         /**
@@ -178,7 +180,8 @@ gallery/autoResponsive/1.0/index
                         x:self.x,
                         y:self.y
                     }
-                }});
+                }
+            });
         }
     });
     return AutoAnim;
@@ -383,7 +386,8 @@ gallery/autoResponsive/1.0/index
             self._self.fire('beforeSort',{
                 autoResponsive:{
                     elms:_items
-                }});
+                }
+            });
             S.each(_items,function(i){
                 if(self._filter(i)){
                     return;
@@ -397,7 +401,8 @@ gallery/autoResponsive/1.0/index
                 self._self.fire('beforeElemSort',{
                     autoResponsive:{
                         elm:i
-                    }});
+                    }
+                });
                 var coordinate = self.coordinate(curQuery,i);
                 if(_maxHeight<coordinate[1]+ D.outerHeight(i)){
                     _maxHeight = coordinate[1]+D.outerHeight(i);
@@ -412,7 +417,8 @@ gallery/autoResponsive/1.0/index
                 self._self.fire('beforeElemSort',{
                     autoResponsive:{
                         elm:i
-                    }});
+                    }
+                });
                 var coordinate = self.coordinate(curQuery,i);
                 if(_maxHeight<coordinate[1]+ D.outerHeight(i)){
                     _maxHeight = coordinate[1]+D.outerHeight(i);
@@ -426,7 +432,8 @@ gallery/autoResponsive/1.0/index
             self._self.fire('afterSort',{
                 autoResponsive:{
                     elms:_items
-                }});
+                }
+            });
             self._bindBrag();
             self.setHeight(_maxHeight);
         },
@@ -553,6 +560,10 @@ gallery/autoResponsive/1.0/index
             S.log('lack container!');
             return;
         }
+        /**
+         * 添加插件
+         */
+        self.plug = [];
         if(self.get('init') =='on'){
             self.init();
         }
@@ -565,13 +576,8 @@ gallery/autoResponsive/1.0/index
          */
         init:function(){
             var self = this;
-            self.addPlug();
             self._bindEvent();
             self.render();
-        },
-        addPlug:function(){
-            var self = this;
-            self.plug = [];
         },
         /**
          * 渲染排序结果
@@ -703,6 +709,7 @@ gallery/autoResponsive/1.0/index
          */
         plugin:function(plug){
             var self = this;
+            console.log(plug)
             self.plug.push(plug);
         }
     },{ ATTRS : new Config()});
