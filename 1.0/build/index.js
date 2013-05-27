@@ -709,7 +709,6 @@ gallery/autoResponsive/1.0/index
          */
         plugin:function(plug){
             var self = this;
-            console.log(plug)
             self.plug.push(plug);
         }
     },{ ATTRS : new Config()});
