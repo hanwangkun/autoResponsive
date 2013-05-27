@@ -100,7 +100,8 @@
             self._self.fire('beforeSort',{
                 autoResponsive:{
                     elms:_items
-                }});
+                }
+            });
             S.each(_items,function(i){
                 if(self._filter(i)){
                     return;
@@ -114,7 +115,8 @@
                 self._self.fire('beforeElemSort',{
                     autoResponsive:{
                         elm:i
-                    }});
+                    }
+                });
                 var coordinate = self.coordinate(curQuery,i);
                 if(_maxHeight<coordinate[1]+ D.outerHeight(i)){
                     _maxHeight = coordinate[1]+D.outerHeight(i);
@@ -129,7 +131,8 @@
                 self._self.fire('beforeElemSort',{
                     autoResponsive:{
                         elm:i
-                    }});
+                    }
+                });
                 var coordinate = self.coordinate(curQuery,i);
                 if(_maxHeight<coordinate[1]+ D.outerHeight(i)){
                     _maxHeight = coordinate[1]+D.outerHeight(i);
@@ -143,7 +146,8 @@
             self._self.fire('afterSort',{
                 autoResponsive:{
                     elms:_items
-                }});
+                }
+            });
             self._bindBrag();
             self.setHeight(_maxHeight);
         },
