@@ -28,18 +28,6 @@
             notSupport || self.direction == 'right' || self.drag == 'on' ? self.fixedAnim() : self.css3Anim();
         },
         /**
-         * 插件处理
-         */
-        addPlugin:function(){
-            var self = this,_self = self._self,_plug = BLANK;
-            if(_self.plug){
-                S.each(_self.plug,function(i){
-                    _plug  += i.applicate(_self.frame);
-                });
-            }
-            return _plug;
-        },
-        /**
          * css3动画
          */
         cssPrefixes:function(styleKey,styleValue){
@@ -54,11 +42,8 @@
              * css3效果代码添加
              */
             var self = this;
-            /**
-             * 添加插件
-             */
             D.css(self.elm, S.merge(
-                self.cssPrefixes('transform','translate('+ self.x +'px,'+ self.y +'px)'+self.addPlugin()),
+                self.cssPrefixes('transform','translate('+ self.x +'px,'+ self.y +'px) '),
                 self.cssPrefixes('transition-duration',self.duration +'s'))
             );
             /**
@@ -70,7 +55,8 @@
                     position:{
                         x:self.x,
                         y:self.y
-                    }
+                    },
+                    frame:self._self.frame
                 }
             });
         },
@@ -95,7 +81,8 @@
                         position:{
                             x:self.x,
                             y:self.y
-                        }
+                        },
+                        frame:self._self.frame
                     }
                 });
             }).run();
@@ -118,7 +105,8 @@
                     position:{
                         x:self.x,
                         y:self.y
-                    }
+                    },
+                    frame:self._self.frame
                 }
             });
         }

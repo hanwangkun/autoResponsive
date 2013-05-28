@@ -3,7 +3,7 @@
  * @Author:      dafeng.xdf[at]taobao.com
  * @Date:        2013.3.5
  */
-;KISSY.add('gallery/autoResponsive/1.0/index',function(S,AutoResponsive,Effect){
-    AutoResponsive.Effect = Effect;
+;KISSY.add('gallery/autoResponsive/1.0/index',function(S,AutoResponsive,Hash){
+    AutoResponsive.Hash = Hash;
     return AutoResponsive;
-},{requires:['./base','./plugin/effect']});
+},{requires:['./base','./plugin/hash']});
