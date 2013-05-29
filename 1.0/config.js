@@ -42,7 +42,8 @@
             drag:{value:'off'},
             autoHeight:{value:'on'},
             resize:{value:'on'},
-            init:{value:'on'}
+            init:{value:'on'},
+            plugin:{value:[]}
         };
     }
     return Config;

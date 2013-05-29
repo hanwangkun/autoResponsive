@@ -54,7 +54,8 @@ gallery/autoResponsive/1.0/index
             drag:{value:'off'},
             autoHeight:{value:'on'},
             resize:{value:'on'},
-            init:{value:'on'}
+            init:{value:'on'},
+            plugin:{value:[]}
         };
     }
     return Config;
@@ -545,14 +546,15 @@ gallery/autoResponsive/1.0/index
             S.log('lack container!');
             return;
         }
-        /**
-         * 添加插件
-         */
-        self.plug = [];
+        self.fire('beforeInit',{
+            autoResponsive:self
+        });
         if(self.get('init') =='on'){
             self.init();
         }
-        self.fire('init',{autoResponsive:self});
+        self.fire('afterInit',{
+            autoResponsive:self
+        });
     };
     S.extend(AutoResponsive, Base, {
         /**
@@ -562,7 +564,20 @@ gallery/autoResponsive/1.0/index
         init:function(){
             var self = this;
             self._bindEvent();
+            self.initPlugin();
             self.render();
+            S.log('init!');
+        },
+        initPlugin:function(){
+            var self = this;
+            self.api = {};
+            /**
+             * 添加插件
+             */
+            S.each(self.get('plugin'),function(i){
+                i.init(self);
+                S.mix(self.api,i.api);
+            });
         },
         /**
          * 渲染排序结果
@@ -579,6 +594,10 @@ gallery/autoResponsive/1.0/index
                     userCfg[_key] = j;
                 });
             });
+            /**
+             * 应用插件属性
+             */
+            S.mix(userCfg,self.api);
             new GridSort(userCfg,self);
         },
         /**
@@ -687,44 +706,83 @@ gallery/autoResponsive/1.0/index
             var self = this;
             D.prepend(node,self.get('container'));
             self.render();
-        },
-        /**
-         * 添加插件方法
-         * @param {Object} 插件对象
-         */
-        plugin:function(plug){
-            var self = this;
-            self.plug.push(plug);
         }
     },{ ATTRS : new Config()});
     return AutoResponsive;
 },{requires:['./config','./gridsort','base','dom','event']});
 /**
- * @Description:    hash回溯插件
+ * @Description:    hash回溯、功能路由
  * @Author:         dafeng.xdf[at]taobao.com
  * @Date:           2013.3.5
  */
 ;KISSY.add('gallery/autoResponsive/1.0/plugin/hash',function(S){
     "use strict";
-    var D = S.DOM, E = S.Event,
-        EMPTY = '';
+    var E = S.Event,
+        win = window,
+        AND = '&',
+        EQUAL = '=';
     /**
      * @name hash
      * @class 自适应布局
      * @constructor
      */
-    function Hash() {
+    function Hash(cfg) {
         var self = this;
-        self._init();
+        self.prefix = cfg.prefix || 'ks-';
+        self.api = {};
     };
     /**
+     * 启用插件便开始解析
      */
     S.augment(Hash, {
-        _init:function(){
+        init:function(_self){
+            var self = this;
+            S.log('hash init!');
+            if(!self.hasHash()){
+                return;
+            }
+            self.parse();
+        },
+        hasHash:function(){
+            return location.hash ? true : false;
+        },
+        parse:function(){
+            var self = this;
+            self.getParam();
+        },
+        /**
+         * 解析hash
+         * priority,filter
+         */
+        getParam:function(){
+            var self = this;
+            self.hash = location.hash.split(AND);
+            S.each(self.hash,function(param){
+                self.getPriority(param);
+                self.getFilter(param);
+            });
+        },
+        getPriority:function(str){
+            var self = this,
+                _priority = self.prefix+'priority';
+            if(str.indexOf(_priority)!=-1){
+                S.mix(self.api,{
+                    priority: str.split(EQUAL)[1]
+                });
+            }
+        },
+        getFilter:function(str){
+            var self = this,
+                _filter = self.prefix+'filter';
+            if(str.indexOf(_filter)!=-1){
+                S.mix(self.api,{
+                    filter: str.split(EQUAL)[1]
+                });
+            }
         }
     });
     return Hash;
-});
+},{requires:['event']});
 /**
  * @Description: 目前先挂载base，effect效果插件，hash插件
  * @Author:      dafeng.xdf[at]taobao.com

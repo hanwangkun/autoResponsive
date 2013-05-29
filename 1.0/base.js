@@ -19,14 +19,15 @@
             S.log('lack container!');
             return;
         }
-        /**
-         * 添加插件
-         */
-        self.plug = [];
+        self.fire('beforeInit',{
+            autoResponsive:self
+        });
         if(self.get('init') =='on'){
             self.init();
         }
-        self.fire('init',{autoResponsive:self});
+        self.fire('afterInit',{
+            autoResponsive:self
+        });
     };
     S.extend(AutoResponsive, Base, {
         /**
@@ -36,7 +37,20 @@
         init:function(){
             var self = this;
             self._bindEvent();
+            self.initPlugin();
             self.render();
+            S.log('init!');
+        },
+        initPlugin:function(){
+            var self = this;
+            self.api = {};
+            /**
+             * 添加插件
+             */
+            S.each(self.get('plugin'),function(i){
+                i.init(self);
+                S.mix(self.api,i.api);
+            });
         },
         /**
          * 渲染排序结果
@@ -53,6 +67,10 @@
                     userCfg[_key] = j;
                 });
             });
+            /**
+             * 应用插件属性
+             */
+            S.mix(userCfg,self.api);
             new GridSort(userCfg,self);
         },
         /**
@@ -161,14 +179,6 @@
             var self = this;
             D.prepend(node,self.get('container'));
             self.render();
-        },
-        /**
-         * 添加插件方法
-         * @param {Object} 插件对象
-         */
-        plugin:function(plug){
-            var self = this;
-            self.plug.push(plug);
         }
     },{ ATTRS : new Config()});
     return AutoResponsive;
