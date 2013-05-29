@@ -100,28 +100,29 @@ kissy1.3无需配置配置。
     </tbody>
 </table>
 ###例子：
+
 ```javascript
-    KISSY.use('gallery/autoResponsive/1.0/index', function (S, AutoResponsive) {
-        var AutoResponsive = new AutoResponsive({
-            container:'.J_container',
-            selector:'div',
-            colMargin:{
-                x :10,
-                y:10
-            }
-        });
-        var getRandomColor = function(){
-            return (function(m,s,c){
-                return (c ? arguments.callee(m,s,c-1) : '#') +
-                    s[m.floor(m.random() * 16)]
-            })(Math,'0123456789abcdef',5)
-        };
-        AutoResponsive.on('resize',function(d){
-            D.css(S.get('body'),{
-             background:getRandomColor()
-            })
+KISSY.use('gallery/autoResponsive/1.0/index', function (S, AutoResponsive) {
+    var AutoResponsive = new AutoResponsive({
+        container:'.J_container',
+        selector:'div',
+        colMargin:{
+            x :10,
+            y:10
+        }
+    });
+    var getRandomColor = function(){
+        return (function(m,s,c){
+            return (c ? arguments.callee(m,s,c-1) : '#') +
+                s[m.floor(m.random() * 16)]
+        })(Math,'0123456789abcdef',5)
+    };
+    AutoResponsive.on('resize',function(d){
+        D.css(S.get('body'),{
+         background:getRandomColor()
         })
     })
+})
 ```
 
 ###常用参数：
