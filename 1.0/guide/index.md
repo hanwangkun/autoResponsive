@@ -10,10 +10,16 @@ autoResponsive，是基于kissy 1.3.0或者更高版本的自适应组件。
 #### autoResponsive的特点
 
 
-* 支持条件排序、随机排序，过滤排序
+* 支持条件排序、随机排序
+* 支持特定条件的过滤排序
 * 支持css3特效
 * 兼容kissy瀑布流组件
 * 支持自定义配置
+* 支持用户自定义特效
+* 排序元素支持复杂dom结构
+* 支持自定义展示方向
+* 支持拖拽功能
+* hash回溯定位
 
 ### [demo汇总](http://xudafeng.github.io/autoResponsive/cat/demos/)
 
