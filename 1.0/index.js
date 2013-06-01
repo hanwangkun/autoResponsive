@@ -3,7 +3,8 @@
  * @Author:      dafeng.xdf[at]taobao.com
  * @Date:        2013.3.5
  */
-;KISSY.add('gallery/autoResponsive/1.0/index',function(S,AutoResponsive,Hash){
+;KISSY.add('gallery/autoResponsive/1.0/index',function(S,AutoResponsive,Hash,Drag){
     AutoResponsive.Hash = Hash;
+    AutoResponsive.Drag = Drag;
     return AutoResponsive;
-},{requires:['./base','./plugin/hash']});
+},{requires:['./base','./plugin/hash','./plugin/drag']});

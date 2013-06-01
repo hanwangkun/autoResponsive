@@ -7,6 +7,7 @@ gallery/autoResponsive/1.0/linkedlist
 gallery/autoResponsive/1.0/gridsort
 gallery/autoResponsive/1.0/base
 gallery/autoResponsive/1.0/plugin/hash
+gallery/autoResponsive/1.0/plugin/drag
 gallery/autoResponsive/1.0/index
 
 */
@@ -17,7 +18,7 @@ gallery/autoResponsive/1.0/index
  */
 ;KISSY.add('gallery/autoResponsive/1.0/config',function(){
     "use strict";
-    var EMPTY = '';
+    var EMPTY = '',OFF = 'off',ON = 'on';
     /**
      * @name config
      * @param {String}  container   外层容器
@@ -32,8 +33,8 @@ gallery/autoResponsive/1.0/index
      * @param {Number}  colWidth    最小栅格单元设置px
      * @param {String}  direction   排序方向,可以选择right
      * @param {Boolean} random      随机顺序开关
-     * @param {Boolean} drag        动画缓动算子
      * @param {Boolean} autoHeight  容器高度自适应开关
+     * @param {Boolean} async       动画队列异步开关
      */
     function Config(){
         return {
@@ -44,18 +45,18 @@ gallery/autoResponsive/1.0/index
             priority:{value:EMPTY},
             colWidth:{value:10},
             colMargin:{value:{x:0,y:0}},
-            animate:{value:'on'},
+            animate:{value:ON},
             duration:{value:1},
             easing:{value:'easeNone'},
             direction:{value:'left'},
-            random:{value:'off'},
+            random:{value:OFF},
             sort:{value:EMPTY},
             layout:{value:EMPTY},
-            drag:{value:'off'},
-            autoHeight:{value:'on'},
-            resize:{value:'on'},
-            init:{value:'on'},
-            plugin:{value:[]}
+            autoHeight:{value:ON},
+            resize:{value:ON},
+            init:{value:ON},
+            plugin:{value:[]},
+            async:{value:OFF}
         };
     }
     return Config;
@@ -187,52 +188,86 @@ gallery/autoResponsive/1.0/index
      * @class 双向更新链表
      * @constructor
      */
-    function LinkedList(){
-        this.length = 0;
-        this.head = null;
-        this.tail = null;
+    function LinkedList(cfg){
+        var self = this;
+        self.length = 0;
+        self.head = null;
+        self.tail = null;
+        self.type = cfg.type || 'array';
+        self.init();
+        if(self.type === 'array'){
+            return [];
+        }
     }
     S.augment(LinkedList,{
+        /**
+         * 初始化
+         */
+        init:function(){
+            var self = this;
+            if(self.type !== 'array'){
+                return;
+            }
+            S.augment(Array,{
+                add:function(value){
+                    this.push(value);
+                },
+                get:function(index){
+                    return this[index];
+                },
+                update:function(index,value){
+                    this[index]= value;
+                },
+                shuffle:function(){
+                    for(var j, x, i = this.length;
+                        i;
+                        j = parseInt(Math.random() * i), x = this[--i], this[i] = this[j], this[j] = x);
+                    return this;
+                }
+            });
+        },
         /**
          * 新增节点
          */
         add:function(value){
+            var self = this;
             var node = {
                 value:value,
                 next:null,//前驱
                 prev:null//后继
             };
-            if(this.length == 0){
-                this.head = this.tail = node;
+            if(self.length == 0){
+                self.head = self.tail = node;
             }else{
-                this.tail.next = node;
-                node.prev = this.tail;
-                this.tail = node;
+                self.tail.next = node;
+                node.prev = self.tail;
+                self.tail = node;
             }
-            this.length ++;
+            self.length ++;
         },
         /**
          * 删除节点
          */
         remove:function(index){
-            if ( index > this.length - 1 || index < 0 ) {
+            var self = this;
+            if ( index > self.length - 1 || index < 0 ) {
                 return null;
             }
-            var node = this.head,
+            var node = self.head,
                 i = 0;
             if (index == 0) {
-                this.head = node.next;
-                if (this.head == null) {
-                    this.tail = null;
+                self.head = node.next;
+                if (self.head == null) {
+                    self.tail = null;
                 }
                 else {
-                    this.head.previous = null;
+                    self.head.previous = null;
                 }
             }
-            else if (index == this.length - 1) {
-                node = this.tail;
-                this.tail = node.prev;
-                this.tail.next = null;
+            else if (index == self.length - 1) {
+                node = self.tail;
+                self.tail = node.prev;
+                self.tail.next = null;
             }
             else {
                 while (i++ < index) {
@@ -241,22 +276,24 @@ gallery/autoResponsive/1.0/index
                 node.prev.next = node.next;
                 node.next.prev = node.prev;
             }
-            this.length --;
+            self.length --;
         },
         /**
          * 获取链表值
          */
         get:function(index){
-            return this.node(index).value;
+            var self = this;
+            return self.node(index).value;
         },
         /**
          * 返回链表节点
          */
         node:function(index){
-            if (index > this.length - 1 || index < 0 ) {
+            var self = this;
+            if (index > self.length - 1 || index < 0 ) {
                 return null;
             }
-            var node = this.head,
+            var node = self.head,
                 i = 0;
             while (i++ < index) {
                 node = node.next;
@@ -267,7 +304,8 @@ gallery/autoResponsive/1.0/index
          * 更新节点值
          */
         update:function(index,value){
-            this.node(index).value = value;
+            var self = this;
+            self.node(index).value = value;
         }
     });
     return LinkedList;
@@ -280,17 +318,7 @@ gallery/autoResponsive/1.0/index
  */
 ;KISSY.add('gallery/autoResponsive/1.0/gridsort',function(S,AutoAnim,LinkedList){
     "use strict";
-    var D = S.DOM,EMPTY = '' ,DD = S.DD,
-        DraggableDelegate = DD.DraggableDelegate,
-        Droppable = DD.Droppable;
-    S.augment(Array,{
-        shuffle:function(){
-            for(var j, x, i = this.length;
-                i;
-                j = parseInt(Math.random() * i), x = this[--i], this[i] = this[j], this[j] = x);
-            return this;
-        }
-    });
+    var D = S.DOM,EMPTY = '';
     /**
      * @name GridSort
      * @class 栅格布局算法
@@ -395,7 +423,6 @@ gallery/autoResponsive/1.0/index
                     _maxHeight = coordinate[1]+D.outerHeight(i);
                 }
                 self.callAnim(i,coordinate);
-                self._bindDrop(i);
             });
             S.each(self.cacheQuery,function(i){
                 /**
@@ -411,7 +438,6 @@ gallery/autoResponsive/1.0/index
                     _maxHeight = coordinate[1]+D.outerHeight(i);
                 }
                 self.callAnim(i,coordinate);
-                self._bindDrop(i);
             });
             /**
              * 排序之后触发
@@ -420,7 +446,6 @@ gallery/autoResponsive/1.0/index
                 autoResponsive:{
                     elms:_items
                 }});
-            self._bindBrag();
             self.setHeight(_maxHeight);
         },
         _setFrame:function(){
@@ -441,41 +466,9 @@ gallery/autoResponsive/1.0/index
         _getCells:function(){
             return this._getCols();
         },
-        _bindDrop:function(elm){
-            var self =this;
-            if(self.drag != 'on'){
-                return;
-            }
-            new Droppable({
-                node: elm
-            }).on("dropenter",function(ev){
-                    D.insertAfter( ev.drag.get("node"), ev.drop.get("node"));
-                    self._self.render();
-                });
-        },
-        _bindBrag:function(){
-            var self = this;
-            if(self.drag != 'on'){
-                return;
-            }
-            new DraggableDelegate({
-                container:self.container,
-                selector:self.selector,
-                move:true
-            }).on('dragstart',function(ev){
-                    var _target = ev.drag.get("node")[0];
-                    this.p = {
-                        left : _target.offsetLeft,
-                        top : _target.offsetTop
-                    };
-                }).on('drag',function(){
-                }).on('dragend',function(ev){
-                    D.css(ev.drag.get("node"),this.p);
-                });
-        },
         _getCols:function(){
             var self = this,
-                curQuery = new LinkedList();
+                curQuery = new LinkedList({});
             for(var i = 0; i < Math.ceil(D.outerWidth(self.container)/self.colWidth);i++){
                 curQuery.add(0);
             }
@@ -524,7 +517,7 @@ gallery/autoResponsive/1.0/index
         }
     });
     return GridSort;
-},{requires:['./anim','./linkedlist','dom','event','dd']});
+},{requires:['./anim','./linkedlist','dom','event']});
 /**
  * @Description:    网页自适应布局Base
  * @Author:         dafeng.xdf[at]taobao.com
@@ -784,11 +777,72 @@ gallery/autoResponsive/1.0/index
     return Hash;
 },{requires:['event']});
 /**
+ * @Description:    拖拽功能
+ * @Author:         dafeng.xdf[at]taobao.com
+ * @Date:           2013.3.5
+ */
+;KISSY.add('gallery/autoResponsive/1.0/plugin/drag',function(S){
+    "use strict";
+    var E = S.Event,DD = S.DD,
+        DraggableDelegate = DD.DraggableDelegate,
+        Droppable = DD.Droppable;;
+    /**
+     * @name Drag
+     * @class 拖拽功能
+     * @constructor
+     */
+    function Drag(cfg) {
+    };
+    /**
+     *
+     */
+    S.augment(Drag, {
+        init:function(){
+            var self = this;
+            S.log('drag init!');
+        },
+        _bindDrop:function(elm){
+            var self =this;
+            if(self.drag != 'on'){
+                return;
+            }
+            new Droppable({
+                node: elm
+            }).on("dropenter",function(ev){
+                    D.insertAfter( ev.drag.get("node"), ev.drop.get("node"));
+                    self._self.render();
+                });
+        },
+        _bindBrag:function(){
+            var self = this;
+            if(self.drag != 'on'){
+                return;
+            }
+            new DraggableDelegate({
+                container:self.container,
+                selector:self.selector,
+                move:true
+            }).on('dragstart',function(ev){
+                    var _target = ev.drag.get("node")[0];
+                    this.p = {
+                        left : _target.offsetLeft,
+                        top : _target.offsetTop
+                    };
+                }).on('drag',function(){
+                }).on('dragend',function(ev){
+                    D.css(ev.drag.get("node"),this.p);
+                });
+        }
+    });
+    return Drag;
+},{requires:['event','dd']});
+/**
  * @Description: 目前先挂载base，effect效果插件，hash插件
  * @Author:      dafeng.xdf[at]taobao.com
  * @Date:        2013.3.5
  */
-;KISSY.add('gallery/autoResponsive/1.0/index',function(S,AutoResponsive,Hash){
+;KISSY.add('gallery/autoResponsive/1.0/index',function(S,AutoResponsive,Hash,Drag){
     AutoResponsive.Hash = Hash;
+    AutoResponsive.Drag = Drag;
     return AutoResponsive;
-},{requires:['./base','./plugin/hash']});
+},{requires:['./base','./plugin/hash','./plugin/drag']});

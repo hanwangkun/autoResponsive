@@ -5,7 +5,7 @@
  */
 ;KISSY.add('gallery/autoResponsive/1.0/config',function(){
     "use strict";
-    var EMPTY = '';
+    var EMPTY = '',OFF = 'off',ON = 'on';
     /**
      * @name config
      * @param {String}  container   外层容器
@@ -20,8 +20,8 @@
      * @param {Number}  colWidth    最小栅格单元设置px
      * @param {String}  direction   排序方向,可以选择right
      * @param {Boolean} random      随机顺序开关
-     * @param {Boolean} drag        动画缓动算子
      * @param {Boolean} autoHeight  容器高度自适应开关
+     * @param {Boolean} async       动画队列异步开关
      */
     function Config(){
         return {
@@ -32,18 +32,18 @@
             priority:{value:EMPTY},
             colWidth:{value:10},
             colMargin:{value:{x:0,y:0}},
-            animate:{value:'on'},
+            animate:{value:ON},
             duration:{value:1},
             easing:{value:'easeNone'},
             direction:{value:'left'},
-            random:{value:'off'},
+            random:{value:OFF},
             sort:{value:EMPTY},
             layout:{value:EMPTY},
-            drag:{value:'off'},
-            autoHeight:{value:'on'},
-            resize:{value:'on'},
-            init:{value:'on'},
-            plugin:{value:[]}
+            autoHeight:{value:ON},
+            resize:{value:ON},
+            init:{value:ON},
+            plugin:{value:[]},
+            async:{value:OFF}
         };
     }
     return Config;

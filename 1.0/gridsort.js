@@ -6,17 +6,7 @@
  */
 ;KISSY.add('gallery/autoResponsive/1.0/gridsort',function(S,AutoAnim,LinkedList){
     "use strict";
-    var D = S.DOM,EMPTY = '' ,DD = S.DD,
-        DraggableDelegate = DD.DraggableDelegate,
-        Droppable = DD.Droppable;
-    S.augment(Array,{
-        shuffle:function(){
-            for(var j, x, i = this.length;
-                i;
-                j = parseInt(Math.random() * i), x = this[--i], this[i] = this[j], this[j] = x);
-            return this;
-        }
-    });
+    var D = S.DOM,EMPTY = '';
     /**
      * @name GridSort
      * @class 栅格布局算法
@@ -121,7 +111,6 @@
                     _maxHeight = coordinate[1]+D.outerHeight(i);
                 }
                 self.callAnim(i,coordinate);
-                self._bindDrop(i);
             });
             S.each(self.cacheQuery,function(i){
                 /**
@@ -137,7 +126,6 @@
                     _maxHeight = coordinate[1]+D.outerHeight(i);
                 }
                 self.callAnim(i,coordinate);
-                self._bindDrop(i);
             });
             /**
              * 排序之后触发
@@ -146,7 +134,6 @@
                 autoResponsive:{
                     elms:_items
                 }});
-            self._bindBrag();
             self.setHeight(_maxHeight);
         },
         _setFrame:function(){
@@ -167,41 +154,9 @@
         _getCells:function(){
             return this._getCols();
         },
-        _bindDrop:function(elm){
-            var self =this;
-            if(self.drag != 'on'){
-                return;
-            }
-            new Droppable({
-                node: elm
-            }).on("dropenter",function(ev){
-                    D.insertAfter( ev.drag.get("node"), ev.drop.get("node"));
-                    self._self.render();
-                });
-        },
-        _bindBrag:function(){
-            var self = this;
-            if(self.drag != 'on'){
-                return;
-            }
-            new DraggableDelegate({
-                container:self.container,
-                selector:self.selector,
-                move:true
-            }).on('dragstart',function(ev){
-                    var _target = ev.drag.get("node")[0];
-                    this.p = {
-                        left : _target.offsetLeft,
-                        top : _target.offsetTop
-                    };
-                }).on('drag',function(){
-                }).on('dragend',function(ev){
-                    D.css(ev.drag.get("node"),this.p);
-                });
-        },
         _getCols:function(){
             var self = this,
-                curQuery = new LinkedList();
+                curQuery = new LinkedList({});
             for(var i = 0; i < Math.ceil(D.outerWidth(self.container)/self.colWidth);i++){
                 curQuery.add(0);
             }
@@ -250,4 +205,4 @@
         }
     });
     return GridSort;
-},{requires:['./anim','./linkedlist','dom','event','dd']});
+},{requires:['./anim','./linkedlist','dom','event']});

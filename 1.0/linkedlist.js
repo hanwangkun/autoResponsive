@@ -10,52 +10,86 @@
      * @class 双向更新链表
      * @constructor
      */
-    function LinkedList(){
-        this.length = 0;
-        this.head = null;
-        this.tail = null;
+    function LinkedList(cfg){
+        var self = this;
+        self.length = 0;
+        self.head = null;
+        self.tail = null;
+        self.type = cfg.type || 'array';
+        self.init();
+        if(self.type === 'array'){
+            return [];
+        }
     }
     S.augment(LinkedList,{
+        /**
+         * 初始化
+         */
+        init:function(){
+            var self = this;
+            if(self.type !== 'array'){
+                return;
+            }
+            S.augment(Array,{
+                add:function(value){
+                    this.push(value);
+                },
+                get:function(index){
+                    return this[index];
+                },
+                update:function(index,value){
+                    this[index]= value;
+                },
+                shuffle:function(){
+                    for(var j, x, i = this.length;
+                        i;
+                        j = parseInt(Math.random() * i), x = this[--i], this[i] = this[j], this[j] = x);
+                    return this;
+                }
+            });
+        },
         /**
          * 新增节点
          */
         add:function(value){
+            var self = this;
             var node = {
                 value:value,
                 next:null,//前驱
                 prev:null//后继
             };
-            if(this.length == 0){
-                this.head = this.tail = node;
+            if(self.length == 0){
+                self.head = self.tail = node;
             }else{
-                this.tail.next = node;
-                node.prev = this.tail;
-                this.tail = node;
+                self.tail.next = node;
+                node.prev = self.tail;
+                self.tail = node;
             }
-            this.length ++;
+            self.length ++;
         },
         /**
          * 删除节点
          */
         remove:function(index){
-            if ( index > this.length - 1 || index < 0 ) {
+            var self = this;
+            if ( index > self.length - 1 || index < 0 ) {
                 return null;
             }
-            var node = this.head,
+            var node = self.head,
                 i = 0;
             if (index == 0) {
-                this.head = node.next;
-                if (this.head == null) {
-                    this.tail = null;
+                self.head = node.next;
+                if (self.head == null) {
+                    self.tail = null;
                 }
                 else {
-                    this.head.previous = null;
+                    self.head.previous = null;
                 }
             }
-            else if (index == this.length - 1) {
-                node = this.tail;
-                this.tail = node.prev;
-                this.tail.next = null;
+            else if (index == self.length - 1) {
+                node = self.tail;
+                self.tail = node.prev;
+                self.tail.next = null;
             }
             else {
                 while (i++ < index) {
@@ -64,22 +98,24 @@
                 node.prev.next = node.next;
                 node.next.prev = node.prev;
             }
-            this.length --;
+            self.length --;
         },
         /**
          * 获取链表值
          */
         get:function(index){
-            return this.node(index).value;
+            var self = this;
+            return self.node(index).value;
         },
         /**
          * 返回链表节点
          */
         node:function(index){
-            if (index > this.length - 1 || index < 0 ) {
+            var self = this;
+            if (index > self.length - 1 || index < 0 ) {
                 return null;
             }
-            var node = this.head,
+            var node = self.head,
                 i = 0;
             while (i++ < index) {
                 node = node.next;
@@ -90,7 +126,8 @@
          * 更新节点值
          */
         update:function(index,value){
-            this.node(index).value = value;
+            var self = this;
+            self.node(index).value = value;
         }
     });
     return LinkedList;
