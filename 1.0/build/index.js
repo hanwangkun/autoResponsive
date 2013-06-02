@@ -608,7 +608,7 @@ gallery/autoResponsive/1.0/index
          */
         _bind:function(handle){
             var self = this;
-            if(self.get('resize')){
+            if(!self.get('resize')){
                 return;
             }
             E.on(win,'resize',function(e){
