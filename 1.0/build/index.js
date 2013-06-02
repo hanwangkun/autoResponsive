@@ -18,7 +18,7 @@ gallery/autoResponsive/1.0/index
  */
 ;KISSY.add('gallery/autoResponsive/1.0/config',function(){
     "use strict";
-    var EMPTY = '',OFF = 'off',ON = 'on';
+    var EMPTY = '';
     /**
      * @name config
      * @param {String}  container   外层容器
@@ -45,18 +45,18 @@ gallery/autoResponsive/1.0/index
             priority:{value:EMPTY},
             colWidth:{value:10},
             colMargin:{value:{x:0,y:0}},
-            animate:{value:ON},
+            animate:{value:true},
             duration:{value:1},
             easing:{value:'easeNone'},
             direction:{value:'left'},
-            random:{value:OFF},
+            random:{value:false},
             sort:{value:EMPTY},
             layout:{value:EMPTY},
-            autoHeight:{value:ON},
-            resize:{value:ON},
-            init:{value:ON},
+            autoHeight:{value:true},
+            resize:{value:true},
+            init:{value:true},
             plugin:{value:[]},
-            async:{value:OFF}
+            async:{value:false}
         };
     }
     return Config;
@@ -84,11 +84,11 @@ gallery/autoResponsive/1.0/index
     S.augment(AutoAnim,{
         _init:function(){
             var self = this;
-            if(self.animate == 'off'){
+            if(!self.animate){
                 self.noneAnim();
                 return;
             }
-            notSupport || self.direction == 'right' || self.drag == 'on' ? self.fixedAnim() : self.css3Anim();
+            notSupport || self.direction == 'right' ? self.fixedAnim() : self.css3Anim();
         },
         /**
          * css3动画
@@ -389,7 +389,7 @@ gallery/autoResponsive/1.0/index
                 _maxHeight = 0,
                 curQuery = self._getCols();
             self._setFrame();
-            if(self.random == 'on'){
+            if(self.random){
                 _items = _items.shuffle();
             }
             /**
@@ -507,7 +507,7 @@ gallery/autoResponsive/1.0/index
          */
         setHeight:function(height){
             var self = this;
-            if(self.autoHeight!='on'){
+            if(!self.autoHeight){
                 return;
             }
             D.height(self.container,height+self.colMargin.y);
@@ -539,7 +539,7 @@ gallery/autoResponsive/1.0/index
         self.fire('beforeInit',{
             autoResponsive:self
         });
-        if(self.get('init') =='on'){
+        if(self.get('init')){
             self.init();
         }
         self.fire('afterInit',{
@@ -595,7 +595,7 @@ gallery/autoResponsive/1.0/index
          */
         _bind:function(handle){
             var self = this;
-            if(self.get('resize') !='on'){
+            if(self.get('resize')){
                 return;
             }
             E.on(win,'resize',function(e){
@@ -668,7 +668,7 @@ gallery/autoResponsive/1.0/index
         random:function(){
             var self = this;
             self.render({
-                random:'on'
+                random:true
             });
         },
         /**

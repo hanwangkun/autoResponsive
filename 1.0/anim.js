@@ -21,11 +21,11 @@
     S.augment(AutoAnim,{
         _init:function(){
             var self = this;
-            if(self.animate == 'off'){
+            if(!self.animate){
                 self.noneAnim();
                 return;
             }
-            notSupport || self.direction == 'right' || self.drag == 'on' ? self.fixedAnim() : self.css3Anim();
+            notSupport || self.direction == 'right' ? self.fixedAnim() : self.css3Anim();
         },
         /**
          * css3动画

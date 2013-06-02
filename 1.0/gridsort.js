@@ -81,7 +81,7 @@
                 _maxHeight = 0,
                 curQuery = self._getCols();
             self._setFrame();
-            if(self.random == 'on'){
+            if(self.random){
                 _items = _items.shuffle();
             }
             /**
@@ -199,7 +199,7 @@
          */
         setHeight:function(height){
             var self = this;
-            if(self.autoHeight!='on'){
+            if(!self.autoHeight){
                 return;
             }
             D.height(self.container,height+self.colMargin.y);

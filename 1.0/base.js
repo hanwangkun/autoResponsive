@@ -22,7 +22,7 @@
         self.fire('beforeInit',{
             autoResponsive:self
         });
-        if(self.get('init') =='on'){
+        if(self.get('init')){
             self.init();
         }
         self.fire('afterInit',{
@@ -78,7 +78,7 @@
          */
         _bind:function(handle){
             var self = this;
-            if(self.get('resize') !='on'){
+            if(self.get('resize')){
                 return;
             }
             E.on(win,'resize',function(e){
@@ -151,7 +151,7 @@
         random:function(){
             var self = this;
             self.render({
-                random:'on'
+                random:true
             });
         },
         /**

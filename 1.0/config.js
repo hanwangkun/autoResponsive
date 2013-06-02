@@ -5,7 +5,7 @@
  */
 ;KISSY.add('gallery/autoResponsive/1.0/config',function(){
     "use strict";
-    var EMPTY = '',OFF = 'off',ON = 'on';
+    var EMPTY = '';
     /**
      * @name config
      * @param {String}  container   外层容器
@@ -32,18 +32,18 @@
             priority:{value:EMPTY},
             colWidth:{value:10},
             colMargin:{value:{x:0,y:0}},
-            animate:{value:ON},
+            animate:{value:true},
             duration:{value:1},
             easing:{value:'easeNone'},
             direction:{value:'left'},
-            random:{value:OFF},
+            random:{value:false},
             sort:{value:EMPTY},
             layout:{value:EMPTY},
-            autoHeight:{value:ON},
-            resize:{value:ON},
-            init:{value:ON},
+            autoHeight:{value:true},
+            resize:{value:true},
+            init:{value:true},
             plugin:{value:[]},
-            async:{value:OFF}
+            async:{value:false}
         };
     }
     return Config;
