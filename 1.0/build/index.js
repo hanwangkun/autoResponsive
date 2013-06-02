@@ -384,6 +384,16 @@ gallery/autoResponsive/1.0/index
             }
             return isCache;
         },
+        asyncize:function(handle){
+            var self = this;
+            if(self._self.get('async')){
+                setTimeout(function(){
+                    handle.call(self);
+                },0);
+            }else{
+                handle.call(self);
+            }
+        },
         _gridSort:function(_items){
             var self = this,
                 _maxHeight = 0,
@@ -418,6 +428,7 @@ gallery/autoResponsive/1.0/index
                 if(_maxHeight<coordinate[1]+ D.outerHeight(i)){
                     _maxHeight = coordinate[1]+D.outerHeight(i);
                 }
+
                 self.callAnim(i,coordinate);
             });
             S.each(self.cacheQuery,function(i){
@@ -433,7 +444,9 @@ gallery/autoResponsive/1.0/index
                 if(_maxHeight<coordinate[1]+ D.outerHeight(i)){
                     _maxHeight = coordinate[1]+D.outerHeight(i);
                 }
-                self.callAnim(i,coordinate);
+                self.asyncize(function(){
+                    self.callAnim(i,coordinate);
+                });
             });
             /**
              * 排序之后触发
@@ -514,7 +527,7 @@ gallery/autoResponsive/1.0/index
         }
     });
     return GridSort;
-},{requires:['./anim','./linkedlist','dom','event']});
+},{requires:['./anim','./linkedlist','dom']});
 /**
  * @Description:    网页自适应布局Base
  * @Author:         dafeng.xdf[at]taobao.com
