@@ -25,15 +25,6 @@
          */
         init:function(){
             S.augment(Array,{
-//                add:function(value){
-//                    this.push(value);
-//                },
-//                get:function(index){
-//                    return this[index];
-//                },
-//                update:function(index,value){
-//                    this[index]= value;
-//                },
                 shuffle:function(){
                     for(var j, x, i = this.length;
                         i;

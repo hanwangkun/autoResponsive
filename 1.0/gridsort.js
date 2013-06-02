@@ -166,10 +166,11 @@
          * 获取当前指针
          */
         _getCur:function(_num,curQuery){
-            var cur = [null,Infinity];
-            S.each(curQuery,function(i,key){
+            var cur = [null,Infinity],
+                _curQuery = curQuery.query.length ? curQuery.query : curQuery;
+            S.each(_curQuery,function(i,key){
                 var  _query = [];
-                if(key + _num >= curQuery.length){
+                if(key + _num >= _curQuery.length){
                     return;
                 }
                 for(var j = key; j < key+_num; j++){
@@ -178,7 +179,7 @@
                 if(cur[1] > Math.max.apply(Math,_query)){
                     cur = [key,Math.max.apply(Math,_query)];
                 }
-            })
+            });
             return cur;
         },
         /**
