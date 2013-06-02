@@ -16,30 +16,24 @@
         self.head = null;
         self.tail = null;
         self.type = cfg.type || 'array';
+        self.query = [];
         self.init();
-        if(self.type === 'array'){
-            return [];
-        }
     }
     S.augment(LinkedList,{
         /**
-         * 初始化
+         * 初始化，增加随机序列
          */
         init:function(){
-            var self = this;
-            if(self.type !== 'array'){
-                return;
-            }
             S.augment(Array,{
-                add:function(value){
-                    this.push(value);
-                },
-                get:function(index){
-                    return this[index];
-                },
-                update:function(index,value){
-                    this[index]= value;
-                },
+//                add:function(value){
+//                    this.push(value);
+//                },
+//                get:function(index){
+//                    return this[index];
+//                },
+//                update:function(index,value){
+//                    this[index]= value;
+//                },
                 shuffle:function(){
                     for(var j, x, i = this.length;
                         i;
@@ -53,6 +47,10 @@
          */
         add:function(value){
             var self = this;
+            if(self.type === 'array'){
+                self.query.push(value);
+                return;
+            }
             var node = {
                 value:value,
                 next:null,//前驱
@@ -105,6 +103,9 @@
          */
         get:function(index){
             var self = this;
+            if(self.type === 'array'){
+                return self.query[index];
+            }
             return self.node(index).value;
         },
         /**
@@ -127,6 +128,10 @@
          */
         update:function(index,value){
             var self = this;
+            if(self.type === 'array'){
+                self.query[index] = value;
+                return;
+            }
             self.node(index).value = value;
         }
     });
