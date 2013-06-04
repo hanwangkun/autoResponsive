@@ -107,30 +107,6 @@ kissy1.3无需配置配置。
 </table>
 ###例子：
 
-```javascript
-KISSY.use('gallery/autoResponsive/1.0/index', function (S, AutoResponsive) {
-    var AutoResponsive = new AutoResponsive({
-        container:'.J_container',
-        selector:'div',
-        colMargin:{
-            x :10,
-            y:10
-        }
-    });
-    var getRandomColor = function(){
-        return (function(m,s,c){
-            return (c ? arguments.callee(m,s,c-1) : '#') +
-                s[m.floor(m.random() * 16)]
-        })(Math,'0123456789abcdef',5)
-    };
-    AutoResponsive.on('resize',function(d){
-        D.css(S.get('body'),{
-         background:getRandomColor()
-        })
-    })
-})
-```
-
 ###常用参数：
 
 <table class="table table-bordered table-striped">
@@ -192,7 +168,7 @@ KISSY.use('gallery/autoResponsive/1.0/index', function (S, AutoResponsive) {
     <tr>
         <td>animate</td>
         <td>Boolean</td>
-        <td>"on"</td>
+        <td>true</td>
         <td>r/w</td>
         <td>动画效果开关</td>
     </tr>
@@ -220,7 +196,7 @@ KISSY.use('gallery/autoResponsive/1.0/index', function (S, AutoResponsive) {
     <tr>
         <td>random</td>
         <td>Boolean</td>
-        <td>"off"</td>
+        <td>false</td>
         <td>r/w</td>
         <td>随机顺序开关</td>
     </tr>
@@ -232,32 +208,32 @@ KISSY.use('gallery/autoResponsive/1.0/index', function (S, AutoResponsive) {
         <td>排序优先算法</td>
     </tr>
     <tr>
-        <td>drag</td>
+        <td>async</td>
         <td>Boolean</td>
-        <td>"off"</td>
+        <td>false</td>
         <td>r/w</td>
-        <td>拖拽功能开关</td>
+        <td>动画异步队列开关</td>
     </tr>
     <tr>
         <td>autoHeight</td>
         <td>Boolean</td>
-        <td>"on"</td>
+        <td>true</td>
         <td>r/w</td>
         <td>容器高度自适应开关</td>
     </tr>
     <tr>
         <td>resize</td>
         <td>Boolean</td>
-        <td>"on"</td>
+        <td>true</td>
         <td>r</td>
         <td>浏览器resize适应开关</td>
     </tr>
     <tr>
-        <td>hash</td>
-        <td>Boolean</td>
-        <td>"on"</td>
+        <td>plugin</td>
+        <td>Array</td>
+        <td>[]</td>
         <td>r/w</td>
-        <td>hash回溯开关</td>
+        <td>插件队列</td>
     </tr>
     </tbody>
 </table>
