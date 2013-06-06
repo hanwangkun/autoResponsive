@@ -156,8 +156,8 @@ gallery/autoResponsive/1.0/index
         noneAnim:function(){
             var self = this;
             D.css(self.elm,{
-                left: self.left,
-                top: self.top
+                left: self.x,
+                top: self.y
             });
             /**
              * 单元素计算排序后触发
