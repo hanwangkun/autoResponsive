@@ -6,7 +6,7 @@
 ;KISSY.add('gallery/autoResponsive/1.0/anim',function(S){
     "use strict";
     var D = S.DOM, Anim = S.Anim,BLANK = ' ',
-        notSupport = S.UA.ie < 11;
+        notSupport = S.UA.ie < 11 || self.direction == 'right';
 
     /**
      * @name AutoAnim
@@ -25,7 +25,7 @@
                 self.noneAnim();
                 return;
             }
-            notSupport || self.direction == 'right' ? self.fixedAnim() : self.css3Anim();
+            notSupport ? self.fixedAnim() : self.css3Anim();
         },
         /**
          * css3动画

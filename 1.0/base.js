@@ -16,15 +16,15 @@
         var self = this;
         AutoResponsive.superclass.constructor.apply(self,arguments);
         if(!S.get(self.get('container'))){
-            S.log('lack container!');
+            S.log('can not init,lack container!');
             return;
-        }
+        };
         self.fire('beforeInit',{
             autoResponsive:self
         });
         if(self.get('init')){
             self.init();
-        }
+        };
         self.fire('afterInit',{
             autoResponsive:self
         });
@@ -62,10 +62,8 @@
             S.each(userCfg,function(i,key){
                 userCfg[key] = self.get(key);
             });
-            S.each(arguments,function(i){
-                S.each(i,function(j,_key){
-                    userCfg[_key] = j;
-                });
+            arguments[0] && S.each(arguments[0],function(i,_key){
+                userCfg[_key] = i;
             });
             /**
              * 应用插件属性
@@ -80,7 +78,7 @@
             var self = this;
             if(!self.get('resize')){
                 return;
-            }
+            };
             E.on(win,'resize',function(e){
                 handle.call(self);
             });
@@ -96,7 +94,7 @@
                  * 浏览器改变触发resize事件
                  */
                 self.fire('resize');
-            }, 200, self));
+            }, self.get('resizeFrequency'), self));
         },
         /**
          * 重新布局调整
@@ -163,16 +161,18 @@
             self.render(option);
         },
         /**
-         * dom append 方法
+         * append 方法,调用跟随队列优化性能
          * @param {Object} 节点对象
          */
         append:function(node){
             var self = this;
             D.append(node,self.get('container'));
-            self.render();
+            self.render({
+                append:true
+            });
         },
         /**
-         * dom prepend 方法
+         * dom prepend 方法,耗费性能
          * @param {Object} 节点对象
          */
         prepend:function(node){

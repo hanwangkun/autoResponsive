@@ -21,10 +21,6 @@
     S.augment(GridSort, {
         _init:function(){
             var self = this;
-            if(!self.selector){
-                S.log('lack selector');
-                return;
-            }
             var items = S.query(self.selector,self.container);
             switch (self.layout){
                 case EMPTY:
@@ -39,11 +35,14 @@
         },
         _filter:function(elm){
             var self = this;
+            if(self.filter == EMPTY){
+                return;
+            };
             D.show(elm);
             if(D.hasClass(elm,self.filter)){
                 D.hide(elm);
-                return  true;
-            }
+                return true;
+            };
         },
         coordinate:function(curQuery,elm){
             return this._autoFit(curQuery,D.outerWidth(elm),D.outerHeight(elm));
@@ -66,15 +65,27 @@
             var self = this,isCache = false;
             if(self.priority == EMPTY){
                 return  isCache;
-            }
-            !self.cacheQuery && S.mix(self,{
-                cacheQuery :[]
-            });
+            };
+            if(!self.cacheQuery){
+                self.cacheQuery = [];
+            };
             if(!D.hasClass(elm,self.priority)){
-                isCache =  true;
+                isCache = true;
                 self.cacheQuery.push(elm);
             }
             return isCache;
+        },
+        /**
+         * 清除缓存
+         * 记录全局缓存
+         */
+        clearCache:function(curQuery,_items){
+            var self = this;
+            if(self.cacheQuery){
+                self.cacheQuery = [];
+            };
+            self._self.curQuery = curQuery;
+            self._self.itemLength = _items.length;
         },
         asyncize:function(handle){
             var self = this;
@@ -90,24 +101,31 @@
             var self = this,
                 _maxHeight = 0,
                 curQuery = self._getCols();
+            /**
+             * 设置关键帧
+             */
             self._setFrame();
             if(self.random){
                 _items = _items.shuffle();
-            }
+            };
             /**
              * 排序之前触发beforeSort
              */
             self._self.fire('beforeSort',{
                 autoResponsive:{
                     elms:_items
-                }});
-            S.each(_items,function(i){
+                }
+            });
+            S.each(_items,function(i,_key){
+                if(self.append && _key < self._self.itemLength){
+                    return;
+                };
                 if(self._filter(i)){
                     return;
-                }
+                };
                 if(self._cache(i)){
                     return;
-                }
+                };
                 /**
                  * 遍历单个元素之前触发
                  */
@@ -115,13 +133,18 @@
                     autoResponsive:{
                         elm:i,
                         frame:self._self.frame
-                    }});
+                    }
+                });
                 var coordinate = self.coordinate(curQuery,i);
                 if(_maxHeight<coordinate[1]+ D.outerHeight(i)){
                     _maxHeight = coordinate[1]+D.outerHeight(i);
                 }
-
-                self.callAnim(i,coordinate);
+                /**
+                * 调用动画
+                */
+                self.asyncize(function(){
+                    self.callAnim(i,coordinate);
+                });
             });
             S.each(self.cacheQuery,function(i){
                 /**
@@ -131,7 +154,8 @@
                     autoResponsive:{
                         elm:i,
                         frame:self._self.frame
-                    }});
+                    }
+                });
                 var coordinate = self.coordinate(curQuery,i);
                 if(_maxHeight<coordinate[1]+ D.outerHeight(i)){
                     _maxHeight = coordinate[1]+D.outerHeight(i);
@@ -141,12 +165,17 @@
                 });
             });
             /**
+             * 清空缓存队列
+             */
+            self.clearCache(curQuery,_items);
+            /**
              * 排序之后触发
              */
             self._self.fire('afterSort',{
                 autoResponsive:{
                     elms:_items
-                }});
+                }
+            });
             self.setHeight(_maxHeight);
         },
         _setFrame:function(){
@@ -168,12 +197,16 @@
             return this._getCols();
         },
         _getCols:function(){
-            var self = this,
-                curQuery = new LinkedList({});
-            for(var i = 0; i < Math.ceil(D.outerWidth(self.container)/self.colWidth);i++){
-                curQuery.add(0);
+            var self = this;
+            if(self._self.curQuery && self.append){
+                return self._self.curQuery;
+            }else{
+                var curQuery =  new LinkedList({});
+                for(var i = 0; i < Math.ceil(D.outerWidth(self.container)/self.colWidth);i++){
+                    curQuery.add(0);
+                }
+                return curQuery;
             }
-            return curQuery;
         },
         /**
          * 获取当前指针

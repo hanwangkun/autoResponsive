@@ -15,7 +15,7 @@
         self.length = 0;
         self.head = null;
         self.tail = null;
-        self.type = cfg.type || 'array';
+        self.type = cfg.type || true;
         self.query = [];
         self.init();
     }
@@ -38,7 +38,7 @@
          */
         add:function(value){
             var self = this;
-            if(self.type === 'array'){
+            if(self.type){
                 self.query.push(value);
                 return;
             }
@@ -94,7 +94,7 @@
          */
         get:function(index){
             var self = this;
-            if(self.type === 'array'){
+            if(self.type){
                 return self.query[index];
             }
             return self.node(index).value;
@@ -119,7 +119,7 @@
          */
         update:function(index,value){
             var self = this;
-            if(self.type === 'array'){
+            if(self.type){
                 self.query[index] = value;
                 return;
             }

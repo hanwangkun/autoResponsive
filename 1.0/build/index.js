@@ -8,11 +8,12 @@ gallery/autoResponsive/1.0/gridsort
 gallery/autoResponsive/1.0/base
 gallery/autoResponsive/1.0/plugin/hash
 gallery/autoResponsive/1.0/plugin/drag
+gallery/autoResponsive/1.0/plugin/loader
 gallery/autoResponsive/1.0/index
 
 */
 /**
- * @Description:    网页自适应布局
+ * @Description:    网页自适应布局全局配置模块
  * @Author:         dafeng.xdf[at]taobao.com
  * @Date:           2013.3.5
  */
@@ -56,7 +57,9 @@ gallery/autoResponsive/1.0/index
             resize:{value:true},
             init:{value:true},
             plugin:{value:[]},
-            async:{value:false}
+            async:{value:false},
+            append:false,
+            resizeFrequency:200
         };
     }
     return Config;
@@ -69,7 +72,7 @@ gallery/autoResponsive/1.0/index
 ;KISSY.add('gallery/autoResponsive/1.0/anim',function(S){
     "use strict";
     var D = S.DOM, Anim = S.Anim,BLANK = ' ',
-        notSupport = S.UA.ie < 11;
+        notSupport = S.UA.ie < 11 || self.direction == 'right';
 
     /**
      * @name AutoAnim
@@ -88,7 +91,7 @@ gallery/autoResponsive/1.0/index
                 self.noneAnim();
                 return;
             }
-            notSupport || self.direction == 'right' ? self.fixedAnim() : self.css3Anim();
+            notSupport ? self.fixedAnim() : self.css3Anim();
         },
         /**
          * css3动画
@@ -193,7 +196,7 @@ gallery/autoResponsive/1.0/index
         self.length = 0;
         self.head = null;
         self.tail = null;
-        self.type = cfg.type || 'array';
+        self.type = cfg.type || true;
         self.query = [];
         self.init();
     }
@@ -216,7 +219,7 @@ gallery/autoResponsive/1.0/index
          */
         add:function(value){
             var self = this;
-            if(self.type === 'array'){
+            if(self.type){
                 self.query.push(value);
                 return;
             }
@@ -272,7 +275,7 @@ gallery/autoResponsive/1.0/index
          */
         get:function(index){
             var self = this;
-            if(self.type === 'array'){
+            if(self.type){
                 return self.query[index];
             }
             return self.node(index).value;
@@ -297,7 +300,7 @@ gallery/autoResponsive/1.0/index
          */
         update:function(index,value){
             var self = this;
-            if(self.type === 'array'){
+            if(self.type){
                 self.query[index] = value;
                 return;
             }
@@ -329,10 +332,6 @@ gallery/autoResponsive/1.0/index
     S.augment(GridSort, {
         _init:function(){
             var self = this;
-            if(!self.selector){
-                S.log('lack selector');
-                return;
-            }
             var items = S.query(self.selector,self.container);
             switch (self.layout){
                 case EMPTY:
@@ -347,11 +346,14 @@ gallery/autoResponsive/1.0/index
         },
         _filter:function(elm){
             var self = this;
+            if(self.filter == EMPTY){
+                return;
+            };
             D.show(elm);
             if(D.hasClass(elm,self.filter)){
                 D.hide(elm);
-                return  true;
-            }
+                return true;
+            };
         },
         coordinate:function(curQuery,elm){
             return this._autoFit(curQuery,D.outerWidth(elm),D.outerHeight(elm));
@@ -374,15 +376,27 @@ gallery/autoResponsive/1.0/index
             var self = this,isCache = false;
             if(self.priority == EMPTY){
                 return  isCache;
-            }
-            !self.cacheQuery && S.mix(self,{
-                cacheQuery :[]
-            });
+            };
+            if(!self.cacheQuery){
+                self.cacheQuery = [];
+            };
             if(!D.hasClass(elm,self.priority)){
-                isCache =  true;
+                isCache = true;
                 self.cacheQuery.push(elm);
             }
             return isCache;
+        },
+        /**
+         * 清除缓存
+         * 记录全局缓存
+         */
+        clearCache:function(curQuery,_items){
+            var self = this;
+            if(self.cacheQuery){
+                self.cacheQuery = [];
+            };
+            self._self.curQuery = curQuery;
+            self._self.itemLength = _items.length;
         },
         asyncize:function(handle){
             var self = this;
@@ -398,24 +412,31 @@ gallery/autoResponsive/1.0/index
             var self = this,
                 _maxHeight = 0,
                 curQuery = self._getCols();
+            /**
+             * 设置关键帧
+             */
             self._setFrame();
             if(self.random){
                 _items = _items.shuffle();
-            }
+            };
             /**
              * 排序之前触发beforeSort
              */
             self._self.fire('beforeSort',{
                 autoResponsive:{
                     elms:_items
-                }});
-            S.each(_items,function(i){
+                }
+            });
+            S.each(_items,function(i,_key){
+                if(self.append && _key < self._self.itemLength){
+                    return;
+                };
                 if(self._filter(i)){
                     return;
-                }
+                };
                 if(self._cache(i)){
                     return;
-                }
+                };
                 /**
                  * 遍历单个元素之前触发
                  */
@@ -423,13 +444,18 @@ gallery/autoResponsive/1.0/index
                     autoResponsive:{
                         elm:i,
                         frame:self._self.frame
-                    }});
+                    }
+                });
                 var coordinate = self.coordinate(curQuery,i);
                 if(_maxHeight<coordinate[1]+ D.outerHeight(i)){
                     _maxHeight = coordinate[1]+D.outerHeight(i);
                 }
-
-                self.callAnim(i,coordinate);
+                /**
+                * 调用动画
+                */
+                self.asyncize(function(){
+                    self.callAnim(i,coordinate);
+                });
             });
             S.each(self.cacheQuery,function(i){
                 /**
@@ -439,7 +465,8 @@ gallery/autoResponsive/1.0/index
                     autoResponsive:{
                         elm:i,
                         frame:self._self.frame
-                    }});
+                    }
+                });
                 var coordinate = self.coordinate(curQuery,i);
                 if(_maxHeight<coordinate[1]+ D.outerHeight(i)){
                     _maxHeight = coordinate[1]+D.outerHeight(i);
@@ -449,12 +476,17 @@ gallery/autoResponsive/1.0/index
                 });
             });
             /**
+             * 清空缓存队列
+             */
+            self.clearCache(curQuery,_items);
+            /**
              * 排序之后触发
              */
             self._self.fire('afterSort',{
                 autoResponsive:{
                     elms:_items
-                }});
+                }
+            });
             self.setHeight(_maxHeight);
         },
         _setFrame:function(){
@@ -476,12 +508,16 @@ gallery/autoResponsive/1.0/index
             return this._getCols();
         },
         _getCols:function(){
-            var self = this,
-                curQuery = new LinkedList({});
-            for(var i = 0; i < Math.ceil(D.outerWidth(self.container)/self.colWidth);i++){
-                curQuery.add(0);
+            var self = this;
+            if(self._self.curQuery && self.append){
+                return self._self.curQuery;
+            }else{
+                var curQuery =  new LinkedList({});
+                for(var i = 0; i < Math.ceil(D.outerWidth(self.container)/self.colWidth);i++){
+                    curQuery.add(0);
+                }
+                return curQuery;
             }
-            return curQuery;
         },
         /**
          * 获取当前指针
@@ -546,15 +582,15 @@ gallery/autoResponsive/1.0/index
         var self = this;
         AutoResponsive.superclass.constructor.apply(self,arguments);
         if(!S.get(self.get('container'))){
-            S.log('lack container!');
+            S.log('can not init,lack container!');
             return;
-        }
+        };
         self.fire('beforeInit',{
             autoResponsive:self
         });
         if(self.get('init')){
             self.init();
-        }
+        };
         self.fire('afterInit',{
             autoResponsive:self
         });
@@ -592,10 +628,8 @@ gallery/autoResponsive/1.0/index
             S.each(userCfg,function(i,key){
                 userCfg[key] = self.get(key);
             });
-            S.each(arguments,function(i){
-                S.each(i,function(j,_key){
-                    userCfg[_key] = j;
-                });
+            arguments[0] && S.each(arguments[0],function(i,_key){
+                userCfg[_key] = i;
             });
             /**
              * 应用插件属性
@@ -610,7 +644,7 @@ gallery/autoResponsive/1.0/index
             var self = this;
             if(!self.get('resize')){
                 return;
-            }
+            };
             E.on(win,'resize',function(e){
                 handle.call(self);
             });
@@ -626,7 +660,7 @@ gallery/autoResponsive/1.0/index
                  * 浏览器改变触发resize事件
                  */
                 self.fire('resize');
-            }, 200, self));
+            }, self.get('resizeFrequency'), self));
         },
         /**
          * 重新布局调整
@@ -693,16 +727,18 @@ gallery/autoResponsive/1.0/index
             self.render(option);
         },
         /**
-         * dom append 方法
+         * append 方法,调用跟随队列优化性能
          * @param {Object} 节点对象
          */
         append:function(node){
             var self = this;
             D.append(node,self.get('container'));
-            self.render();
+            self.render({
+                append:true
+            });
         },
         /**
-         * dom prepend 方法
+         * dom prepend 方法,耗费性能
          * @param {Object} 节点对象
          */
         prepend:function(node){
@@ -847,12 +883,39 @@ gallery/autoResponsive/1.0/index
     return Drag;
 },{requires:['event','dd']});
 /**
+ * @Description:    loader
+ * @Author:         dafeng.xdf[at]taobao.com
+ * @Date:           2013.3.5
+ */
+;KISSY.add('gallery/autoResponsive/1.0/plugin/loader',function(S){
+    "use strict";
+    var E = S.Event;
+    /**
+     * @name Loader
+     * @class 加载器
+     * @constructor
+     */
+    function Loader(cfg) {
+        var self = this;
+    };
+    /**
+     * 启用插件便开始解析
+     */
+    S.augment(Loader, {
+        init:function(){
+            var self = this;
+        }
+    });
+    return Loader;
+},{requires:['event']});
+/**
  * @Description: 目前先挂载base，effect效果插件，hash插件
  * @Author:      dafeng.xdf[at]taobao.com
  * @Date:        2013.3.5
  */
-;KISSY.add('gallery/autoResponsive/1.0/index',function(S,AutoResponsive,Hash,Drag){
+;KISSY.add('gallery/autoResponsive/1.0/index',function(S,AutoResponsive,Hash,Drag,Loader){
     AutoResponsive.Hash = Hash;
     AutoResponsive.Drag = Drag;
+    AutoResponsive.Loader = Loader;
     return AutoResponsive;
-},{requires:['./base','./plugin/hash','./plugin/drag']});
+},{requires:['./base','./plugin/hash','./plugin/drag','./plugin/loader']});

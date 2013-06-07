@@ -1,5 +1,5 @@
 /**
- * @Description:    网页自适应布局
+ * @Description:    网页自适应布局全局配置模块
  * @Author:         dafeng.xdf[at]taobao.com
  * @Date:           2013.3.5
  */
@@ -43,7 +43,9 @@
             resize:{value:true},
             init:{value:true},
             plugin:{value:[]},
-            async:{value:false}
+            async:{value:false},
+            append:false,
+            resizeFrequency:200
         };
     }
     return Config;
