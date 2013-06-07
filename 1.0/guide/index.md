@@ -235,6 +235,13 @@ kissy1.3无需配置配置。
         <td>r/w</td>
         <td>插件队列</td>
     </tr>
+    <tr>
+        <td>resizeFrequency</td>
+        <td>Number</td>
+        <td>200</td>
+        <td>r/w</td>
+        <td>resize触发频率</td>
+    </tr>
     </tbody>
 </table>
 
