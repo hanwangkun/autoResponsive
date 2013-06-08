@@ -168,7 +168,7 @@
             var self = this;
             D.append(node,self.get('container'));
             self.render({
-                append:true
+                cache:true
             });
         },
         /**

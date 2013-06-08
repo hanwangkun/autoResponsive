@@ -44,7 +44,7 @@
             init:{value:true},
             plugin:{value:[]},
             async:{value:false},
-            append:false,
+            cache:false,
             resizeFrequency:200
         };
     }

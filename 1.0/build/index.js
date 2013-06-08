@@ -58,7 +58,7 @@ gallery/autoResponsive/1.0/index
             init:{value:true},
             plugin:{value:[]},
             async:{value:false},
-            append:false,
+            cache:false,
             resizeFrequency:200
         };
     }
@@ -428,7 +428,7 @@ gallery/autoResponsive/1.0/index
                 }
             });
             S.each(_items,function(i,_key){
-                if(self.append && _key < self._self.itemLength){
+                if(self.cache && _key < self._self.itemLength){
                     return;
                 };
                 if(self._filter(i)){
@@ -509,7 +509,7 @@ gallery/autoResponsive/1.0/index
         },
         _getCols:function(){
             var self = this;
-            if(self._self.curQuery && self.append){
+            if(self._self.curQuery && self.cache){
                 return self._self.curQuery;
             }else{
                 var curQuery =  new LinkedList({});
@@ -734,7 +734,7 @@ gallery/autoResponsive/1.0/index
             var self = this;
             D.append(node,self.get('container'));
             self.render({
-                append:true
+                cache:true
             });
         },
         /**

@@ -117,7 +117,7 @@
                 }
             });
             S.each(_items,function(i,_key){
-                if(self.append && _key < self._self.itemLength){
+                if(self.cache && _key < self._self.itemLength){
                     return;
                 };
                 if(self._filter(i)){
@@ -198,7 +198,7 @@
         },
         _getCols:function(){
             var self = this;
-            if(self._self.curQuery && self.append){
+            if(self._self.curQuery && self.cache){
                 return self._self.curQuery;
             }else{
                 var curQuery =  new LinkedList({});
