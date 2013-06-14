@@ -226,7 +226,7 @@ KISSY.use('gallery/autoResponsive/1.0/index', function (S, AutoResponsive) {
 
 ```javascript
 /**
-* 默认自动初始化 ，如需手动初始化，请设置init :<code>false</code>
+* 默认自动初始化 ，如需手动初始化，请设置 init:false
 * 用于手动初始化组件的情况
 */
 KISSY.use('gallery/autoResponsive/1.0/index', function (S, AutoResponsive) {
@@ -243,17 +243,17 @@ KISSY.use('gallery/autoResponsive/1.0/index', function (S, AutoResponsive) {
 });
 
 ```
-####adjust ()：重新调整排序
+####adjust ()：重新布局（所有子元素）
 
 ```javascript
 //重新调整排序
 autoResponsive.adjust();
 ```
-####priority ()：重新调整排序
+####priority ()：调整优先顺序
 
 ```javascript
 //优先排序
-autoResponsive.priority();
+autoResponsive.priority('.red');
 ```
 ####filter ()：过滤排序
 
