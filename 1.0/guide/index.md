@@ -22,7 +22,7 @@ autoResponsive，是基于 KISSY 1.3.0 或更高版本的自适应布局组件�
 
 
 ## 快速上手
-### 依赖如下dom结构
+### 1.依赖如下dom结构
 ```css
 <style>
     .ks-autoResponsive-container{
@@ -43,7 +43,7 @@ autoResponsive，是基于 KISSY 1.3.0 或更高版本的自适应布局组件�
     ……
 </div>
 ```
-### 1.init 初始化
+### 2.init 初始化
 
 #### KISSY 1.2.0 需要增加如下包配置
 ```javascript
@@ -75,55 +75,14 @@ KISSY.use('gallery/autoResponsive/1.0/index', function (S, AutoResponsive) {
 * selector为排布元素选择器
 * use()回调的第一个参数是KISSY，第二个参数才是组件
 
-### 2.配置项
-
-## 组件事件说明
-
-<table class="table table-bordered table-striped">
+### 3.配置项，常用参数：
+<table>
     <thead>
     <tr>
-        <th style="width: 100px;">事件名</th>
-        <th>描述</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>init </td>
-        <td>组件初始化完成后触发</td>
-    </tr>
-    <tr>
-        <td>resize </td>
-        <td>浏览器resize时添加动作</td>
-    </tr>
-    <tr>
-        <td>beforeSort </td>
-        <td>排序前触发</td>
-    </tr>
-    <tr>
-        <td>afterSort </td>
-        <td>排序后触发</td>
-    </tr>
-    <tr>
-        <td>beforeElemSort </td>
-        <td>单元素排序前触发</td>
-    </tr>
-    <tr>
-        <td>afterElemSort  </td>
-        <td>单元素排序后触发</td>
-    </tr>
-    </tbody>
-</table>
-###例子：
-
-###常用参数：
-
-<table class="table table-bordered table-striped">
-    <thead>
-    <tr>
-        <th style="width: 100px;">参数名</th>
-        <th style="width: 50px;">类型</th>
-        <th style="width: 130px;">默认值</th>
-        <th style="width: 200px;">读写权限</th>
+        <th>参数名</th>
+        <th>类型</th>
+        <th>默认值</th>
+        <th>读写权限</th>
         <th>描述</th>
     </tr>
     </thead>
@@ -252,6 +211,47 @@ KISSY.use('gallery/autoResponsive/1.0/index', function (S, AutoResponsive) {
     </tr>
     </tbody>
 </table>
+
+## 组件事件说明
+
+<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th style="width: 100px;">事件名</th>
+        <th>描述</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>init </td>
+        <td>组件初始化完成后触发</td>
+    </tr>
+    <tr>
+        <td>resize </td>
+        <td>浏览器resize时添加动作</td>
+    </tr>
+    <tr>
+        <td>beforeSort </td>
+        <td>排序前触发</td>
+    </tr>
+    <tr>
+        <td>afterSort </td>
+        <td>排序后触发</td>
+    </tr>
+    <tr>
+        <td>beforeElemSort </td>
+        <td>单元素排序前触发</td>
+    </tr>
+    <tr>
+        <td>afterElemSort  </td>
+        <td>单元素排序后触发</td>
+    </tr>
+    </tbody>
+</table>
+###例子：
+
+
+
 
 ##常用方法说明
 
