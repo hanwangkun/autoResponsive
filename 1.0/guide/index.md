@@ -75,7 +75,8 @@ KISSY.use('gallery/autoResponsive/1.0/index', function (S, AutoResponsive) {
 * selector为排布元素选择器
 * use()回调的第一个参数是KISSY，第二个参数才是组件
 
-### 3.配置项，常用参数：
+### 3.配置项
+####常用参数：
 <table>
     <thead>
     <tr>
@@ -212,48 +213,7 @@ KISSY.use('gallery/autoResponsive/1.0/index', function (S, AutoResponsive) {
     </tbody>
 </table>
 
-## 组件事件说明
-
-<table class="table table-bordered table-striped">
-    <thead>
-    <tr>
-        <th style="width: 100px;">事件名</th>
-        <th>描述</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>init </td>
-        <td>组件初始化完成后触发</td>
-    </tr>
-    <tr>
-        <td>resize </td>
-        <td>浏览器resize时添加动作</td>
-    </tr>
-    <tr>
-        <td>beforeSort </td>
-        <td>排序前触发</td>
-    </tr>
-    <tr>
-        <td>afterSort </td>
-        <td>排序后触发</td>
-    </tr>
-    <tr>
-        <td>beforeElemSort </td>
-        <td>单元素排序前触发</td>
-    </tr>
-    <tr>
-        <td>afterElemSort  </td>
-        <td>单元素排序后触发</td>
-    </tr>
-    </tbody>
-</table>
-###例子：
-
-
-
-
-##常用方法说明
+## 常用方法说明
 
 ####adjust ()：重新调整排序
 
@@ -303,6 +263,44 @@ KISSY.use('gallery/autoResponsive/1.0/index', function (S, AutoResponsive) {
 //prepend节点
  autoResponsive.prepend();
 ```
+
+## 事件说明
+
+<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th style="width: 100px;">事件名</th>
+        <th>描述</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>init </td>
+        <td>组件初始化完成后触发</td>
+    </tr>
+    <tr>
+        <td>resize </td>
+        <td>浏览器resize时添加动作</td>
+    </tr>
+    <tr>
+        <td>beforeSort </td>
+        <td>排序前触发</td>
+    </tr>
+    <tr>
+        <td>afterSort </td>
+        <td>排序后触发</td>
+    </tr>
+    <tr>
+        <td>beforeElemSort </td>
+        <td>单元素排序前触发</td>
+    </tr>
+    <tr>
+        <td>afterElemSort  </td>
+        <td>单元素排序后触发</td>
+    </tr>
+    </tbody>
+</table>
+
 ##插件说明
 
 ###effect：效果增强
