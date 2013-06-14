@@ -214,6 +214,14 @@ KISSY.use('gallery/autoResponsive/1.0/index', function (S, AutoResponsive) {
 </table>
 
 ## 常用方法说明
+####init ()：初始化组件
+
+```javascript
+/*
+* 默认自动初始化，用于手动初始化组件的情况
+*/
+autoResponsive.init();
+```
 ####adjust ()：重新调整排序
 
 ```javascript
