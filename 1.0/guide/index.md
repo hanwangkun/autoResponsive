@@ -32,8 +32,12 @@ autoResponsive，是基于 KISSY 1.3.0 或更高版本的自适应布局组件�
     }
 </style>
 ```
+**注意**
+* 外层容器为relative
+* 排布元素需设置为absolute
+
 ```xml
-<div class="ks-autoResponsive-container">
+<div class="ks-autoResponsive-container" id="J_container">
     ……
 </div>
 ```
@@ -54,7 +58,7 @@ KISSY.config({
 ```javascript
 KISSY.use('gallery/autoResponsive/1.0/index', function (S, AutoResponsive) {
 	var AutoResponsive = new AutoResponsive({
-			container:'.J_container',
+			container:'#J_container',
 			selector:'div',
 			colMargin:{
 				x :10,
