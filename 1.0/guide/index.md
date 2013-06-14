@@ -261,13 +261,19 @@ autoResponsive.priority('.red');
 ####filter ()：过滤排序
 
 ```javascript
-//过滤排序
+/**
+* 过滤排序
+* demo:http://xudafeng.github.io/autoResponsive/cat/demos/#filter
+*/
 autoResponsive.filter();
 ```
 ####margin ()：边距设置
 
 ```javascript
-//边距设置
+/**
+* 边距设置
+* demo:http://xudafeng.github.io/autoResponsive/cat/demos/#colMargin
+*/
 autoResponsive.margin({ x:10, y:20 });
 ```
 ####random ()：随机排序
