@@ -3,6 +3,7 @@
 autoResponsive，是基于 KISSY 1.3.0 或更高版本的自适应布局组件。
 >
 >* version: 1.0
+>* page: [github](http://xudafeng.github.io/autoResponsive/ "github")
 >* author: dafeng
 >* website: [xdf.me](http://xdf.me/ "blog")
 >* email: dafeng.xdf [at] taobao.com
