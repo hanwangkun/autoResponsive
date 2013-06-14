@@ -1,4 +1,4 @@
-概述
+##概述
 =
 autoResponsive，是基于 KISSY 1.3.0 或更高版本的自适应布局组件。
 >
@@ -8,7 +8,7 @@ autoResponsive，是基于 KISSY 1.3.0 或更高版本的自适应布局组件�
 >* website: [xdf.me](http://xdf.me/ "blog")
 >* email: dafeng.xdf [at] taobao.com
 
-#### 她的特点
+## 她的特点
 * 支持条件排序、随机排序
 * 支持特定条件的过滤排序
 * 兼容KISSY瀑布流组件
@@ -19,7 +19,6 @@ autoResponsive，是基于 KISSY 1.3.0 或更高版本的自适应布局组件�
 * 支持自定义展示方向
 * 支持拖拽功能[重构中]
 * hash回溯路由
-
 
 ## 快速上手
 ### 1.依赖如下dom结构
@@ -378,10 +377,13 @@ KISSY.use('gallery/autoResponsive/1.0/index',function(S,T){
 </table>
 **注意**
 * 具体使用例子参见各demo
+
 ##插件说明
 
-###effect：效果增强
+####drag：拖拽功能
+####loader：加载器
+####hash：hash回溯路由
 
-###hash：hash回溯定位
+##优秀demo
 
 ##Q&A
