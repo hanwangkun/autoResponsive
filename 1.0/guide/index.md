@@ -1,31 +1,26 @@
-综述
-============
+概述
+=
+autoResponsive，是基于 KISSY 1.3.0 或更高版本的自适应布局组件。
+>
+>* version: 1.0
+>* author: dafeng
+>* website: [xdf.me](http://xdf.me/ "blog")
+>* email: dafeng.xdf [at] taobao.com
 
-autoResponsive，是基于kissy 1.3.0或者更高版本的自适应组件。
-
-* 版本：1.0
-* 作者：达峰
-
-
-#### autoResponsive的特点
-
-
+#### 她的特点
 * 支持条件排序、随机排序
 * 支持特定条件的过滤排序
-* 支持css3特效
-* 兼容kissy瀑布流组件
-* 支持自定义配置
-* 支持用户自定义特效
+* 兼容KISSY瀑布流组件
+* 支持动态自定义配置
+* 支持css3特效、用户自定义特效
+* 支持边距自定义
 * 排序元素支持复杂dom结构
 * 支持自定义展示方向
-* 支持拖拽功能
-* hash回溯定位
+* 支持拖拽功能[重构中]
+* hash回溯路由
 
-### [demo汇总](http://xudafeng.github.io/autoResponsive/cat/demos/)
 
 ## 快速上手
-
-kissy1.2需要配置gallery的包：
 
 ```javascript
 KISSY.config({
@@ -38,7 +33,6 @@ KISSY.config({
     ]
 });
 ```
-
 kissy1.3无需配置配置。
 
 ### init
