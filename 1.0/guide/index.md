@@ -331,15 +331,13 @@ KISSY.use('gallery/autoResponsive/1.0/index',function(S,T){
     });
 });
 ```
-##### 注意
-###### 针对瀑布流对append方法做了性能优化：[性能压测](http://xudafeng.github.io/autoResponsive/demo/waterfall/stress.html)
-
+**注意**
+* 针对瀑布流对append方法做了性能优化：[性能压测](http://xudafeng.github.io/autoResponsive/demo/waterfall/stress.html)
 ## 事件说明
-
-<table class="table table-bordered table-striped">
+<table>
     <thead>
     <tr>
-        <th style="width: 100px;">事件名</th>
+        <th>事件名</th>
         <th>描述</th>
     </tr>
     </thead>
@@ -347,6 +345,14 @@ KISSY.use('gallery/autoResponsive/1.0/index',function(S,T){
     <tr>
         <td>init </td>
         <td>组件初始化完成后触发</td>
+    </tr>
+    <tr>
+        <td>beforeInit </td>
+        <td>初始化前触发</td>
+    </tr>
+    <tr>
+        <td>afterInit </td>
+        <td>初始化后触发</td>
     </tr>
     <tr>
         <td>resize </td>
@@ -370,7 +376,8 @@ KISSY.use('gallery/autoResponsive/1.0/index',function(S,T){
     </tr>
     </tbody>
 </table>
-
+**注意**
+* 具体使用例子参见各demo
 ##插件说明
 
 ###effect：效果增强
