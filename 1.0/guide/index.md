@@ -299,7 +299,7 @@ autoResponsive.option({
 	priority : '.green'
 });
 ```
-####append ()：动态append节点
+#### append ()：动态append节点
 
 ```javascript
 /**
@@ -333,9 +333,8 @@ KISSY.use('gallery/autoResponsive/1.0/index',function(S,T){
 ```
 **注意**
 * 针对瀑布流对append方法做了性能优化：[性能压测](http://xudafeng.github.io/autoResponsive/demo/waterfall/stress.html "stess")
-*
-####prepend ()：动态prepend节点
 
+#### prepend ()：动态prepend节点
 ## 事件说明
 
 <table class="table table-bordered table-striped">
