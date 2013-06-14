@@ -23,19 +23,19 @@ autoResponsive，是基于 KISSY 1.3.0 或更高版本的自适应布局组件�
 ## 快速上手
 ### 依赖如下dom结构
 ```css
-	<style>
-		.ks-autoResponsive-container{
-			position:relative;			
-		}
-		.ks-autoResponsive-container div{
-			position:absolute;
-		}		
-	</style>
+<style>
+    .ks-autoResponsive-container{
+        position:relative;
+    }
+    .ks-autoResponsive-container div{
+        position:absolute;
+    }
+</style>
 ```
 ```xml
-    <div class="ks-autoResponsive-container">
-        ……
-    </div>
+<div class="ks-autoResponsive-container">
+    ……
+</div>
 ```
 ### init 初始化
 #### KISSY 1.2.0 需要增加如下包配置
