@@ -274,7 +274,10 @@ autoResponsive.filter();
 * 边距设置
 * demo:http://xudafeng.github.io/autoResponsive/cat/demos/#colMargin
 */
-autoResponsive.margin({ x:10, y:20 });
+autoResponsive.margin({
+	x: 10, 
+	y: 20 
+});
 ```
 ####random ()：随机排序
 
@@ -285,8 +288,16 @@ autoResponsive.random();
 ####option ()：自定义配置
 
 ```javascript
-//自定义配置
-autoResponsive.option();
+/**
+* 动态改变配置
+*/
+autoResponsive.option({
+	colMargin:{
+		x :10,
+		y:1
+	},
+	priority : '.green'
+});
 ```
 ####append ()：动态append节点
 
