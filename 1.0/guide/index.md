@@ -21,7 +21,8 @@ autoResponsive，是基于 KISSY 1.3.0 或更高版本的自适应布局组件�
 
 
 ## 快速上手
-
+### init
+#### KISSY 1.2.0 需要增加如下包配置
 ```javascript
 KISSY.config({
     packages:[
@@ -33,21 +34,18 @@ KISSY.config({
     ]
 });
 ```
-kissy1.3无需配置配置。
-
-### init
-
+####KISSY 1.3无需配置,直接初始化。
 ```javascript
-    KISSY.use('gallery/autoResponsive/1.0/index', function (S, AutoResponsive) {
-        var AutoResponsive = new AutoResponsive({
-            container:'.J_container',
-            selector:'div',
-            colMargin:{
-                x :10,
-                y:10
-            }
-        });
-    })
+KISSY.use('gallery/autoResponsive/1.0/index', function (S, AutoResponsive) {
+	var AutoResponsive = new AutoResponsive({
+			container:'.J_container',
+			selector:'div',
+			colMargin:{
+				x :10,
+				y:10
+			}
+	});
+})
 ```
 **提醒**：use()的回调，第一个参数是KISSY，第二个参数才是组件。
 
