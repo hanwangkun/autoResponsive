@@ -252,7 +252,10 @@ autoResponsive.adjust();
 ####priority ()：调整优先顺序
 
 ```javascript
-//优先排序
+/**
+* 优先排序
+* demo:http://xudafeng.github.io/autoResponsive/cat/demos/#priority
+*/
 autoResponsive.priority('.red');
 ```
 ####filter ()：过滤排序
