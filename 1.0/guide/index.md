@@ -36,12 +36,14 @@ autoResponsive，是基于 KISSY 1.3.0 或更高版本的自适应布局组件�
 **注意**
 * 外层容器为relative
 * 排布元素需设置为absolute
+
 ```xml
 <div class="ks-autoResponsive-container" id="J_container">
     ……
 </div>
 ```
 ### init 初始化
+
 #### KISSY 1.2.0 需要增加如下包配置
 ```javascript
 KISSY.config({
