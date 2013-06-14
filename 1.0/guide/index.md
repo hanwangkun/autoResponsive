@@ -300,10 +300,11 @@ autoResponsive.option({
 });
 ```
 ####append ()：动态append节点
+####prepend ()：动态prepend节点
 
 ```javascript
 /**
-*
+* demo: http://xudafeng.github.io/autoResponsive/cat/custom/#append
 */
 KISSY.use('gallery/autoResponsive/1.0/index',function(S,T){
 
@@ -319,33 +320,18 @@ KISSY.use('gallery/autoResponsive/1.0/index',function(S,T){
     });
 
     E.on('.J_button_append','click',function(e){
-
         var _target = e.target;
-
         if(D.hasClass(_target,'append')){
-
-            append.append(D.create('<div class="block red">1+</div><div class="block yellow">2+</div><div class="block blue circle">3+</div>'));
-
+            append.append(D.create('<div class="block red">1+</div>'));
         }else if(D.hasClass(_target,'prepend')){
-
-            append.prepend(D.create('<div class="block red">1</div><div class="block yellow">2</div><div class="block blue circle">3</div>'));
-
+            append.prepend(D.create('<div class="block red">1</div>'));
         }else if(D.hasClass(_target,'remove')){
-
             D.remove(D.get('.block','.J_container_append'));
-
             append.adjust();
         }
     });
 });
 ```
-####prepend ()：动态prepend节点
-
-```javascript
-//prepend节点
-autoResponsive.prepend();
-```
-
 ## 事件说明
 
 <table class="table table-bordered table-striped">
