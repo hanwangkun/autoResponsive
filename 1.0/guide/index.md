@@ -26,6 +26,7 @@ autoResponsive，是基于 KISSY 1.3.0 或更高版本的自适应布局组件�
 <style>
     .ks-autoResponsive-container{
         position:relative;
+        overflow: hidden;
     }
     .ks-autoResponsive-container div{
         position:absolute;
@@ -35,7 +36,6 @@ autoResponsive，是基于 KISSY 1.3.0 或更高版本的自适应布局组件�
 **注意**
 * 外层容器为relative
 * 排布元素需设置为absolute
-
 ```xml
 <div class="ks-autoResponsive-container" id="J_container">
     ……
@@ -67,7 +67,10 @@ KISSY.use('gallery/autoResponsive/1.0/index', function (S, AutoResponsive) {
 	});
 })
 ```
-**提醒**：use()的回调，第一个参数是KISSY，第二个参数才是组件。
+**提醒**
+* container为外层容器选择器
+* selector为排布元素选择器
+* use()的回调，第一个参数是KISSY，第二个参数才是组件
 
 
 
