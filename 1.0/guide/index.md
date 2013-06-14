@@ -104,6 +104,14 @@ KISSY.use('gallery/autoResponsive/1.0/index', function (S, AutoResponsive) {
         </td>
     </tr>
     <tr>
+        <td>init</td>
+        <td>Boolean</td>
+        <td>true</td>
+        <td>r/w</td>
+        <td>默认自动初始化
+        </td>
+    </tr>
+    <tr>
         <td>filter</td>
         <td>String</td>
         <td>''</td>
@@ -217,10 +225,23 @@ KISSY.use('gallery/autoResponsive/1.0/index', function (S, AutoResponsive) {
 ####init ()：初始化组件
 
 ```javascript
-/*
-* 默认自动初始化，用于手动初始化组件的情况
+/**
+* 默认自动初始化 ，如需手动初始化，请设置init :<code>false</code>
+* 用于手动初始化组件的情况
 */
-autoResponsive.init();
+KISSY.use('gallery/autoResponsive/1.0/index', function (S, AutoResponsive) {
+	var AutoResponsive = new AutoResponsive({
+			container:'#J_container',
+			selector:'div',
+			colMargin:{
+				x :10,
+				y:10
+			},
+			init:false //设置false
+	});
+	autoResponsive.init();
+});
+
 ```
 ####adjust ()：重新调整排序
 
