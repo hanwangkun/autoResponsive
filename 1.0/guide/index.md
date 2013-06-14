@@ -214,54 +214,53 @@ KISSY.use('gallery/autoResponsive/1.0/index', function (S, AutoResponsive) {
 </table>
 
 ## 常用方法说明
-
 ####adjust ()：重新调整排序
 
 ```javascript
 //重新调整排序
- autoResponsive.adjust();
+autoResponsive.adjust();
 ```
 ####priority ()：重新调整排序
 
 ```javascript
 //优先排序
- autoResponsive.priority();
+autoResponsive.priority();
 ```
 ####filter ()：过滤排序
 
 ```javascript
 //过滤排序
- autoResponsive.filter();
+autoResponsive.filter();
 ```
 ####margin ()：边距设置
 
 ```javascript
 //边距设置
- autoResponsive.margin({ x:10, y:20 });
+autoResponsive.margin({ x:10, y:20 });
 ```
 ####random ()：随机排序
 
 ```javascript
 //随机排序
- autoResponsive.random();
+autoResponsive.random();
 ```
 ####option ()：自定义配置
 
 ```javascript
 //自定义配置
- autoResponsive.option();
+autoResponsive.option();
 ```
-####append ()：append节点
+####append ()：动态append节点
 
 ```javascript
 //append节点
- autoResponsive.append();
+autoResponsive.append();
 ```
-####prepend ()：prepend节点
+####prepend ()：动态prepend节点
 
 ```javascript
 //prepend节点
- autoResponsive.prepend();
+autoResponsive.prepend();
 ```
 
 ## 事件说明
