@@ -58,8 +58,8 @@ KISSY.config({
 ```
 #### KISSY 1.3.0 无需配置,直接初始化即可
 ```javascript
-KISSY.use('gallery/autoResponsive/1.0/index', function (S, AutoResponsive) {
-	var AutoResponsive = new AutoResponsive({
+KISSY.use('gallery/autoResponsive/1.0/index', function (S, Ar) {
+	var AutoResponsive = new Ar({
 			container:'#J_container',
 			selector:'div',
 			colMargin:{
@@ -229,7 +229,7 @@ KISSY.use('gallery/autoResponsive/1.0/index', function (S, AutoResponsive) {
 * 用于手动初始化组件的情况
 */
 KISSY.use('gallery/autoResponsive/1.0/index', function (S, AutoResponsive) {
-	var AutoResponsive = new AutoResponsive({
+	var AutoResponsive = new Ar({
 			container:'#J_container',
 			selector:'div',
 			colMargin:{
