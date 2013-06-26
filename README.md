@@ -384,7 +384,6 @@ KISSY.use('gallery/autoResponsive/1.0/index',function(S,T){
 ####drag：拖拽功能
 ####loader：加载器
 ####hash：hash回溯路由
-
 ##优秀demo
 ##License
 >The MIT License (MIT)
