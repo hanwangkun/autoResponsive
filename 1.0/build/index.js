@@ -631,12 +631,8 @@ KISSY.add('gallery/autoResponsive/1.0/base', function (S, Config, GridSort, Base
          */
         render: function () {
             var self = this,
-                userCfg = new Config();
-            self.frame = self.frame || 0;
-            S.each(userCfg, function (i, key) {
-                userCfg[key] = self.get(key);
-            });
-            arguments[0] && S.each(arguments[0], function (i, _key) {
+                userCfg = self.getAttrVals();
+            arguments[0] && S.each(arguments[0],function(i,_key){
                 userCfg[_key] = i;
             });
             /**
@@ -933,3 +929,4 @@ KISSY.add('gallery/autoResponsive/1.0/index', function (S, AutoResponsive, Hash,
     AutoResponsive.Loader = Loader;
     return AutoResponsive;
 }, {requires: ['./base', './plugin/hash', './plugin/drag', './plugin/loader']});
+

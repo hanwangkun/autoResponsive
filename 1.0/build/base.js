@@ -351,13 +351,11 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
             if (self.filter == EMPTY) {
                 return;
             }
-            ;
             D.show(elm);
             if (D.hasClass(elm, self.filter)) {
                 D.hide(elm);
                 return true;
             }
-            ;
         },
         coordinate: function (curQuery, elm) {
             return this._autoFit(curQuery, D.outerWidth(elm), D.outerHeight(elm));
@@ -629,12 +627,8 @@ KISSY.add('gallery/autoResponsive/1.0/base', function (S, Config, GridSort, Base
          */
         render: function () {
             var self = this,
-                userCfg = new Config();
-            self.frame = self.frame || 0;
-            S.each(userCfg, function (i, key) {
-                userCfg[key] = self.get(key);
-            });
-            arguments[0] && S.each(arguments[0], function (i, _key) {
+                userCfg = self.getAttrVals();
+            arguments[0] && S.each(arguments[0],function(i,_key){
                 userCfg[_key] = i;
             });
             /**
