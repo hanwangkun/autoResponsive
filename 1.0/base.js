@@ -3,9 +3,10 @@
  * @Author:         dafeng.xdf[at]taobao.com
  * @Date:           2013.3.5
  */
-;KISSY.add('gallery/autoResponsive/1.0/base',function(S,Config,GridSort,Base){
-    "use strict";
-    var D = S.DOM,E = S.Event,win = window;
+KISSY.add('gallery/autoResponsive/1.0/base', function (S, Config, GridSort, Base) {
+    'use strict';
+    var D = S.DOM, E = S.Event, win = window;
+
     /**
      * @name AutoResponsive
      * @class 网页自适应布局
@@ -14,48 +15,48 @@
      */
     function AutoResponsive() {
         var self = this;
-        AutoResponsive.superclass.constructor.apply(self,arguments);
-        if(!S.get(self.get('container'))){
+        AutoResponsive.superclass.constructor.apply(self, arguments);
+        if (!S.get(self.get('container'))) {
             S.log('can not init,lack container!');
             return;
-        };
-        self.fire('beforeInit',{
-            autoResponsive:self
+        }
+        self.fire('beforeInit', {
+            autoResponsive: self
         });
-        if(self.get('init')){
+        if (self.get('init')) {
             self.init();
-        };
-        self.fire('afterInit',{
-            autoResponsive:self
+        }
+        self.fire('afterInit', {
+            autoResponsive: self
         });
-    };
+    }
     S.extend(AutoResponsive, Base, {
         /**
          * 初始化组件
          * @return  排序实例
          */
-        init:function(){
+        init: function () {
             var self = this;
             self._bindEvent();
             self.initPlugin();
             self.render();
             S.log('init!');
         },
-        initPlugin:function(){
+        initPlugin: function () {
             var self = this;
             self.api = {};
             /**
              * 添加插件
              */
-            S.each(self.get('plugin'),function(i){
+            S.each(self.get('plugin'), function (i) {
                 i.init(self);
-                S.mix(self.api,i.api);
+                S.mix(self.api, i.api);
             });
         },
         /**
          * 渲染排序结果
          */
-        render:function(){
+        render: function () {
             var self = this,
                 userCfg = self.getAttrVals();
             arguments[0] && S.each(arguments[0],function(i,_key){
@@ -64,27 +65,27 @@
             /**
              * 应用插件属性
              */
-            S.mix(userCfg,self.api);
-            new GridSort(userCfg,self);
+            S.mix(userCfg, self.api);
+            new GridSort(userCfg, self);
         },
         /**
          * 绑定浏览器resize事件
          */
-        _bind:function(handle){
+        _bind: function (handle) {
             var self = this;
-            if(!self.get('resize')){
+            if (!self.get('resize')) {
                 return;
-            };
-            E.on(win,'resize',function(e){
+            }
+            E.on(win, 'resize', function (e) {
                 handle.call(self);
             });
         },
         /**
          * 添加事件节流阀
          */
-        _bindEvent:function(){
+        _bindEvent: function () {
             var self = this;
-            self._bind(S.throttle(function(){
+            self._bind(S.throttle(function () {
                 self.render();
                 /**
                  * 浏览器改变触发resize事件
@@ -95,7 +96,7 @@
         /**
          * 重新布局调整
          */
-        adjust:function(){
+        adjust: function () {
             var self = this;
             self.render();
         },
@@ -103,56 +104,56 @@
          * 优先排序方法
          * @param {String} 选择器
          */
-        priority:function(selector){
+        priority: function (selector) {
             var self = this;
             self.render({
-                priority:selector
+                priority: selector
             });
         },
         /**
          * 过滤方法
          * @param {String} 选择器
          */
-        filter:function(selector){
+        filter: function (selector) {
             var self = this;
             self.render({
-                filter:selector
+                filter: selector
             });
         },
         /**
          * 调整边距
          * @param {Object} 边距
          */
-        margin:function(margin){
+        margin: function (margin) {
             var self = this;
             self.render({
-                colMargin:margin
+                colMargin: margin
             });
         },
         /**
          * 方向设置
          * @param {String} 方向
          */
-        direction:function(direction){
+        direction: function (direction) {
             var self = this;
             self.render({
-                direction:direction
+                direction: direction
             });
         },
         /**
          * 随机排序
          */
-        random:function(){
+        random: function () {
             var self = this;
             self.render({
-                random:true
+                random: true
             });
         },
         /**
          * 改变组件设置
          * @param {Object} 设置对象
          */
-        option:function(option){
+        option: function (option) {
             var self = this;
             self.render(option);
         },
@@ -160,22 +161,22 @@
          * append 方法,调用跟随队列优化性能
          * @param {Object} 节点对象
          */
-        append:function(node){
+        append: function (node) {
             var self = this;
-            D.append(node,self.get('container'));
+            D.append(node, self.get('container'));
             self.render({
-                cache:true
+                cache: true
             });
         },
         /**
          * dom prepend 方法,耗费性能
          * @param {Object} 节点对象
          */
-        prepend:function(node){
+        prepend: function (node) {
             var self = this;
-            D.prepend(node,self.get('container'));
+            D.prepend(node, self.get('container'));
             self.render();
         }
-    },{ ATTRS : new Config()});
+    }, { ATTRS: new Config()});
     return AutoResponsive;
-},{requires:['./config','./gridsort','base','dom','event']});
+}, {requires: ['./config', './gridsort', 'base', 'dom', 'event']});

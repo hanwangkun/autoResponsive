@@ -3,25 +3,36 @@
  * @Author:      dafeng.xdf[at]taobao.com
  * @Date:        2013.3.5
  */
+<<<<<<< HEAD
 ;KISSY.add('gallery/autoResponsive/1.0/anim',function(S){
     "use strict";
     var D = S.DOM, Anim = S.Anim,BLANK = ' ';
+=======
+KISSY.add('gallery/autoResponsive/1.0/anim', function (S) {
+    'use strict';
+    var D = S.DOM, Anim = S.Anim, BLANK = ' ',
+        notSupport = S.UA.ie < 11 || self.direction == 'right';
+>>>>>>> 6f48700f059135ad1152a6cfb2b67d0389f20c1a
 
     /**
      * @name AutoAnim
      * @class css动画，采用帧重复
      * @constructor
      */
-    function AutoAnim(cfg){
+    function AutoAnim(cfg) {
         var self = this;
+<<<<<<< HEAD
         S.mix(self,cfg);
         self.notSupport = S.UA.ie < 11 || self.direction == 'right';
+=======
+        S.mix(self, cfg);
+>>>>>>> 6f48700f059135ad1152a6cfb2b67d0389f20c1a
         self._init();
-    };
-    S.augment(AutoAnim,{
-        _init:function(){
+    }
+    S.augment(AutoAnim, {
+        _init: function () {
             var self = this;
-            if(!self.animate){
+            if (!self.animate) {
                 self.noneAnim();
                 return;
             }
@@ -30,59 +41,59 @@
         /**
          * css3动画
          */
-        cssPrefixes:function(styleKey,styleValue){
+        cssPrefixes: function (styleKey, styleValue) {
             var fixedRule = {};
-            S.each('-webkit- -moz- -o- -ms-  '.split(BLANK),function(i){
-                fixedRule[i+styleKey] = styleValue;
+            S.each('-webkit- -moz- -o- -ms-  '.split(BLANK), function (i) {
+                fixedRule[i + styleKey] = styleValue;
             });
             return fixedRule;
         },
-        css3Anim:function(){
+        css3Anim: function () {
             /**
              * css3效果代码添加
              */
             var self = this;
             D.css(self.elm, S.merge(
-                self.cssPrefixes('transform','translate('+ self.x +'px,'+ self.y +'px) '),
-                self.cssPrefixes('transition-duration',self.duration +'s'))
+                self.cssPrefixes('transform', 'translate(' + self.x + 'px,' + self.y + 'px) '),
+                self.cssPrefixes('transition-duration', self.duration + 's'))
             );
             /**
              * 单元素计算排序后触发
              */
-            self._self.fire('afterElemSort',{
-                autoResponsive:{
-                    elm:self.elm,
-                    position:{
-                        x:self.x,
-                        y:self.y
+            self._self.fire('afterElemSort', {
+                autoResponsive: {
+                    elm: self.elm,
+                    position: {
+                        x: self.x,
+                        y: self.y
                     },
-                    frame:self._self.frame
+                    frame: self._self.frame
                 }
             });
         },
         /**
          * 降级模拟css3动画
          */
-        fixedAnim:function(){
+        fixedAnim: function () {
             var self = this,
-                cssRules = {'top':self.y},
+                cssRules = {'top': self.y},
                 direction = 'left';
-            if(self.direction == 'right'){
+            if (self.direction == 'right') {
                 direction = 'right';
             }
             cssRules[direction] = self.x;
-            new Anim(self.elm,cssRules,self.duration,self.easing,function(){
+            new Anim(self.elm, cssRules, self.duration, self.easing, function () {
                 /**
                  * 单元素计算排序后触发
                  */
-                self._self.fire('afterElemSort',{
-                    autoResponsive:{
-                        elm:self.elm,
-                        position:{
-                            x:self.x,
-                            y:self.y
+                self._self.fire('afterElemSort', {
+                    autoResponsive: {
+                        elm: self.elm,
+                        position: {
+                            x: self.x,
+                            y: self.y
                         },
-                        frame:self._self.frame
+                        frame: self._self.frame
                     }
                 });
             }).run();
@@ -90,26 +101,26 @@
         /**
          * 无动画
          */
-        noneAnim:function(){
+        noneAnim: function () {
             var self = this;
-            D.css(self.elm,{
+            D.css(self.elm, {
                 left: self.x,
                 top: self.y
             });
             /**
              * 单元素计算排序后触发
              */
-            self._self.fire('afterElemSort',{
-                autoResponsive:{
-                    elm:self.elm,
-                    position:{
-                        x:self.x,
-                        y:self.y
+            self._self.fire('afterElemSort', {
+                autoResponsive: {
+                    elm: self.elm,
+                    position: {
+                        x: self.x,
+                        y: self.y
                     },
-                    frame:self._self.frame
+                    frame: self._self.frame
                 }
             });
         }
     });
     return AutoAnim;
-},{requires:['dom','anim']});
+}, {requires: ['dom', 'anim']});
