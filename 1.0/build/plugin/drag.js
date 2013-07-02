@@ -1,15 +1,15 @@
 /*
- combined files :
+combined files : 
 
- gallery/autoResponsive/1.0/plugin/drag
+gallery/autoResponsive/1.0/plugin/drag
 
- */
+*/
 /**
  * @Description:    拖拽功能
  * @Author:         dafeng.xdf[at]taobao.com
  * @Date:           2013.3.5
  */
-KISSY.add('gallery/autoResponsive/1.0/plugin/drag', function (S) {
+KISSY.add('gallery/autoResponsive/1.0/plugin/drag',function (S) {
     'use strict';
     var E = S.Event, DD = S.DD,
         DraggableDelegate = DD.DraggableDelegate,

@@ -3,16 +3,9 @@
  * @Author:      dafeng.xdf[at]taobao.com
  * @Date:        2013.3.5
  */
-<<<<<<< HEAD
 ;KISSY.add('gallery/autoResponsive/1.0/anim',function(S){
-    "use strict";
-    var D = S.DOM, Anim = S.Anim,BLANK = ' ';
-=======
-KISSY.add('gallery/autoResponsive/1.0/anim', function (S) {
     'use strict';
-    var D = S.DOM, Anim = S.Anim, BLANK = ' ',
-        notSupport = S.UA.ie < 11 || self.direction == 'right';
->>>>>>> 6f48700f059135ad1152a6cfb2b67d0389f20c1a
+    var D = S.DOM, Anim = S.Anim,BLANK = ' ';
 
     /**
      * @name AutoAnim
@@ -21,12 +14,8 @@ KISSY.add('gallery/autoResponsive/1.0/anim', function (S) {
      */
     function AutoAnim(cfg) {
         var self = this;
-<<<<<<< HEAD
         S.mix(self,cfg);
         self.notSupport = S.UA.ie < 11 || self.direction == 'right';
-=======
-        S.mix(self, cfg);
->>>>>>> 6f48700f059135ad1152a6cfb2b67d0389f20c1a
         self._init();
     }
     S.augment(AutoAnim, {

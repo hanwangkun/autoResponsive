@@ -1,15 +1,15 @@
 /*
- combined files :
+combined files : 
 
- gallery/autoResponsive/1.0/plugin/hash
+gallery/autoResponsive/1.0/plugin/hash
 
- */
+*/
 /**
  * @Description:    hash回溯、功能路由
  * @Author:         dafeng.xdf[at]taobao.com
  * @Date:           2013.3.5
  */
-KISSY.add('gallery/autoResponsive/1.0/plugin/hash', function (S) {
+KISSY.add('gallery/autoResponsive/1.0/plugin/hash',function (S) {
     'use strict';
     var E = S.Event,
         win = window,
@@ -26,6 +26,7 @@ KISSY.add('gallery/autoResponsive/1.0/plugin/hash', function (S) {
         self.prefix = cfg.prefix || 'ks-';
         self.api = {};
     }
+
     /**
      * 启用插件便开始解析
      */

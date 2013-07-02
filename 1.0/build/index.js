@@ -1,17 +1,17 @@
 /*
- combined files :
+combined files : 
 
- gallery/autoResponsive/1.0/config
- gallery/autoResponsive/1.0/anim
- gallery/autoResponsive/1.0/linkedlist
- gallery/autoResponsive/1.0/gridsort
- gallery/autoResponsive/1.0/base
- gallery/autoResponsive/1.0/plugin/hash
- gallery/autoResponsive/1.0/plugin/drag
- gallery/autoResponsive/1.0/plugin/loader
- gallery/autoResponsive/1.0/index
+gallery/autoResponsive/1.0/config
+gallery/autoResponsive/1.0/anim
+gallery/autoResponsive/1.0/linkedlist
+gallery/autoResponsive/1.0/gridsort
+gallery/autoResponsive/1.0/base
+gallery/autoResponsive/1.0/plugin/hash
+gallery/autoResponsive/1.0/plugin/drag
+gallery/autoResponsive/1.0/plugin/loader
+gallery/autoResponsive/1.0/index
 
- */
+*/
 /**
  * @Description:    网页自适应布局全局配置模块
  * @Author:         dafeng.xdf[at]taobao.com
@@ -71,16 +71,9 @@ KISSY.add('gallery/autoResponsive/1.0/config', function () {
  * @Author:      dafeng.xdf[at]taobao.com
  * @Date:        2013.3.5
  */
-<<<<<<< HEAD
 ;KISSY.add('gallery/autoResponsive/1.0/anim',function(S){
-    "use strict";
-    var D = S.DOM, Anim = S.Anim,BLANK = ' ';
-=======
-KISSY.add('gallery/autoResponsive/1.0/anim', function (S) {
     'use strict';
-    var D = S.DOM, Anim = S.Anim, BLANK = ' ',
-        notSupport = S.UA.ie < 11 || self.direction == 'right';
->>>>>>> 6f48700f059135ad1152a6cfb2b67d0389f20c1a
+    var D = S.DOM, Anim = S.Anim,BLANK = ' ';
 
     /**
      * @name AutoAnim
@@ -89,15 +82,10 @@ KISSY.add('gallery/autoResponsive/1.0/anim', function (S) {
      */
     function AutoAnim(cfg) {
         var self = this;
-<<<<<<< HEAD
         S.mix(self,cfg);
         self.notSupport = S.UA.ie < 11 || self.direction == 'right';
-=======
-        S.mix(self, cfg);
->>>>>>> 6f48700f059135ad1152a6cfb2b67d0389f20c1a
         self._init();
     }
-
     S.augment(AutoAnim, {
         _init: function () {
             var self = this;
@@ -193,6 +181,7 @@ KISSY.add('gallery/autoResponsive/1.0/anim', function (S) {
     });
     return AutoAnim;
 }, {requires: ['dom', 'anim']});
+
 /**
  * @Description: 集成一个双向链表方便操作
  * @Author:      dafeng.xdf[at]taobao.com
@@ -345,7 +334,6 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
         }));
         self._init();
     }
-
     S.augment(GridSort, {
         _init: function () {
             var self = this;
@@ -366,11 +354,13 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
             if (self.filter == EMPTY) {
                 return;
             }
+            ;
             D.show(elm);
             if (D.hasClass(elm, self.filter)) {
                 D.hide(elm);
                 return true;
             }
+            ;
         },
         coordinate: function (curQuery, elm) {
             return this._autoFit(curQuery, D.outerWidth(elm), D.outerHeight(elm));
@@ -613,7 +603,6 @@ KISSY.add('gallery/autoResponsive/1.0/base', function (S, Config, GridSort, Base
             autoResponsive: self
         });
     }
-
     S.extend(AutoResponsive, Base, {
         /**
          * 初始化组件
@@ -764,12 +753,13 @@ KISSY.add('gallery/autoResponsive/1.0/base', function (S, Config, GridSort, Base
     }, { ATTRS: new Config()});
     return AutoResponsive;
 }, {requires: ['./config', './gridsort', 'base', 'dom', 'event']});
+
 /**
  * @Description:    hash回溯、功能路由
  * @Author:         dafeng.xdf[at]taobao.com
  * @Date:           2013.3.5
  */
-KISSY.add('gallery/autoResponsive/1.0/plugin/hash', function (S) {
+KISSY.add('gallery/autoResponsive/1.0/plugin/hash',function (S) {
     'use strict';
     var E = S.Event,
         win = window,
@@ -844,12 +834,11 @@ KISSY.add('gallery/autoResponsive/1.0/plugin/hash', function (S) {
  * @Author:         dafeng.xdf[at]taobao.com
  * @Date:           2013.3.5
  */
-KISSY.add('gallery/autoResponsive/1.0/plugin/drag', function (S) {
+KISSY.add('gallery/autoResponsive/1.0/plugin/drag',function (S) {
     'use strict';
     var E = S.Event, DD = S.DD,
         DraggableDelegate = DD.DraggableDelegate,
         Droppable = DD.Droppable;
-
     /**
      * @name Drag
      * @class 拖拽功能
@@ -857,7 +846,6 @@ KISSY.add('gallery/autoResponsive/1.0/plugin/drag', function (S) {
      */
     function Drag(cfg) {
     }
-
     /**
      *
      */
@@ -906,7 +894,7 @@ KISSY.add('gallery/autoResponsive/1.0/plugin/drag', function (S) {
  * @Author:         dafeng.xdf[at]taobao.com
  * @Date:           2013.3.5
  */
-KISSY.add('gallery/autoResponsive/1.0/plugin/loader', function (S) {
+KISSY.add('gallery/autoResponsive/1.0/plugin/loader',function (S) {
     'use strict';
     var E = S.Event;
 
@@ -918,7 +906,6 @@ KISSY.add('gallery/autoResponsive/1.0/plugin/loader', function (S) {
     function Loader(cfg) {
         var self = this;
     }
-
     /**
      * 启用插件便开始解析
      */
@@ -940,4 +927,3 @@ KISSY.add('gallery/autoResponsive/1.0/index', function (S, AutoResponsive, Hash,
     AutoResponsive.Loader = Loader;
     return AutoResponsive;
 }, {requires: ['./base', './plugin/hash', './plugin/drag', './plugin/loader']});
-

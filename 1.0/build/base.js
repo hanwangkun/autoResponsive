@@ -1,13 +1,13 @@
 /*
- combined files :
+combined files : 
 
- gallery/autoResponsive/1.0/config
- gallery/autoResponsive/1.0/anim
- gallery/autoResponsive/1.0/linkedlist
- gallery/autoResponsive/1.0/gridsort
- gallery/autoResponsive/1.0/base
+gallery/autoResponsive/1.0/config
+gallery/autoResponsive/1.0/anim
+gallery/autoResponsive/1.0/linkedlist
+gallery/autoResponsive/1.0/gridsort
+gallery/autoResponsive/1.0/base
 
- */
+*/
 /**
  * @Description:    网页自适应布局全局配置模块
  * @Author:         dafeng.xdf[at]taobao.com
@@ -67,9 +67,10 @@ KISSY.add('gallery/autoResponsive/1.0/config', function () {
  * @Author:      dafeng.xdf[at]taobao.com
  * @Date:        2013.3.5
  */
-KISSY.add('gallery/autoResponsive/1.0/anim',function(S){
+;KISSY.add('gallery/autoResponsive/1.0/anim',function(S){
     'use strict';
     var D = S.DOM, Anim = S.Anim,BLANK = ' ';
+
     /**
      * @name AutoAnim
      * @class css动画，采用帧重复
@@ -81,7 +82,6 @@ KISSY.add('gallery/autoResponsive/1.0/anim',function(S){
         self.notSupport = S.UA.ie < 11 || self.direction == 'right';
         self._init();
     }
-
     S.augment(AutoAnim, {
         _init: function () {
             var self = this;
@@ -177,6 +177,7 @@ KISSY.add('gallery/autoResponsive/1.0/anim',function(S){
     });
     return AutoAnim;
 }, {requires: ['dom', 'anim']});
+
 /**
  * @Description: 集成一个双向链表方便操作
  * @Author:      dafeng.xdf[at]taobao.com
@@ -329,7 +330,6 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
         }));
         self._init();
     }
-
     S.augment(GridSort, {
         _init: function () {
             var self = this;
@@ -350,11 +350,13 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
             if (self.filter == EMPTY) {
                 return;
             }
+            ;
             D.show(elm);
             if (D.hasClass(elm, self.filter)) {
                 D.hide(elm);
                 return true;
             }
+            ;
         },
         coordinate: function (curQuery, elm) {
             return this._autoFit(curQuery, D.outerWidth(elm), D.outerHeight(elm));
@@ -597,7 +599,6 @@ KISSY.add('gallery/autoResponsive/1.0/base', function (S, Config, GridSort, Base
             autoResponsive: self
         });
     }
-
     S.extend(AutoResponsive, Base, {
         /**
          * 初始化组件
@@ -748,3 +749,4 @@ KISSY.add('gallery/autoResponsive/1.0/base', function (S, Config, GridSort, Base
     }, { ATTRS: new Config()});
     return AutoResponsive;
 }, {requires: ['./config', './gridsort', 'base', 'dom', 'event']});
+
