@@ -3,9 +3,10 @@
  * @Author:         dafeng.xdf[at]taobao.com
  * @Date:           2013.3.5
  */
-;KISSY.add('gallery/autoResponsive/1.0/config',function(){
-    "use strict";
+KISSY.add('gallery/autoResponsive/1.0/config', function () {
+    'use strict';
     var EMPTY = '';
+
     /**
      * @name config
      * @param {String}  container   外层容器
@@ -23,30 +24,31 @@
      * @param {Boolean} autoHeight  容器高度自适应开关
      * @param {Boolean} async       动画队列异步开关
      */
-    function Config(){
+    function Config() {
         return {
-            container:{value:EMPTY},
-            selector:{value:EMPTY},
-            filter:{value:EMPTY},
-            fixedSelector:{value:EMPTY},
-            priority:{value:EMPTY},
-            colWidth:{value:10},
-            colMargin:{value:{x:0,y:0}},
-            animate:{value:true},
-            duration:{value:1},
-            easing:{value:'easeNone'},
-            direction:{value:'left'},
-            random:{value:false},
-            sort:{value:EMPTY},
-            layout:{value:EMPTY},
-            autoHeight:{value:true},
-            resize:{value:true},
-            init:{value:true},
-            plugin:{value:[]},
-            async:{value:false},
-            cache:false,
-            resizeFrequency:200
+            container: {value: EMPTY},
+            selector: {value: EMPTY},
+            filter: {value: EMPTY},
+            fixedSelector: {value: EMPTY},
+            priority: {value: EMPTY},
+            colWidth: {value: 10},
+            colMargin: {value: {x: 0, y: 0}},
+            animate: {value: true},
+            duration: {value: 1},
+            easing: {value: 'easeNone'},
+            direction: {value: 'left'},
+            random: {value: false},
+            sort: {value: EMPTY},
+            layout: {value: EMPTY},
+            autoHeight: {value: true},
+            resize: {value: true},
+            init: {value: true},
+            plugin: {value: []},
+            async: {value: false},
+            cache: false,
+            resizeFrequency: 200
         };
     }
+
     return Config;
 });
