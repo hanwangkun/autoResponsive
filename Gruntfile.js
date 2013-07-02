@@ -29,10 +29,18 @@ module.exports = function(grunt) {
                     {
                         src: "<%= pkg.version %>/index.js",
                         dest: "<%= pkg.version %>/build/index.js"
-                    },
-                    {
+                    },{
                         src: "<%= pkg.version %>/base.js",
                         dest: "<%= pkg.version %>/build/base.js"
+                    },{
+                        src: "<%= pkg.version %>/plugin/drag.js",
+                        dest: "<%= pkg.version %>/build/plugin/drag.js"
+                    },{
+                        src: "<%= pkg.version %>/plugin/hash.js",
+                        dest: "<%= pkg.version %>/build/plugin/hash.js"
+                    },{
+                        src: "<%= pkg.version %>/plugin/loader.js",
+                        dest: "<%= pkg.version %>/build/plugin/loader.js"
                     }
                 ]
             }
@@ -46,7 +54,10 @@ module.exports = function(grunt) {
             base: {
                 files: {
                     '<%= pkg.version %>/build/index-min.js': ['<%= pkg.version %>/build/index.js'],
-                    '<%= pkg.version %>/build/base-min.js': ['<%= pkg.version %>/build/base.js']
+                    '<%= pkg.version %>/build/base-min.js': ['<%= pkg.version %>/build/base.js'],
+                    '<%= pkg.version %>/build/plugin/drag-min.js': ['<%= pkg.version %>/build/plugin/drag.js'],
+                    '<%= pkg.version %>/build/plugin/hash-min.js': ['<%= pkg.version %>/build/plugin/hash.js'],
+                    '<%= pkg.version %>/build/plugin/loader-min.js': ['<%= pkg.version %>/build/plugin/loader.js']
                 }
             }
         }
