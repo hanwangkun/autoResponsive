@@ -623,11 +623,7 @@ gallery/autoResponsive/1.0/index
          */
         render:function(){
             var self = this,
-                userCfg = new Config();
-            self.frame =  self.frame || 0;
-            S.each(userCfg,function(i,key){
-                userCfg[key] = self.get(key);
-            });
+                userCfg = self.getAttrVals();
             arguments[0] && S.each(arguments[0],function(i,_key){
                 userCfg[_key] = i;
             });
@@ -916,6 +912,6 @@ gallery/autoResponsive/1.0/index
 ;KISSY.add('gallery/autoResponsive/1.0/index',function(S,AutoResponsive,Hash,Drag,Loader){
     AutoResponsive.Hash = Hash;
     AutoResponsive.Drag = Drag;
-    AutoResponsive.Loader = Loader;
+    AutoResponsive.Loader = Loader;//test~
     return AutoResponsive;
 },{requires:['./base','./plugin/hash','./plugin/drag','./plugin/loader']});
