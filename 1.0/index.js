@@ -6,6 +6,6 @@
 ;KISSY.add('gallery/autoResponsive/1.0/index',function(S,AutoResponsive,Hash,Drag,Loader){
     AutoResponsive.Hash = Hash;
     AutoResponsive.Drag = Drag;
-    AutoResponsive.Loader = Loader;
+    AutoResponsive.Loader = Loader;//test~
     return AutoResponsive;
 },{requires:['./base','./plugin/hash','./plugin/drag','./plugin/loader']});
