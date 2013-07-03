@@ -3,9 +3,9 @@
  * @Author:      dafeng.xdf[at]taobao.com
  * @Date:        2013.3.5
  */
-;KISSY.add('gallery/autoResponsive/1.0/anim',function(S){
+KISSY.add('gallery/autoResponsive/1.0/anim', function (S) {
     'use strict';
-    var D = S.DOM, Anim = S.Anim,BLANK = ' ';
+    var D = S.DOM, Anim = S.Anim, BLANK = ' ';
 
     /**
      * @name AutoAnim
@@ -14,10 +14,11 @@
      */
     function AutoAnim(cfg) {
         var self = this;
-        S.mix(self,cfg);
+        S.mix(self, cfg);
         self.notSupport = S.UA.ie < 11 || self.direction == 'right';
         self._init();
     }
+
     S.augment(AutoAnim, {
         _init: function () {
             var self = this;
@@ -49,7 +50,7 @@
             /**
              * 单元素计算排序后触发
              */
-            self._self.fire('afterElemSort', {
+            self.caller.fire('afterElemSort', {
                 autoResponsive: {
                     elm: self.elm,
                     position: {

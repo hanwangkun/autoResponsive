@@ -17,7 +17,7 @@ KISSY.add('gallery/autoResponsive/1.0/base', function (S, Config, GridSort, Base
         var self = this;
         AutoResponsive.superclass.constructor.apply(self, arguments);
         if (!S.get(self.get('container'))) {
-            S.log('can not init,lack container!');
+            S.log('can not init, lack of container!');
             return;
         }
         self.fire('beforeInit', {
@@ -98,7 +98,12 @@ KISSY.add('gallery/autoResponsive/1.0/base', function (S, Config, GridSort, Base
          */
         adjust: function () {
             var self = this;
+            self.__isAdjusting = 1;
             self.render();
+            self.__isAdjusting = 0;
+        },
+        isAdjusting: function(){
+            return this.__isAdjusting || 0;
         },
         /**
          * 优先排序方法

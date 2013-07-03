@@ -39,13 +39,11 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
             if (self.filter == EMPTY) {
                 return;
             }
-            ;
             D.show(elm);
             if (D.hasClass(elm, self.filter)) {
                 D.hide(elm);
                 return true;
             }
-            ;
         },
         coordinate: function (curQuery, elm) {
             return this._autoFit(curQuery, D.outerWidth(elm), D.outerHeight(elm));
@@ -138,9 +136,10 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
                         frame: self._self.frame
                     }
                 });
-                var coordinate = self.coordinate(curQuery, i);
-                if (_maxHeight < coordinate[1] + D.outerHeight(i)) {
-                    _maxHeight = coordinate[1] + D.outerHeight(i);
+                var coordinate = self.coordinate(curQuery, i),
+                    height = coordinate[1] + D.outerHeight(i);
+                if (_maxHeight < height) {
+                    _maxHeight = height;
                 }
                 /**
                  * 调用动画
@@ -159,9 +158,10 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
                         frame: self._self.frame
                     }
                 });
-                var coordinate = self.coordinate(curQuery, i);
-                if (_maxHeight < coordinate[1] + D.outerHeight(i)) {
-                    _maxHeight = coordinate[1] + D.outerHeight(i);
+                var coordinate = self.coordinate(curQuery, i),
+                    height = coordinate[1] + D.outerHeight(i);
+                if (_maxHeight < height) {
+                    _maxHeight = height;
                 }
                 self.asyncize(function () {
                     self.callAnim(i, coordinate);
@@ -225,8 +225,9 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
                 for (var j = key; j < key + _num; j++) {
                     _query.push(curQuery.get(j));
                 }
-                if (cur[1] > Math.max.apply(Math, _query)) {
-                    cur = [key, Math.max.apply(Math, _query)];
+                var maxValue = Math.max.apply(Math, _query);
+                if (cur[1] > maxValue) {
+                    cur = [key, maxValue];
                 }
             });
             return cur;
