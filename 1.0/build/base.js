@@ -67,9 +67,9 @@ KISSY.add('gallery/autoResponsive/1.0/config', function () {
  * @Author:      dafeng.xdf[at]taobao.com
  * @Date:        2013.3.5
  */
-;KISSY.add('gallery/autoResponsive/1.0/anim',function(S){
+KISSY.add('gallery/autoResponsive/1.0/anim', function (S) {
     'use strict';
-    var D = S.DOM, Anim = S.Anim,BLANK = ' ';
+    var D = S.DOM, Anim = S.Anim, BLANK = ' ';
 
     /**
      * @name AutoAnim
@@ -78,10 +78,11 @@ KISSY.add('gallery/autoResponsive/1.0/config', function () {
      */
     function AutoAnim(cfg) {
         var self = this;
-        S.mix(self,cfg);
+        S.mix(self, cfg);
         self.notSupport = S.UA.ie < 11 || self.direction == 'right';
         self._init();
     }
+
     S.augment(AutoAnim, {
         _init: function () {
             var self = this;
@@ -113,7 +114,7 @@ KISSY.add('gallery/autoResponsive/1.0/config', function () {
             /**
              * 单元素计算排序后触发
              */
-            self._self.fire('afterElemSort', {
+            self.caller.fire('afterElemSort', {
                 autoResponsive: {
                     elm: self.elm,
                     position: {
@@ -351,13 +352,11 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
             if (self.filter == EMPTY) {
                 return;
             }
-            ;
             D.show(elm);
             if (D.hasClass(elm, self.filter)) {
                 D.hide(elm);
                 return true;
             }
-            ;
         },
         coordinate: function (curQuery, elm) {
             return this._autoFit(curQuery, D.outerWidth(elm), D.outerHeight(elm));
@@ -450,9 +449,10 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
                         frame: self._self.frame
                     }
                 });
-                var coordinate = self.coordinate(curQuery, i);
-                if (_maxHeight < coordinate[1] + D.outerHeight(i)) {
-                    _maxHeight = coordinate[1] + D.outerHeight(i);
+                var coordinate = self.coordinate(curQuery, i),
+                    height = coordinate[1] + D.outerHeight(i);
+                if (_maxHeight < height) {
+                    _maxHeight = height;
                 }
                 /**
                  * 调用动画
@@ -471,9 +471,10 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
                         frame: self._self.frame
                     }
                 });
-                var coordinate = self.coordinate(curQuery, i);
-                if (_maxHeight < coordinate[1] + D.outerHeight(i)) {
-                    _maxHeight = coordinate[1] + D.outerHeight(i);
+                var coordinate = self.coordinate(curQuery, i),
+                    height = coordinate[1] + D.outerHeight(i);
+                if (_maxHeight < height) {
+                    _maxHeight = height;
                 }
                 self.asyncize(function () {
                     self.callAnim(i, coordinate);
@@ -489,13 +490,13 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
             self._self.fire('afterSort', {
                 autoResponsive: {
                     elms: _items,
-                    curColHeights: self._getMinMaxHeight(),
+                    curColHeights: self._getCurColHeights(),
                     frame: self._self.frame
                 }
             });
             self.setHeight(_maxHeight);
         },
-        _getMinMaxHeight:function(){
+        _getCurColHeights:function(){
             var self = this;
             return self.doneQuery;
         },
@@ -543,8 +544,9 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
                 for (var j = key; j < key + _num; j++) {
                     _query.push(curQuery.get(j));
                 }
-                if (cur[1] > Math.max.apply(Math, _query)) {
-                    cur = [key, Math.max.apply(Math, _query)];
+                var maxValue = Math.max.apply(Math, _query);
+                if (cur[1] > maxValue) {
+                    cur = [key, maxValue];
                 }
             });
             return cur;
@@ -594,7 +596,7 @@ KISSY.add('gallery/autoResponsive/1.0/base', function (S, Config, GridSort, Base
         var self = this;
         AutoResponsive.superclass.constructor.apply(self, arguments);
         if (!S.get(self.get('container'))) {
-            S.log('can not init,lack container!');
+            S.log('can not init, lack of container!');
             return;
         }
         self.fire('beforeInit', {
@@ -676,7 +678,12 @@ KISSY.add('gallery/autoResponsive/1.0/base', function (S, Config, GridSort, Base
          */
         adjust: function () {
             var self = this;
+            self.__isAdjusting = 1;
             self.render();
+            self.__isAdjusting = 0;
+        },
+        isAdjusting: function(){
+            return this.__isAdjusting || 0;
         },
         /**
          * 优先排序方法
