@@ -328,6 +328,7 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
         S.mix(self, S.merge(cfg, {
             _self: _self
         }));
+        self.doneQuery = [];
         self._init();
     }
     S.augment(GridSort, {
@@ -487,10 +488,16 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
              */
             self._self.fire('afterSort', {
                 autoResponsive: {
-                    elms: _items
+                    elms: _items,
+                    height: self._getMinMaxHeight(),
+                    frame: self._self.frame
                 }
             });
             self.setHeight(_maxHeight);
+        },
+        _getMinMaxHeight:function(){
+            var self = this;
+            return self.doneQuery;
         },
         _setFrame: function () {
             var self = this;
@@ -552,6 +559,7 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
             for (var i = cur[0]; i < _num + cur[0]; i++) {
                 curQuery.update(i, cur[1] + cH + self.colMargin.y);
             }
+            self.doneQuery.push(cur[1] + cH + self.colMargin.y);
             return [cur[0] * self.colWidth + self.colMargin.x, cur[1] + self.colMargin.y];
         },
         /**
