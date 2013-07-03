@@ -17,6 +17,7 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
         S.mix(self, S.merge(cfg, {
             _self: _self
         }));
+        self.doneQuery = [];
         self._init();
     }
     S.augment(GridSort, {
@@ -176,10 +177,16 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
              */
             self._self.fire('afterSort', {
                 autoResponsive: {
-                    elms: _items
+                    elms: _items,
+                    height: self._getMinMaxHeight(),
+                    frame: self._self.frame
                 }
             });
             self.setHeight(_maxHeight);
+        },
+        _getMinMaxHeight:function(){
+            var self = this;
+            return self.doneQuery;
         },
         _setFrame: function () {
             var self = this;
