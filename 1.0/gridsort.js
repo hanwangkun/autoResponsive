@@ -248,6 +248,7 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
             for (var i = cur[0]; i < _num + cur[0]; i++) {
                 curQuery.update(i, cur[1] + cH + self.colMargin.y);
             }
+            self.doneQuery.push(cur[1] + cH + self.colMargin.y);
             return [cur[0] * self.colWidth + self.colMargin.x, cur[1] + self.colMargin.y];
         },
         /**
