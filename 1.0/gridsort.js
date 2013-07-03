@@ -178,7 +178,7 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
             self._self.fire('afterSort', {
                 autoResponsive: {
                     elms: _items,
-                    height: self._getMinMaxHeight(),
+                    curColHeights: self._getMinMaxHeight(),
                     frame: self._self.frame
                 }
             });
