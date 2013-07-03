@@ -17,6 +17,7 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
         S.mix(self, S.merge(cfg, {
             _self: _self
         }));
+        self.doneQuery = [];
         self._init();
     }
     S.augment(GridSort, {
@@ -39,11 +40,13 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
             if (self.filter == EMPTY) {
                 return;
             }
+            ;
             D.show(elm);
             if (D.hasClass(elm, self.filter)) {
                 D.hide(elm);
                 return true;
             }
+            ;
         },
         coordinate: function (curQuery, elm) {
             return this._autoFit(curQuery, D.outerWidth(elm), D.outerHeight(elm));
@@ -102,7 +105,6 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
             var self = this,
                 _maxHeight = 0,
                 curQuery = self._getCols();
-                self.doneQuery = [];
             /**
              * 设置关键帧
              */
@@ -137,10 +139,9 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
                         frame: self._self.frame
                     }
                 });
-                var coordinate = self.coordinate(curQuery, i),
-                    height = coordinate[1] + D.outerHeight(i);
-                if (_maxHeight < height) {
-                    _maxHeight = height;
+                var coordinate = self.coordinate(curQuery, i);
+                if (_maxHeight < coordinate[1] + D.outerHeight(i)) {
+                    _maxHeight = coordinate[1] + D.outerHeight(i);
                 }
                 /**
                  * 调用动画
@@ -159,10 +160,9 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
                         frame: self._self.frame
                     }
                 });
-                var coordinate = self.coordinate(curQuery, i),
-                    height = coordinate[1] + D.outerHeight(i);
-                if (_maxHeight < height) {
-                    _maxHeight = height;
+                var coordinate = self.coordinate(curQuery, i);
+                if (_maxHeight < coordinate[1] + D.outerHeight(i)) {
+                    _maxHeight = coordinate[1] + D.outerHeight(i);
                 }
                 self.asyncize(function () {
                     self.callAnim(i, coordinate);
@@ -178,15 +178,25 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
             self._self.fire('afterSort', {
                 autoResponsive: {
                     elms: _items,
-                    curColHeights: self._getCurColHeights(),
+                    curMinMaxColHeight: self._getMinMaxColHeight(),
                     frame: self._self.frame
                 }
             });
             self.setHeight(_maxHeight);
         },
-        _getCurColHeights:function(){
-            var self = this;
-            return self.doneQuery;
+        _getMinMaxColHeight:function(){
+            var self = this,
+                _min = Infinity,
+                doneQuery = self.doneQuery;
+            for(var i=0;i<doneQuery.length;i++){
+                if(doneQuery[i]!=0 && doneQuery[i]<_min){
+                    _min = doneQuery[i];
+                }
+            }
+            return {
+                min:_min,
+                max:Math.max.apply(Math,doneQuery)
+            };
         },
         _setFrame: function () {
             var self = this;
@@ -232,9 +242,8 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
                 for (var j = key; j < key + _num; j++) {
                     _query.push(curQuery.get(j));
                 }
-                var maxValue = Math.max.apply(Math, _query);
-                if (cur[1] > maxValue) {
-                    cur = [key, maxValue];
+                if (cur[1] > Math.max.apply(Math, _query)) {
+                    cur = [key, Math.max.apply(Math, _query)];
                 }
             });
             return cur;
@@ -249,7 +258,7 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
             for (var i = cur[0]; i < _num + cur[0]; i++) {
                 curQuery.update(i, cur[1] + cH + self.colMargin.y);
             }
-            self.doneQuery.push(cur[1] + cH + self.colMargin.y);
+            self.doneQuery = curQuery.query;
             return [cur[0] * self.colWidth + self.colMargin.x, cur[1] + self.colMargin.y];
         },
         /**
