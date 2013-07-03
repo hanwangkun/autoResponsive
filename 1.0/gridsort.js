@@ -178,13 +178,13 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
             self._self.fire('afterSort', {
                 autoResponsive: {
                     elms: _items,
-                    curColHeights: self._getMinMaxHeight(),
+                    curColHeights: self._getCurColHeights(),
                     frame: self._self.frame
                 }
             });
             self.setHeight(_maxHeight);
         },
-        _getMinMaxHeight:function(){
+        _getCurColHeights:function(){
             var self = this;
             return self.doneQuery;
         },
