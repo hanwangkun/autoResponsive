@@ -17,7 +17,6 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
         S.mix(self, S.merge(cfg, {
             _self: _self
         }));
-        self.doneQuery = [];
         self._init();
     }
     S.augment(GridSort, {
@@ -103,6 +102,7 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
             var self = this,
                 _maxHeight = 0,
                 curQuery = self._getCols();
+                self.doneQuery = [];
             /**
              * 设置关键帧
              */
