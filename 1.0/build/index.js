@@ -59,8 +59,8 @@ KISSY.add('gallery/autoResponsive/1.0/config', function () {
             init: {value: true},
             plugin: {value: []},
             async: {value: false},
-            cache: false,
-            resizeFrequency: 200
+            cache: {value: false},
+            resizeFrequency: {value: 200} // 注意：写成resizeFrequency: 200形式，通过kissy的get方法获取的值为undefined
         };
     }
 
@@ -118,7 +118,7 @@ KISSY.add('gallery/autoResponsive/1.0/anim', function (S) {
             /**
              * 单元素计算排序后触发
              */
-            self.caller.fire('afterElemSort', {
+            self._self.fire('afterElemSort', {
                 autoResponsive: {
                     elm: self.elm,
                     position: {
@@ -678,7 +678,7 @@ KISSY.add('gallery/autoResponsive/1.0/base', function (S, Config, GridSort, Base
          */
         _bindEvent: function () {
             var self = this;
-            self._bind(S.throttle(function () {
+            self._bind(S.buffer(function () {   // 使用buffer，不要使用throttle
                 self.render();
                 /**
                  * 浏览器改变触发resize事件
@@ -928,7 +928,7 @@ KISSY.add('gallery/autoResponsive/1.0/plugin/drag',function (S) {
  */
 KISSY.add('autoResponsive/1.0/plugin/loader', function (S) {
     'use strict';
-    var $ = S.all, win = window, $win = $(win),
+    var D = S.DOM, $ = S.all, win = window, $win = $(win),
 
         SCROLL_TIMER = 50;
 
@@ -942,27 +942,12 @@ KISSY.add('autoResponsive/1.0/plugin/loader', function (S) {
 
         // 用户配置修正
         cfg = {
-//            onabort: function () {
-//            },
-//            onerror: function () {
-//            },
-//            ondisplay: function () {
-//            },
-//            onloadstart: function () {
-//            },
-//            onloadend: function () {
-//            },
-//            onload: function () {
-//            },
-//            ontimeout: function () {
-//            },
-//            onrender: function () {
-//            },
             load: typeof cfg.load == 'function' ? cfg.load : function (success, end) {
                 S.log('AutoResponsive.Loader::constructor: the load function in user\'s config is undefined!', 'warn');
             },
             diff: cfg.diff || 0,  // 数据砖块预载高度
-            mod: cfg.mod == 'manual' ? 'manual' : 'auto'  // load触发模式
+            mod: cfg.mod == 'manual' ? 'manual' : 'auto',  // load触发模式
+            qpt: 15 // 每次渲染处理的最大单元数量，如15表示每次最多渲染15个数据砖块，多出来的部分下个时间片再处理
         };
 
         self.config = cfg;
@@ -992,8 +977,8 @@ KISSY.add('autoResponsive/1.0/plugin/loader', function (S) {
             } else { // 自动触发模式
 
                 self.__onScroll = S.buffer(self.__doScroll, SCROLL_TIMER, self);
-                // 初始化时立即检测一次，但是要等初始化 adjust 完成后.
-                self.__onScroll();
+
+                self.__onScroll(); // 初始化时立即检测一次，但是要等初始化 adjust 完成后.
 
                 self.start();
             }
@@ -1025,12 +1010,14 @@ KISSY.add('autoResponsive/1.0/plugin/loader', function (S) {
                 return;
             }
 
-            var offsetTop = container.offset().top,
+            var offsetTop = D.offset(container).top,
                 diff = userCfg.diff,
-                minColHeight = owner.getMinColHeight();
+                minColHeight = owner.getMinColHeight(),
+                scrollTop = $win.scrollTop(),
+                height = $win.height();
 
             // 动态加载 | 低于预加载线(或被用户看到了)时触发加载
-            if (diff + $win.scrollTop() + $win.height() >= offsetTop + minColHeight) {
+            if (diff + scrollTop + height >= offsetTop + minColHeight) {
                 self.load();
             }
         },
@@ -1051,10 +1038,12 @@ KISSY.add('autoResponsive/1.0/plugin/loader', function (S) {
 
             function success(items, callback) {
                 self.__loading = 0;
+
                 self.__addItems(items, function () {
-                    callback && callback.apply(this, arguments);
-                    // 加载完不够一屏再次检测
-                    self.__doScroll();
+
+                    callback && callback.call(self);
+
+                    self.__doScroll(); // 加载完不够一屏再次检测
                 });
             }
 
@@ -1070,25 +1059,19 @@ KISSY.add('autoResponsive/1.0/plugin/loader', function (S) {
          * @returns {*}
          */
         __addItems: function (items, callback) {
-            var self = this,
-                owner = self._self;
+            var self = this;
 
-            // 正在调整中，直接这次加，和调整的节点一起处理；
-            // 正在加，直接这次加，一起处理
-            self._adder = timedChunk(items, __appendItems, self, function () {
-                owner.adjust();
-                self._adder = 0;
+            // 创建一个新的时间片管理器（旧的如果任务还没处理完还会继续处理，直到处理完毕自动销毁）
+            timedChunk(items, self.__appendItems, self, function () {
+
                 callback && callback.call(self);
 
                 // TODO revise...
                 self.fire('autoresponsive.loader.complete', {
                     items: items
                 });
-            });
+            }).start();
 
-            self._adder.start();
-
-            return self._adder;
         },
         /**
          * 向容器中插入新节点
@@ -1109,15 +1092,15 @@ KISSY.add('autoResponsive/1.0/plugin/loader', function (S) {
         __bindMethods: function () {
             var self = this,
                 owner = self._self,
-                curColHeights = [0];
+                curMinMaxColHeight = {min: 0, max: 0};
             owner.on('afterSort', function (e) {
-                curColHeights = e.autoResponsive.curColHeights;
+                curMinMaxColHeight = e.autoResponsive.curMinMaxColHeight;
             });
             owner.getMaxColHeight = function () {
-                return Math.max.apply(Math, curColHeights);
+                return curMinMaxColHeight.max;
             };
             owner.getMinColHeight = function () {
-                return Math.min.apply(Math, curColHeights);
+                return curMinMaxColHeight.min;
             };
         },
         /**
@@ -1168,50 +1151,61 @@ KISSY.add('autoResponsive/1.0/plugin/loader', function (S) {
 //        Status: {INIT: 0, LOADING: 1, LOADED: 2, ERROR: 3, ATTACHED: 4}
     });
 
+    /**
+     * 时间片轮询函数
+     * @param items
+     * @param process
+     * @param context
+     * @param callback
+     * @returns {{}}
+     */
     function timedChunk(items, process, context, callback) {
 
-        var stopper = {}, timer, todo;
+        var monitor = {}, timer, todo = []; // 任务队列 | 每一个时间片管理函数（timedChunk）都维护自己的一个任务队列
 
-        stopper.start = function () {
+        var userCfg = context.config,
+            qpt = userCfg.qpt || 15;
 
-            todo = [].concat(S.makeArray(items));
+        monitor.start = function () {
 
-            if (todo.length > 0) {
-                // 第一次不延迟
-                (function () {
-                    var start = +new Date;
-                    do {
-                        var item = todo.shift();
-                        process.call(context, item);
-                    } while (todo.length > 0 && (new Date - start < 50));
+            todo = todo.concat(S.makeArray(items)); // 压入任务队列
 
-                    if (todo.length > 0) {
-                        timer = setTimeout(arguments.callee, 25);
-                    } else {
-                        callback && callback.call(context, items);
-                    }
-                })();
-            } else {
+            // 轮询函数
+            var polling = function () {
+                var start = +new Date;
+                while (todo.length > 0 && (new Date - start < 50)) {
+                    var task = todo.splice(0, qpt);
+                    process.call(context, task);
+                }
+
+                if (todo.length > 0) { // 任务队列还有任务，放到下一个时间片进行处理
+                    timer = setTimeout(polling, 25);
+                    return;
+                }
+
                 callback && callback.call(context, items);
-            }
+
+                // 销毁该管理器
+                monitor.stop();
+                monitor = null;
+            };
+
+            polling();
         };
 
-        stopper.stop = function () {
+        monitor.stop = function () {
             if (timer) {
                 clearTimeout(timer);
                 todo = [];
-//                items.each(function (item) {
-//                    item.stop();
-//                });
             }
         };
 
-        return stopper;
+        return monitor;
     }
 
     return Loader;
 
-}, {requires: ['event']});
+}, {requires: ['dom', 'event']});
 /**
  * @Description: 目前先挂载base，effect效果插件，hash插件
  * @Author:      dafeng.xdf[at]taobao.com

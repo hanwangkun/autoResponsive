@@ -55,8 +55,8 @@ KISSY.add('gallery/autoResponsive/1.0/config', function () {
             init: {value: true},
             plugin: {value: []},
             async: {value: false},
-            cache: false,
-            resizeFrequency: 200
+            cache: {value: false},
+            resizeFrequency: {value: 200} // 注意：写成resizeFrequency: 200形式，通过kissy的get方法获取的值为undefined
         };
     }
 
@@ -114,7 +114,7 @@ KISSY.add('gallery/autoResponsive/1.0/anim', function (S) {
             /**
              * 单元素计算排序后触发
              */
-            self.caller.fire('afterElemSort', {
+            self._self.fire('afterElemSort', {
                 autoResponsive: {
                     elm: self.elm,
                     position: {
@@ -674,7 +674,7 @@ KISSY.add('gallery/autoResponsive/1.0/base', function (S, Config, GridSort, Base
          */
         _bindEvent: function () {
             var self = this;
-            self._bind(S.throttle(function () {
+            self._bind(S.buffer(function () {   // 使用buffer，不要使用throttle
                 self.render();
                 /**
                  * 浏览器改变触发resize事件
