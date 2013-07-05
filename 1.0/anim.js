@@ -5,7 +5,8 @@
  */
 KISSY.add('gallery/autoResponsive/1.0/anim', function (S) {
     'use strict';
-    var D = S.DOM, Anim = S.Anim, BLANK = ' ';
+    var D = S.DOM, Anim = S.Anim, BLANK = ' ',
+        uaSupport = S.UA.ie < 11;
 
     /**
      * @name AutoAnim
@@ -14,8 +15,7 @@ KISSY.add('gallery/autoResponsive/1.0/anim', function (S) {
      */
     function AutoAnim(cfg) {
         var self = this;
-        S.mix(self, cfg);
-        self.notSupport = S.UA.ie < 11 || self.direction == 'right';
+        self.cfg = cfg;
         self._init();
     }
 
@@ -26,7 +26,7 @@ KISSY.add('gallery/autoResponsive/1.0/anim', function (S) {
                 self.noneAnim();
                 return;
             }
-            self.notSupport ? self.fixedAnim() : self.css3Anim();
+            uaSupport || self.cfg.direction == 'right' ? self.fixedAnim() : self.css3Anim();
         },
         /**
          * css3动画
@@ -42,22 +42,23 @@ KISSY.add('gallery/autoResponsive/1.0/anim', function (S) {
             /**
              * css3效果代码添加
              */
-            var self = this;
-            D.css(self.elm, S.merge(
-                self.cssPrefixes('transform', 'translate(' + self.x + 'px,' + self.y + 'px) '),
-                self.cssPrefixes('transition-duration', self.duration + 's'))
+            var self = this,
+                cfg = self.cfg;
+            D.css(cfg.elm, S.merge(
+                self.cssPrefixes('transform', 'translate(' + cfg.x + 'px,' + cfg.y + 'px) '),
+                self.cssPrefixes('transition-duration', cfg.duration + 's'))
             );
             /**
              * 单元素计算排序后触发
              */
-            self._self.fire('afterElemSort', {
+            cfg._self.fire('afterElemSort', {
                 autoResponsive: {
-                    elm: self.elm,
+                    elm: cfg.elm,
                     position: {
-                        x: self.x,
-                        y: self.y
+                        x: cfg.x,
+                        y: cfg.y
                     },
-                    frame: self._self.frame
+                    frame: cfg._self.frame
                 }
             });
         },
@@ -66,24 +67,25 @@ KISSY.add('gallery/autoResponsive/1.0/anim', function (S) {
          */
         fixedAnim: function () {
             var self = this,
-                cssRules = {'top': self.y},
+                cfg = self.cfg,
+                cssRules = {'top': cfg.y},
                 direction = 'left';
-            if (self.direction == 'right') {
+            if (cfg.direction == 'right') {
                 direction = 'right';
             }
-            cssRules[direction] = self.x;
-            new Anim(self.elm, cssRules, self.duration, self.easing, function () {
+            cssRules[direction] = cfg.x;
+            new Anim(cfg.elm, cssRules, cfg.duration, cfg.easing, function () {
                 /**
                  * 单元素计算排序后触发
                  */
-                self._self.fire('afterElemSort', {
+                cfg._self.fire('afterElemSort', {
                     autoResponsive: {
-                        elm: self.elm,
+                        elm: cfg.elm,
                         position: {
-                            x: self.x,
-                            y: self.y
+                            x: cfg.x,
+                            y: cfg.y
                         },
-                        frame: self._self.frame
+                        frame: cfg._self.frame
                     }
                 });
             }).run();
@@ -92,22 +94,23 @@ KISSY.add('gallery/autoResponsive/1.0/anim', function (S) {
          * 无动画
          */
         noneAnim: function () {
-            var self = this;
-            D.css(self.elm, {
-                left: self.x,
-                top: self.y
+            var self = this,
+                cfg = self.cfg;
+            D.css(cfg.elm, {
+                left: cfg.x,
+                top: cfg.y
             });
             /**
              * 单元素计算排序后触发
              */
-            self._self.fire('afterElemSort', {
+            cfg._self.fire('afterElemSort', {
                 autoResponsive: {
-                    elm: self.elm,
+                    elm: cfg.elm,
                     position: {
-                        x: self.x,
-                        y: self.y
+                        x: cfg.x,
+                        y: cfg.y
                     },
-                    frame: self._self.frame
+                    frame: cfg._self.frame
                 }
             });
         }

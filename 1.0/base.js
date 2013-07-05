@@ -67,18 +67,20 @@ KISSY.add('gallery/autoResponsive/1.0/base', function (S, Config, GridSort, Base
              * 应用插件属性
              */
             S.mix(userCfg, self.api);
-            new GridSort(userCfg, self);
+            self.gridSort = self.gridSort || new GridSort(userCfg, self);
+            self.gridSort.init();
         },
         /**
          * 绑定浏览器resize事件
          */
         _bind: function (handle) {
-            var self = this;
+            var self = this,
+                update = self.get('update');
             if (!self.get('resize')) {
                 return;
             }
             E.on(win, 'resize', function (e) {
-                handle.call(self);
+                handle.call(self, {isUpdate: S.inArray('resize', update)});
             });
         },
         /**
@@ -87,7 +89,7 @@ KISSY.add('gallery/autoResponsive/1.0/base', function (S, Config, GridSort, Base
         _bindEvent: function () {
             var self = this;
             self._bind(S.buffer(function () {   // 使用buffer，不要使用throttle
-                self.render();
+                self.render(arguments);
                 /**
                  * 浏览器改变触发resize事件
                  */
@@ -97,10 +99,12 @@ KISSY.add('gallery/autoResponsive/1.0/base', function (S, Config, GridSort, Base
         /**
          * 重新布局调整
          */
-        adjust: function () {
-            var self = this;
+        adjust: function (isUpdate) {
+            var self = this, update = self.get('update');
             self.__isAdjusting = 1;
-            self.render();
+            self.render({
+                isUpdate: isUpdate || S.inArray('adjust', update)
+            });
             self.__isAdjusting = 0;
         },
         isAdjusting: function(){

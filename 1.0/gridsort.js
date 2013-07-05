@@ -14,17 +14,17 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
      */
     function GridSort(cfg, _self) {
         var self = this;
-        S.mix(self, S.merge(cfg, {
-            _self: _self
-        }));
-        self.doneQuery = [];
-        self._init();
+        cfg._self = _self;
+        self.cfg = cfg;
+        cfg._self.doneQuery = [];
     }
+
     S.augment(GridSort, {
-        _init: function () {
-            var self = this;
-            var items = S.query(self.selector, self.container);
-            switch (self.layout) {
+        init: function () {
+            var self = this,
+                cfg = self.cfg;
+            var items = S.query(cfg.selector, cfg.container);
+            switch (cfg.layout) {
                 case EMPTY:
                 case 'grid':
                 default:
@@ -36,46 +36,55 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
             }
         },
         _filter: function (elm) {
-            var self = this;
-            if (self.filter == EMPTY) {
+            var self = this,
+                cfg = self.cfg;
+            if (cfg.filter == EMPTY) {
                 return;
             }
-            ;
             D.show(elm);
-            if (D.hasClass(elm, self.filter)) {
+            if (D.hasClass(elm, cfg.filter)) {
                 D.hide(elm);
                 return true;
             }
-            ;
         },
         coordinate: function (curQuery, elm) {
-            return this._autoFit(curQuery, D.outerWidth(elm), D.outerHeight(elm));
+            var cfg = this.cfg,
+                isUpdate = cfg.isUpdate;
+
+            if (isUpdate || !elm.__width) {
+                elm.__width = D.outerWidth(elm);
+                elm.__height = D.outerHeight(elm);
+            }
+
+            return this._autoFit(curQuery, elm.__width, elm.__height);
         },
         callAnim: function (elm, coordinate) {
-            var self = this;
+            var self = this,
+                cfg = self.cfg;
             new AutoAnim({
                 elm: elm,
                 x: coordinate[0],
                 y: coordinate[1],
-                animate: self.animate,
-                duration: self.duration,
-                easing: self.easing,
-                direction: self.direction,
-                frame: self._self.frame,
-                _self: self._self
+                animate: cfg.animate,
+                duration: cfg.duration,
+                easing: cfg.easing,
+                direction: cfg.direction,
+                frame: cfg._self.frame,
+                _self: cfg._self
             });
         },
         _cache: function (elm) {
-            var self = this, isCache = false;
-            if (self.priority == EMPTY) {
+            var self = this, isCache = false,
+                cfg = self.cfg;
+            if (cfg.priority == EMPTY) {
                 return  isCache;
             }
-            if (!self.cacheQuery) {
-                self.cacheQuery = [];
+            if (!cfg.cacheQuery) {
+                cfg.cacheQuery = [];
             }
-            if (!D.hasClass(elm, self.priority)) {
+            if (!D.hasClass(elm, cfg.priority)) {
                 isCache = true;
-                self.cacheQuery.push(elm);
+                cfg.cacheQuery.push(elm);
             }
             return isCache;
         },
@@ -84,16 +93,18 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
          * 记录全局缓存
          */
         clearCache: function (curQuery, _items) {
-            var self = this;
-            if (self.cacheQuery) {
-                self.cacheQuery = [];
+            var self = this,
+                cfg = self.cfg;
+            if (cfg.cacheQuery) {
+                cfg.cacheQuery = [];
             }
-            self._self.curQuery = curQuery;
-            self._self.itemLength = _items.length;
+            cfg._self.curQuery = curQuery;
+            cfg._self.itemLength = _items.length;
         },
         asyncize: function (handle) {
-            var self = this;
-            if (self._self.get('async')) {
+            var self = this,
+                cfg = self.cfg;
+            if (cfg._self.get('async')) {
                 setTimeout(function () {
                     handle.call(self);
                 }, 0);
@@ -101,27 +112,51 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
                 handle.call(self);
             }
         },
+        _render: function (curQuery, i) {
+            var self = this,
+                cfg = self.cfg;
+            /**
+             * 遍历单个元素之前触发
+             */
+            cfg._self.fire('beforeElemSort', {
+                autoResponsive: {
+                    elm: i,
+                    frame: self._self.frame
+                }
+            });
+            var coordinate = self.coordinate(curQuery, i),
+                height = coordinate[1] + i.__height;
+            if ((self._maxHeight || 0) < height) {
+                self._maxHeight = height;
+            }
+            /**
+             * 调用动画
+             */
+            self.asyncize(function () {
+                self.callAnim(i, coordinate);
+            });
+        },
         _gridSort: function (_items) {
             var self = this,
-                _maxHeight = 0,
+                cfg = self.cfg,
                 curQuery = self._getCols();
             /**
              * 设置关键帧
              */
             self._setFrame();
-            if (self.random) {
+            if (cfg.random) {
                 _items = _items.shuffle();
             }
             /**
              * 排序之前触发beforeSort
              */
-            self._self.fire('beforeSort', {
+            cfg._self.fire('beforeSort', {
                 autoResponsive: {
                     elms: _items
                 }
             });
             S.each(_items, function (i, _key) {
-                if (self.cache && _key < self._self.itemLength) {
+                if (cfg.cache && _key < cfg._self.itemLength) {
                     return;
                 }
                 if (self._filter(i)) {
@@ -130,43 +165,10 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
                 if (self._cache(i)) {
                     return;
                 }
-                /**
-                 * 遍历单个元素之前触发
-                 */
-                self._self.fire('beforeElemSort', {
-                    autoResponsive: {
-                        elm: i,
-                        frame: self._self.frame
-                    }
-                });
-                var coordinate = self.coordinate(curQuery, i);
-                if (_maxHeight < coordinate[1] + D.outerHeight(i)) {
-                    _maxHeight = coordinate[1] + D.outerHeight(i);
-                }
-                /**
-                 * 调用动画
-                 */
-                self.asyncize(function () {
-                    self.callAnim(i, coordinate);
-                });
+                self._render(curQuery, i);
             });
-            S.each(self.cacheQuery, function (i) {
-                /**
-                 * 遍历单个元素之后触发
-                 */
-                self._self.fire('beforeElemSort', {
-                    autoResponsive: {
-                        elm: i,
-                        frame: self._self.frame
-                    }
-                });
-                var coordinate = self.coordinate(curQuery, i);
-                if (_maxHeight < coordinate[1] + D.outerHeight(i)) {
-                    _maxHeight = coordinate[1] + D.outerHeight(i);
-                }
-                self.asyncize(function () {
-                    self.callAnim(i, coordinate);
-                });
+            S.each(cfg.cacheQuery, function (i) {
+                self._render(curQuery, i);
             });
             /**
              * 清空缓存队列
@@ -175,33 +177,41 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
             /**
              * 排序之后触发
              */
-            self._self.fire('afterSort', {
+            cfg._self.fire('afterSort', {
                 autoResponsive: {
                     elms: _items,
                     curMinMaxColHeight: self._getMinMaxColHeight(),
-                    frame: self._self.frame
+                    frame: cfg._self.frame
                 }
             });
             self.setHeight(_maxHeight);
         },
-        _getMinMaxColHeight:function(){
+        _getMinMaxColHeight: function () {
             var self = this,
+                cfg = self.cfg,
                 _min = Infinity,
-                doneQuery = self.doneQuery;
-            for(var i=0;i<doneQuery.length;i++){
-                if(doneQuery[i]!=0 && doneQuery[i]<_min){
+                doneQuery = cfg._self.doneQuery;
+            for (var i = 0; i < doneQuery.length; i++) {
+                if (doneQuery[i] != 0 && doneQuery[i] < _min) {
                     _min = doneQuery[i];
                 }
             }
             return {
-                min:_min,
-                max:Math.max.apply(Math,doneQuery)
+                min: _min,
+                max: Math.max.apply(Math, doneQuery)
             };
         },
         _setFrame: function () {
             var self = this;
-            self._self.frame++;
+            self.cfg._self.frame++;
         },
+        /**
+         * @desparted
+         *
+         * @param _items
+         * @private
+         */
+        // TODO.....
         _cellSort: function (_items) {
             var self = this,
                 _maxHeight = 0,
@@ -217,12 +227,13 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
             return this._getCols();
         },
         _getCols: function () {
-            var self = this;
-            if (self._self.curQuery && self.cache) {
-                return self._self.curQuery;
+            var self = this,
+                cfg = self.cfg;
+            if (cfg._self.curQuery && cfg.cache) {
+                return cfg._self.curQuery;
             } else {
                 var curQuery = new LinkedList({});
-                for (var i = 0; i < Math.ceil(D.outerWidth(self.container) / self.colWidth); i++) {
+                for (var i = 0; i < Math.ceil(D.outerWidth(cfg.container) / cfg.colWidth); i++) {
                     curQuery.add(0);
                 }
                 return curQuery;
@@ -234,42 +245,66 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
         _getCur: function (_num, curQuery) {
             var cur = [null, Infinity],
                 _curQuery = curQuery.query.length ? curQuery.query : curQuery;
-            S.each(_curQuery, function (i, key) {
-                var _query = [];
-                if (key + _num >= _curQuery.length) {
-                    return;
+
+            var len = _curQuery.length, tmp = _curQuery.get(0), t, start, i = start = 1;
+
+            function xx(start, offset){
+                var maxIdx = start;
+                for (i = start; i < offset; i++) {
+                    t = _curQuery.get(i);
+                    if (t > tmp){
+                        tmp = t;
+                        maxIdx = i;
+                    }
                 }
-                for (var j = key; j < key + _num; j++) {
-                    _query.push(curQuery.get(j));
-                }
-                if (cur[1] > Math.max.apply(Math, _query)) {
-                    cur = [key, Math.max.apply(Math, _query)];
-                }
-            });
-            return cur;
+                return maxIdx;
+            }
+
+            while(i < len - _num){
+                start = xx(start, _num);
+            }
+
+            return [start, curQuery.get(start)];
+
+
+//            for (var i = 0, len = _curQuery.length; i < len - _num; i++) {
+//                var max = 0;
+//
+//                for (var j = i; j < i + _num; j++) {
+//                    if (curQuery.get(j) > max) {
+//                        max = curQuery.get(j);
+//                    }
+//                }
+//                if (cur[1] > max) {
+//                    cur = [i, max];
+//                }
+//            }
+//            return cur;
         },
         /**
          * 返回x，y轴坐标
          */
         _autoFit: function (curQuery, cW, cH) {
             var self = this,
-                _num = Math.ceil((cW + self.colMargin.x) / self.colWidth),
+                cfg = self.cfg,
+                _num = Math.ceil((cW + cfg.colMargin.x) / cfg.colWidth),
                 cur = self._getCur(_num, curQuery);
             for (var i = cur[0]; i < _num + cur[0]; i++) {
-                curQuery.update(i, cur[1] + cH + self.colMargin.y);
+                curQuery.update(i, cur[1] + cH + cfg.colMargin.y);
             }
-            self.doneQuery = curQuery.query;
-            return [cur[0] * self.colWidth + self.colMargin.x, cur[1] + self.colMargin.y];
+            cfg._self.doneQuery = curQuery.query;
+            return [cur[0] * cfg.colWidth + cfg.colMargin.x, cur[1] + cfg.colMargin.y];
         },
         /**
          * 设置容器高度
          */
-        setHeight: function (height) {
-            var self = this;
-            if (!self.autoHeight) {
+        setHeight: function () {
+            var self = this,
+                cfg = self.cfg;
+            if (!cfg.autoHeight) {
                 return;
             }
-            D.height(self.container, height + self.colMargin.y);
+            D.height(cfg.container, (self._maxHeight || 0) + cfg.colMargin.y);
         }
     });
     return GridSort;
