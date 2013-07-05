@@ -86,7 +86,7 @@ KISSY.add('gallery/autoResponsive/1.0/base', function (S, Config, GridSort, Base
          */
         _bindEvent: function () {
             var self = this;
-            self._bind(S.throttle(function () {
+            self._bind(S.buffer(function () {   // 使用buffer，不要使用throttle
                 self.render();
                 /**
                  * 浏览器改变触发resize事件

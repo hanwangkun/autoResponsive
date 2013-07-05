@@ -50,7 +50,7 @@ KISSY.add('gallery/autoResponsive/1.0/anim', function (S) {
             /**
              * 单元素计算排序后触发
              */
-            self.caller.fire('afterElemSort', {
+            self._self.fire('afterElemSort', {
                 autoResponsive: {
                     elm: self.elm,
                     position: {

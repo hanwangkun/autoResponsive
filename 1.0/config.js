@@ -45,8 +45,8 @@ KISSY.add('gallery/autoResponsive/1.0/config', function () {
             init: {value: true},
             plugin: {value: []},
             async: {value: false},
-            cache: false,
-            resizeFrequency: 200
+            cache: {value: false},
+            resizeFrequency: {value: 200} // 注意：写成resizeFrequency: 200形式，通过kissy的get方法获取的值为undefined
         };
     }
 
