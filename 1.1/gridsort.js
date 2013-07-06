@@ -242,14 +242,24 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
         /**
          * 获取当前指针
          */
-        _getCur: function (_num, curQuery) {
+        _getCur: function (num, curQuery) {
+            this._skipALG(num, curQuery);
+        },
+        /**
+         * 单步式算法（常规保守的）
+         * @param num 粒度
+         * @param curQuery
+         * @returns {Array}
+         * @private
+         */
+        _stepALG: function (num, curQuery) {
             var cur = [null, Infinity],
                 _curQuery = curQuery.query.length ? curQuery.query : curQuery;
 
-            for (var i = 0, len = _curQuery.length; i < len - _num; i++) {
+            for (var i = 0, len = _curQuery.length; i < len - num + 1; i++) {
                 var max = 0;
 
-                for (var j = i; j < i + _num; j++) {
+                for (var j = i; j < i + num; j++) {
                     if (curQuery.get(j) > max) {
                         max = curQuery.get(j);
                     }
@@ -261,14 +271,54 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
             return cur;
         },
         /**
+         * 跳跃式算法（性能优越的）
+         * @param num 粒度
+         * @param curQuery
+         * @returns {Array}
+         * @private
+         */
+        _skipALG: function (num, curQuery) {
+            var min = Infinity,
+                i = 0, idx = 0,
+                _curQuery = curQuery.query.length ? curQuery.query : curQuery;
+
+            for (var len = _curQuery.length; i < len - num + 1; i++) {
+                var max = -Infinity, curValue;
+
+                for (var j = 0; j < num; j++) {
+                    curValue = curQuery.get(i + j);
+                    if (curValue >= min) {
+                        i += j + 1; // 向后跳跃
+                        if (i > len - num) {// 过界了
+                            max = min; // 主要是绕过min > max这个条件，以免污染min
+                            break;
+                        }
+
+                        j = -1; // reset
+                        max = -Infinity; // reset
+                        continue;
+                    }
+
+                    if (curValue > max) {
+                        max = curValue;
+                    }
+                }
+                if (min > max) {
+                    min = max;
+                    idx = i; // 记录位置
+                }
+            }
+            return [idx, min];
+        },
+        /**
          * 返回x，y轴坐标
          */
         _autoFit: function (curQuery, cW, cH) {
             var self = this,
                 cfg = self.cfg,
-                _num = Math.ceil((cW + cfg.unitMargin.x) / cfg.gridWidth),
-                cur = self._getCur(_num, curQuery);
-            for (var i = cur[0]; i < _num + cur[0]; i++) {
+                num = Math.ceil((cW + cfg.unitMargin.x) / cfg.gridWidth),
+                cur = self._getCur(num, curQuery);
+            for (var i = cur[0]; i < num + cur[0]; i++) {
                 curQuery.update(i, cur[1] + cH + cfg.unitMargin.y);
             }
             cfg.owner.doneQuery = curQuery.query;
