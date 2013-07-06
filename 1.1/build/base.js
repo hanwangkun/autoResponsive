@@ -1,11 +1,11 @@
 /*
 combined files : 
 
-gallery/autoResponsive/1.0/config
-gallery/autoResponsive/1.0/anim
-gallery/autoResponsive/1.0/linkedlist
-gallery/autoResponsive/1.0/gridsort
-gallery/autoResponsive/1.0/base
+gallery/autoResponsive/1.1/config
+gallery/autoResponsive/1.1/anim
+gallery/autoResponsive/1.1/linkedlist
+gallery/autoResponsive/1.1/gridsort
+gallery/autoResponsive/1.1/base
 
 */
 /**
@@ -13,7 +13,7 @@ gallery/autoResponsive/1.0/base
  * @Author:         dafeng.xdf[at]taobao.com
  * @Date:           2013.3.5
  */
-KISSY.add('gallery/autoResponsive/1.0/config', function () {
+KISSY.add('gallery/autoResponsive/1.1/config',function () {
     'use strict';
     var EMPTY = '';
 
@@ -72,7 +72,7 @@ KISSY.add('gallery/autoResponsive/1.0/config', function () {
  * @Author:      dafeng.xdf[at]taobao.com
  * @Date:        2013.3.5
  */
-KISSY.add('gallery/autoResponsive/1.0/anim', function (S) {
+KISSY.add('gallery/autoResponsive/1.1/anim',function (S) {
     'use strict';
     var D = S.DOM, Anim = S.Anim, BLANK = ' ',
         letIE10 = S.UA.ie < 11;
@@ -193,7 +193,7 @@ KISSY.add('gallery/autoResponsive/1.0/anim', function (S) {
  * @Author:      dafeng.xdf[at]taobao.com
  * @Date:        2013.3.5
  */
-KISSY.add('gallery/autoResponsive/1.0/linkedlist', function (S) {
+KISSY.add('gallery/autoResponsive/1.1/linkedlist',function (S) {
     'use strict';
     /**
      * @name LinkedList
@@ -325,7 +325,7 @@ KISSY.add('gallery/autoResponsive/1.0/linkedlist', function (S) {
  * @Date:           2013.3.5
  * @Todo:           gridSort
  */
-KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedList) {
+KISSY.add('gallery/autoResponsive/1.1/gridsort',function (S, AutoAnim, LinkedList) {
     'use strict';
     var D = S.DOM, EMPTY = '';
 
@@ -612,7 +612,7 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
  * @Author:         dafeng.xdf[at]taobao.com
  * @Date:           2013.3.5
  */
-KISSY.add('gallery/autoResponsive/1.0/base', function (S, Config, GridSort, Base) {
+KISSY.add('gallery/autoResponsive/1.1/base',function (S, Config, GridSort, Base) {
     'use strict';
     var D = S.DOM, E = S.Event, win = window;
 

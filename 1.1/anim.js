@@ -3,7 +3,7 @@
  * @Author:      dafeng.xdf[at]taobao.com
  * @Date:        2013.3.5
  */
-KISSY.add('gallery/autoResponsive/1.0/anim', function (S) {
+KISSY.add(function (S) {
     'use strict';
     var D = S.DOM, Anim = S.Anim, BLANK = ' ',
         letIE10 = S.UA.ie < 11;

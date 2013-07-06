@@ -3,7 +3,7 @@
  * @Author:      dafeng.xdf[at]taobao.com
  * @Date:        2013.3.5
  */
-KISSY.add('gallery/autoResponsive/1.0/linkedlist', function (S) {
+KISSY.add(function (S) {
     'use strict';
     /**
      * @name LinkedList

@@ -3,7 +3,7 @@
  * @Author:         dafeng.xdf[at]taobao.com
  * @Date:           2013.3.5
  */
-KISSY.add('gallery/autoResponsive/1.0/base', function (S, Config, GridSort, Base) {
+KISSY.add(function (S, Config, GridSort, Base) {
     'use strict';
     var D = S.DOM, E = S.Event, win = window;
 
