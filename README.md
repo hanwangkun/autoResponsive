@@ -133,7 +133,7 @@ KISSY.use('gallery/autoResponsive/1.0/index', function (S, Ar) {
     <tr>
         <td>closeAnim</td>
         <td>Boolean</td>
-        <td>true</td>
+        <td>false</td>
         <td>r/w</td>
         <td>是否关闭动画（默认开启）</td>
     </tr>
@@ -175,7 +175,7 @@ KISSY.use('gallery/autoResponsive/1.0/index', function (S, Ar) {
     <tr>
         <td>suspend</td>
         <td>Boolean</td>
-        <td>false</td>
+        <td>true</td>
         <td>r/w</td>
         <td>渲染任务队列是否支持挂起（挂起时主动将执行交给UI线程 | 默认为true）</td>
     </tr>
@@ -203,7 +203,7 @@ KISSY.use('gallery/autoResponsive/1.0/index', function (S, Ar) {
     <tr>
         <td>closeResize</td>
         <td>Boolean</td>
-        <td>true</td>
+        <td>false</td>
         <td>r/w</td>
         <td>是否关闭resize绑定（默认不关闭）</td>
     </tr>
