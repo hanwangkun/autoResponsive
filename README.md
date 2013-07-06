@@ -387,6 +387,9 @@ KISSY.use('gallery/autoResponsive/1.1/index',function(S,T){
 ####loader：加载器
 ####hash：hash回溯路由
 ##优秀demo
+####<a href="http://xudafeng.github.io/autoResponsive/demo/crossend/" target="_blank">专辑跨终端（resize例子）</a>
+####<a href="http://xudafeng.github.io/autoResponsive/cat/demos/xfs.html" target="_blank">新风尚大促（filter例子）</a>
+####<a href="http://xudafeng.github.io/autoResponsive/demo/loader/" target="_blank">专题List(loader例子)</a>
 ##License
 >The MIT License (MIT)
 
