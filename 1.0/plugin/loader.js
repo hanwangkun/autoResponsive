@@ -1,6 +1,6 @@
 /**
  * @Description:    Loader
- * @Author:         dafeng.xdf[at]taobao.com zhuofeng.ls@taobao.com
+ * @Author:         dafeng.xdf[at]taobao.com zhuofeng.ls[at]taobao.com
  * @Date:           2013.03.05
  *
  * @Log:
@@ -10,7 +10,7 @@
  *    - 2013.03.05 dafeng.xdf
  *      1.[+] build this file.
  */
-KISSY.add('autoResponsive/1.0/plugin/loader', function (S) {
+KISSY.add(function (S) {
     'use strict';
     var D = S.DOM, $ = S.all, win = window, $win = $(win),
 
@@ -44,14 +44,14 @@ KISSY.add('autoResponsive/1.0/plugin/loader', function (S) {
         /**
          * loader插件初始化
          * @public 供宿主对象在插件初始化时调用
-         * @param _self Base对象（即插件宿主对象）
+         * @param owner Base对象（即插件宿主对象）
          */
-        init: function (_self) {
+        init: function (owner) {
             var self = this,
                 userCfg = self.config,
                 mod = userCfg.mod;
 
-            self._self = _self;
+            self.owner = owner;
 
             self.__bindMethods();
 
@@ -74,7 +74,7 @@ KISSY.add('autoResponsive/1.0/plugin/loader', function (S) {
          */
         __doScroll: function () {
             var self = this,
-                owner = self._self,
+                owner = self.owner,
                 userCfg = self.config;
             S.log('AutoResponsive.Loader::__doScroll...');
             if (self.__loading) {
@@ -146,7 +146,7 @@ KISSY.add('autoResponsive/1.0/plugin/loader', function (S) {
             var self = this;
 
             // 创建一个新的时间片管理器（旧的如果任务还没处理完还会继续处理，直到处理完毕自动销毁）
-            timedChunk(items, self.__appendItems, self, function () {
+            timedChunk(items, self.__appendItems, self,function () {
 
                 callback && callback.call(self);
 
@@ -164,7 +164,7 @@ KISSY.add('autoResponsive/1.0/plugin/loader', function (S) {
          */
         __appendItems: function (items) {
             var self = this,
-                owner = self._self;
+                owner = self.owner;
 
             items = S.makeArray(items);
             owner.append(items);
@@ -175,7 +175,7 @@ KISSY.add('autoResponsive/1.0/plugin/loader', function (S) {
          */
         __bindMethods: function () {
             var self = this,
-                owner = self._self,
+                owner = self.owner,
                 curMinMaxColHeight = {min: 0, max: 0};
             owner.on('afterSort', function (e) {
                 curMinMaxColHeight = e.autoResponsive.curMinMaxColHeight;

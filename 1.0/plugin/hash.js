@@ -5,9 +5,7 @@
  */
 KISSY.add(function (S) {
     'use strict';
-    var E = S.Event,
-        win = window,
-        AND = '&',
+    var AND = '&',
         EQUAL = '=';
 
     /**
@@ -25,7 +23,7 @@ KISSY.add(function (S) {
      * 启用插件便开始解析
      */
     S.augment(Hash, {
-        init: function (_self) {
+        init: function (owner) {
             var self = this;
             S.log('hash init!');
             if (!self.hasHash()) {

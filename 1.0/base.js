@@ -23,13 +23,14 @@ KISSY.add('gallery/autoResponsive/1.0/base', function (S, Config, GridSort, Base
         self.fire('beforeInit', {
             autoResponsive: self
         });
-        if (self.get('init')) {
+        if (self.get('autoInit')) {
             self.init();
         }
         self.fire('afterInit', {
             autoResponsive: self
         });
     }
+
     S.extend(AutoResponsive, Base, {
         /**
          * 初始化组件
@@ -48,7 +49,7 @@ KISSY.add('gallery/autoResponsive/1.0/base', function (S, Config, GridSort, Base
             /**
              * 添加插件
              */
-            S.each(self.get('plugin'), function (i) {
+            S.each(self.get('plugins'), function (i) {
                 i.init(self);
                 S.mix(self.api, i.api);
             });
@@ -59,8 +60,8 @@ KISSY.add('gallery/autoResponsive/1.0/base', function (S, Config, GridSort, Base
         render: function () {
             var self = this,
                 userCfg = self.getAttrVals();
-            self.frame =  self.frame || 0;
-            arguments[0] && S.each(arguments[0],function(i,_key){
+            self.frame = self.frame || 0;
+            arguments[0] && S.each(arguments[0], function (i, _key) {
                 userCfg[_key] = i;
             });
             /**
@@ -75,12 +76,12 @@ KISSY.add('gallery/autoResponsive/1.0/base', function (S, Config, GridSort, Base
          */
         _bind: function (handle) {
             var self = this,
-                update = self.get('update');
-            if (!self.get('resize')) {
+                whensRecountUnitWH = self.get('whensRecountUnitWH');
+            if (self.get('closeResize')) {
                 return;
             }
             E.on(win, 'resize', function (e) {
-                handle.call(self, {isUpdate: S.inArray('resize', update)});
+                handle.call(self, {isRecountUnitWH: S.inArray('resize', whensRecountUnitWH)});
             });
         },
         /**
@@ -99,15 +100,15 @@ KISSY.add('gallery/autoResponsive/1.0/base', function (S, Config, GridSort, Base
         /**
          * 重新布局调整
          */
-        adjust: function (isUpdate) {
-            var self = this, update = self.get('update');
+        adjust: function (isRecountUnitWH) {
+            var self = this, whensRecountUnitWH = self.get('whensRecountUnitWH');
             self.__isAdjusting = 1;
             self.render({
-                isUpdate: isUpdate || S.inArray('adjust', update)
+                isRecountUnitWH: isRecountUnitWH || S.inArray('adjust', whensRecountUnitWH)
             });
             self.__isAdjusting = 0;
         },
-        isAdjusting: function(){
+        isAdjusting: function () {
             return this.__isAdjusting || 0;
         },
         /**
@@ -137,7 +138,7 @@ KISSY.add('gallery/autoResponsive/1.0/base', function (S, Config, GridSort, Base
         margin: function (margin) {
             var self = this;
             self.render({
-                colMargin: margin
+                unitMargin: margin
             });
         },
         /**
@@ -169,22 +170,22 @@ KISSY.add('gallery/autoResponsive/1.0/base', function (S, Config, GridSort, Base
         },
         /**
          * append 方法,调用跟随队列优化性能
-         * @param {Object} 节点对象
+         * @param {Object} 节点对象（可以为单个元素、多个元素数组、fragments，以及混合数组）
          */
-        append: function (node) {
+        append: function (nodes) {
             var self = this;
-            D.append(node, self.get('container'));
+            D.append(nodes, self.get('container'));
             self.render({
                 cache: true
             });
         },
         /**
          * dom prepend 方法,耗费性能
-         * @param {Object} 节点对象
+         * @param {Object} 节点对象（可以为单个元素、多个元素数组、fragments，以及混合数组）
          */
-        prepend: function (node) {
+        prepend: function (nodes) {
             var self = this;
-            D.prepend(node, self.get('container'));
+            D.prepend(nodes, self.get('container'));
             self.render();
         }
     }, { ATTRS: new Config()});

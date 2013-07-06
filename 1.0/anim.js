@@ -6,7 +6,7 @@
 KISSY.add('gallery/autoResponsive/1.0/anim', function (S) {
     'use strict';
     var D = S.DOM, Anim = S.Anim, BLANK = ' ',
-        uaSupport = S.UA.ie < 11;
+        letIE10 = S.UA.ie < 11;
 
     /**
      * @name AutoAnim
@@ -21,12 +21,13 @@ KISSY.add('gallery/autoResponsive/1.0/anim', function (S) {
 
     S.augment(AutoAnim, {
         _init: function () {
-            var self = this;
-            if (!self.animate) {
+            var self = this,
+                cfg = self.cfg;
+            if (cfg.closeAnim) {
                 self.noneAnim();
                 return;
             }
-            uaSupport || self.cfg.direction == 'right' ? self.fixedAnim() : self.css3Anim();
+            letIE10 || cfg.direction == 'right' ? self.fixedAnim() : self.css3Anim();
         },
         /**
          * css3动画
@@ -51,14 +52,14 @@ KISSY.add('gallery/autoResponsive/1.0/anim', function (S) {
             /**
              * 单元素计算排序后触发
              */
-            cfg._self.fire('afterElemSort', {
+            cfg.owner.fire('afterUnitSort', {
                 autoResponsive: {
                     elm: cfg.elm,
                     position: {
                         x: cfg.x,
                         y: cfg.y
                     },
-                    frame: cfg._self.frame
+                    frame: cfg.owner.frame
                 }
             });
         },
@@ -78,14 +79,14 @@ KISSY.add('gallery/autoResponsive/1.0/anim', function (S) {
                 /**
                  * 单元素计算排序后触发
                  */
-                cfg._self.fire('afterElemSort', {
+                cfg.owner.fire('afterUnitSort', {
                     autoResponsive: {
                         elm: cfg.elm,
                         position: {
                             x: cfg.x,
                             y: cfg.y
                         },
-                        frame: cfg._self.frame
+                        frame: cfg.owner.frame
                     }
                 });
             }).run();
@@ -103,14 +104,14 @@ KISSY.add('gallery/autoResponsive/1.0/anim', function (S) {
             /**
              * 单元素计算排序后触发
              */
-            cfg._self.fire('afterElemSort', {
+            cfg.owner.fire('afterUnitSort', {
                 autoResponsive: {
                     elm: cfg.elm,
                     position: {
                         x: cfg.x,
                         y: cfg.y
                     },
-                    frame: cfg._self.frame
+                    frame: cfg.owner.frame
                 }
             });
         }

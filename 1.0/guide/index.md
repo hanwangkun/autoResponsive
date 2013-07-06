@@ -62,7 +62,7 @@ KISSY.use('gallery/autoResponsive/1.0/index', function (S, Ar) {
 	var AutoResponsive = new Ar({
 			container:'#J_container',
 			selector:'div',
-			colMargin:{
+			unitMargin:{
 				x :10,
 				y:10
 			}
@@ -99,116 +99,113 @@ KISSY.use('gallery/autoResponsive/1.0/index', function (S, Ar) {
         <td>String</td>
         <td>''</td>
         <td>r/w</td>
-        <td>生效选择器
-        </td>
-    </tr>
-    <tr>
-        <td>init</td>
-        <td>Boolean</td>
-        <td>true</td>
-        <td>r/w</td>
-        <td>默认自动初始化
-        </td>
+        <td>单元选择器</td>
     </tr>
     <tr>
         <td>filter</td>
         <td>String</td>
         <td>''</td>
         <td>r/w</td>
-        <td>过滤选择器
-        </td>
+        <td>单元过滤器</td>
     </tr>
     <tr>
         <td>priority</td>
         <td>String</td>
         <td>''</td>
         <td>r/w</td>
-        <td>优先排序选择器</td>
+        <td>优先选择器</td>
     </tr>
     <tr>
-        <td>colWidth</td>
+        <td>gridWidth</td>
         <td>Number</td>
         <td>10</td>
         <td>r/w</td>
-        <td>最小栅格单元设置<code>px</code></td>
+        <td>最小栅格单元宽度<code>px</code></td>
     </tr>
 
     <tr>
-        <td>colMargin</td>
+        <td>unitMargin</td>
         <td>Object</td>
         <td><code>{x:0,y:0}</code></td>
         <td>r/w</td>
-        <td>单元格边距设置</td>
+        <td>单元格外边距<code>px</code></td>
     </tr>
     <tr>
-        <td>animate</td>
+        <td>closeAnim</td>
         <td>Boolean</td>
         <td>true</td>
         <td>r/w</td>
-        <td>动画效果开关</td>
+        <td>是否关闭动画（默认开启）</td>
     </tr>
     <tr>
         <td>duration</td>
         <td>Number</td>
         <td>1</td>
         <td>r/w</td>
-        <td>动画缓动时间</td>
+        <td>补间动画时间</td>
     </tr>
     <tr>
         <td>easing</td>
         <td>String</td>
         <td>"easeNone"</td>
         <td>r/w</td>
-        <td>动画缓动算子</td>
+        <td>补间动画算子</td>
     </tr>
     <tr>
         <td>direction</td>
         <td>String</td>
         <td>"left"</td>
         <td>r/w</td>
-        <td>排序方向,可以选择<code>right</code></td>
+        <td>排序起始方向（可选值：<code>'right'</code>）</td>
     </tr>
     <tr>
         <td>random</td>
         <td>Boolean</td>
         <td>false</td>
         <td>r/w</td>
-        <td>随机顺序开关</td>
+        <td>随机排序开关（默认关闭）</td>
     </tr>
     <tr>
-        <td>sort</td>
+        <td>sortBy</td>
         <td>String</td>
         <td>""</td>
         <td>r/w</td>
-        <td>排序优先算法</td>
+        <td>排序算法（可选值：<code>'grid'</code>或<code>'cell'</code>，默认为<code>'grid'</code>）</td>
     </tr>
     <tr>
-        <td>async</td>
+        <td>suspend</td>
         <td>Boolean</td>
         <td>false</td>
         <td>r/w</td>
-        <td>动画异步队列开关</td>
+        <td>渲染任务队列是否支持挂起（挂起时主动将执行交给UI线程 | 默认为false）</td>
     </tr>
     <tr>
         <td>autoHeight</td>
         <td>Boolean</td>
         <td>true</td>
         <td>r/w</td>
-        <td>容器高度自适应开关</td>
+        <td>容器高度自适应开关（默认为true）</td>
     </tr>
     <tr>
-        <td>resize</td>
-        <td>Boolean</td>
-        <td>true</td>
-        <td>r</td>
-        <td>浏览器resize适应开关</td>
-    </tr>
-    <tr>
-        <td>plugin</td>
+        <td>plugins</td>
         <td>Array</td>
         <td>[]</td>
         <td>r/w</td>
         <td>插件队列</td>
+    </tr>
+    <tr>
+        <td>autoInit</td>
+        <td>Boolean</td>
+        <td>true</td>
+        <td>r/w</td>
+        <td>是否自动初始化（默认为true）</td>
+    </tr>
+    <tr>
+        <td>closeResize</td>
+        <td>Boolean</td>
+        <td>true</td>
+        <td>r/w</td>
+        <td>是否关闭resize绑定（默认不关闭）</td>
     </tr>
     <tr>
         <td>resizeFrequency</td>
@@ -216,6 +213,13 @@ KISSY.use('gallery/autoResponsive/1.0/index', function (S, Ar) {
         <td>200</td>
         <td>r/w</td>
         <td>resize触发频率</td>
+    </tr>
+    <tr>
+        <td>whensRecountUnitWH</td>
+        <td>Array</td>
+        <td>[]</td>
+        <td>r/w</td>
+        <td>重新计算单元宽高的行为时刻（可选值：<code>'closeResize', 'adjust'</code>）</td>
     </tr>
     </tbody>
 </table>
@@ -225,24 +229,24 @@ KISSY.use('gallery/autoResponsive/1.0/index', function (S, Ar) {
 
 ```javascript
 /**
-* 默认自动初始化 ，如需手动初始化，请设置 init:false
+* 默认自动初始化 ，如需手动初始化，请设置 autoInit:false
 * 用于手动初始化组件的情况
 */
 KISSY.use('gallery/autoResponsive/1.0/index', function (S, AutoResponsive) {
-	var AutoResponsive = new Ar({
+	var autoResponsive = new AutoResponsive({
 			container:'#J_container',
 			selector:'div',
-			colMargin:{
+			unitMargin:{
 				x :10,
 				y:10
 			},
-			init:false //设置false
+			autoInit:false //设置false
 	});
 	autoResponsive.init();
 });
 
 ```
-####adjust ()：重新布局（所有子元素）
+####adjust (isRecountUnitWH)：重新布局（所有子元素）
 
 ```javascript
 //重新调整排序
@@ -271,7 +275,7 @@ autoResponsive.filter();
 ```javascript
 /**
 * 边距设置
-* demo:http://xudafeng.github.io/autoResponsive/cat/demos/#colMargin
+* demo:http://xudafeng.github.io/autoResponsive/cat/demos/#unitMargin
 */
 autoResponsive.margin({
 	x: 10, 
@@ -291,7 +295,7 @@ autoResponsive.random();
 * 动态改变配置
 */
 autoResponsive.option({
-	colMargin:{
+	unitMargin:{
 		x :10,
 		y:1
 	},
@@ -311,7 +315,7 @@ KISSY.use('gallery/autoResponsive/1.0/index',function(S,T){
     var append = new T({
         container:'.J_container_append',
         selector:'div',
-        colMargin:{
+        unitMargin:{
             x :10,
             y:10
         }
@@ -343,10 +347,6 @@ KISSY.use('gallery/autoResponsive/1.0/index',function(S,T){
     </thead>
     <tbody>
     <tr>
-        <td>init </td>
-        <td>组件初始化完成后触发</td>
-    </tr>
-    <tr>
         <td>beforeInit </td>
         <td>初始化前触发</td>
     </tr>
@@ -367,11 +367,11 @@ KISSY.use('gallery/autoResponsive/1.0/index',function(S,T){
         <td>排序后触发</td>
     </tr>
     <tr>
-        <td>beforeElemSort </td>
+        <td>beforeUnitSort </td>
         <td>单元素排序前触发</td>
     </tr>
     <tr>
-        <td>afterElemSort  </td>
+        <td>afterUnitSort  </td>
         <td>单元素排序后触发</td>
     </tr>
     </tbody>
@@ -384,7 +384,6 @@ KISSY.use('gallery/autoResponsive/1.0/index',function(S,T){
 ####drag：拖拽功能
 ####loader：加载器
 ####hash：hash回溯路由
-
 ##优秀demo
 ##License
 >The MIT License (MIT)
