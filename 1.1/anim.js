@@ -21,12 +21,7 @@ KISSY.add(function (S) {
 
     S.augment(AutoAnim, {
         _init: function () {
-            var self = this,
-                cfg = self.cfg;
-            if (cfg.closeAnim) {
-                self.noneAnim();
-                return;
-            }
+            var self = this;
             letIE10 ? self.fixedAnim() : self.css3Anim();
         },
         /**
@@ -48,12 +43,12 @@ KISSY.add(function (S) {
             if (cfg.direction !== 'right') {
                 D.css(cfg.elm, S.merge(
                     self.cssPrefixes('transform', 'translate(' + cfg.x + 'px,' + cfg.y + 'px) '),
-                    self.cssPrefixes('transition-duration', cfg.duration + 's'))
+                    self.cssPrefixes('transition-duration', cfg.closeAnim ? 0 : cfg.duration + 's'))
                 );
             }else{
                 D.css(cfg.elm, S.merge(
-                    self.cssPrefixes('transform', 'translate(' + (cfg.owner.gridSort.containerWH + cfg.owner.userConfig.unitMargin.x - cfg.elm.__width-cfg.x)  + 'px,' + cfg.y + 'px) '),
-                    self.cssPrefixes('transition-duration', cfg.duration + 's'))
+                    self.cssPrefixes('transform', 'translate(' + (cfg.owner.gridSort.containerWH - cfg.elm.__width-cfg.x)  + 'px,' + cfg.y + 'px) '),
+                    self.cssPrefixes('transition-duration', cfg.closeAnim ? 0 : cfg.duration + 's'))
                 );
             }
             /**
@@ -78,6 +73,10 @@ KISSY.add(function (S) {
                 cfg = self.cfg,
                 cssRules = {'top': cfg.y},
                 direction = 'left';
+            if (cfg.closeAnim) {
+                self.noneAnim();
+                return;
+            }
             if (cfg.direction == 'right') {
                 direction = 'right';
             }
