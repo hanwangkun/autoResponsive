@@ -177,7 +177,7 @@ KISSY.use('gallery/autoResponsive/1.0/index', function (S, Ar) {
         <td>Boolean</td>
         <td>false</td>
         <td>r/w</td>
-        <td>渲染任务队列是否支持挂起（挂起时主动将执行交给UI线程 | 默认为false）</td>
+        <td>渲染任务队列是否支持挂起（挂起时主动将执行交给UI线程 | 默认为true）</td>
     </tr>
     <tr>
         <td>autoHeight</td>
