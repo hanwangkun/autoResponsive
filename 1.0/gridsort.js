@@ -12,17 +12,16 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
      * @name GridSort
      * @class 栅格布局算法
      */
-    function GridSort(cfg, owner) {
-        var self = this;
-        cfg.owner = owner;
-        self.cfg = cfg;
-        cfg.owner.doneQuery = [];
+    function GridSort() {
     }
 
     S.augment(GridSort, {
-        init: function () {
-            var self = this,
-                cfg = self.cfg;
+        init: function (cfg, owner) {
+            var self = this;
+                self.cfg = cfg;
+                cfg.owner = owner;
+                cfg.owner.doneQuery = [];
+
             var items = S.query(cfg.selector, cfg.container);
             switch (cfg.sortBy) {
                 case EMPTY:
