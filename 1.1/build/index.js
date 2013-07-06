@@ -574,7 +574,7 @@ KISSY.add('gallery/autoResponsive/1.1/gridsort',function (S, AutoAnim, LinkedLis
          * 获取当前指针
          */
         _getCur: function (num, curQuery) {
-            this._skipALG(num, curQuery);
+            return this._skipALG(num, curQuery);
         },
         /**
          * 单步式算法（常规保守的）

@@ -243,7 +243,7 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
          * 获取当前指针
          */
         _getCur: function (num, curQuery) {
-            this._skipALG(num, curQuery);
+            return this._skipALG(num, curQuery);
         },
         /**
          * 单步式算法（常规保守的）
