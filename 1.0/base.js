@@ -68,8 +68,8 @@ KISSY.add('gallery/autoResponsive/1.0/base', function (S, Config, GridSort, Base
              * 应用插件属性
              */
             S.mix(userCfg, self.api);
-            self.gridSort = self.gridSort || new GridSort(userCfg, self);
-            self.gridSort.init();
+            self.gridSort = self.gridSort || new GridSort();
+            self.gridSort.init(userCfg, self);
         },
         /**
          * 绑定浏览器resize事件
