@@ -8,7 +8,7 @@ gallery/autoResponsive/1.0/gridsort
 gallery/autoResponsive/1.0/base
 gallery/autoResponsive/1.0/plugin/hash
 gallery/autoResponsive/1.0/plugin/drag
-autoResponsive/1.0/plugin/loader
+gallery/autoResponsive/1.0/plugin/loader
 gallery/autoResponsive/1.0/index
 
 */
@@ -22,21 +22,27 @@ KISSY.add('gallery/autoResponsive/1.0/config', function () {
     var EMPTY = '';
 
     /**
-     * @name config
-     * @param {String}  container   外层容器
-     * @param {String}  selector    生效选择器
-     * @param {String}  filter      过滤选择器
-     * @param {String}  priority    优先排序选择器
-     * @param {Number}  colWidth    最小栅格单元设置px
-     * @param {Object}  colMargin   单元格边距设置
-     * @param {Boolean} animate     动画效果开关
-     * @param {Number}  duration    动画缓动时间
-     * @param {String}  easing      动画缓动算子
-     * @param {Number}  colWidth    最小栅格单元设置px
-     * @param {String}  direction   排序方向,可以选择right
-     * @param {Boolean} random      随机顺序开关
-     * @param {Boolean} autoHeight  容器高度自适应开关
-     * @param {Boolean} async       动画队列异步开关
+     * @name Config
+     * @param {String}  container            外层容器
+     * @param {String}  selector             单元选择器
+     * @param {String}  filter               单元过滤器
+     * @param {String}  fixedSelector        [*]占位选择器
+     * @param {String}  priority             优先选择器
+     * @param {Number}  gridWidth            最小栅格单元宽度<code>px</code>
+     * @param {Object}  unitMargin           单元格外边距<code>px</code>
+     * @param {Boolean} closeAnim            是否关闭动画（默认开启）
+     * @param {Number}  duration             补间动画时间
+     * @param {String}  easing               补间动画算子
+     * @param {String}  direction            排序起始方向（可选值：<code>'right'</code>）
+     * @param {Boolean} random               随机排序开关（默认关闭）
+     * @param {String}  sortBy               排序算法（可选值：<code>'grid'</code>或<code>'cell'</code>，默认为<code>'grid'</code>）
+     * @param {Boolean} autoHeight           容器高度自适应开关（默认为true）
+     * @param {Boolean} suspend              渲染任务队列是否支持挂起（挂起时主动将执行交给UI线程 | 默认为false）
+     * @param {Array}   plugins              插件队列
+     * @param {Boolean} autoInit             是否自动初始化（默认为true）
+     * @param {Boolean} closeResize          是否关闭resize绑定（默认不关闭）
+     * @param {Number}  resizeFrequency      resize触发频率
+     * @param {Array}   whensRecountUnitWH   重新计算单元宽高的行为时刻（可选值：<code>'closeResize', 'adjust'</code>）
      */
     function Config() {
         return {
@@ -45,25 +51,24 @@ KISSY.add('gallery/autoResponsive/1.0/config', function () {
             filter: {value: EMPTY},
             fixedSelector: {value: EMPTY},
             priority: {value: EMPTY},
-            colWidth: {value: 10},
-            colMargin: {value: {x: 0, y: 0}},
-            animate: {value: true},
+            gridWidth: {value: 10},
+            unitMargin: {value: {x: 0, y: 0}},
+            closeAnim: {value: true},
             duration: {value: 1},
             easing: {value: 'easeNone'},
             direction: {value: 'left'},
             random: {value: false},
-            sort: {value: EMPTY},
-            layout: {value: EMPTY},
+            sortBy: {value: EMPTY},
             autoHeight: {value: true},
-            resize: {value: true},
-            init: {value: true},
-            plugin: {value: []},
-            async: {value: false},
+            closeResize: {value: false},
+            autoInit: {value: true},
+            plugins: {value: []},
+            suspend: {value: false},
             cache: {value: false},
-            resizeFrequency: {value: 200} // 注意：写成resizeFrequency: 200形式，通过kissy的get方法获取的值为undefined
+            resizeFrequency: {value: 200},
+            whensRecountUnitWH: {value: []}
         };
     }
-
     return Config;
 });
 /**
@@ -73,7 +78,8 @@ KISSY.add('gallery/autoResponsive/1.0/config', function () {
  */
 KISSY.add('gallery/autoResponsive/1.0/anim', function (S) {
     'use strict';
-    var D = S.DOM, Anim = S.Anim, BLANK = ' ';
+    var D = S.DOM, Anim = S.Anim, BLANK = ' ',
+        letIE10 = S.UA.ie < 11;
 
     /**
      * @name AutoAnim
@@ -82,19 +88,19 @@ KISSY.add('gallery/autoResponsive/1.0/anim', function (S) {
      */
     function AutoAnim(cfg) {
         var self = this;
-        S.mix(self, cfg);
-        self.notSupport = S.UA.ie < 11 || self.direction == 'right';
+        self.cfg = cfg;
         self._init();
     }
 
     S.augment(AutoAnim, {
         _init: function () {
-            var self = this;
-            if (!self.animate) {
+            var self = this,
+                cfg = self.cfg;
+            if (cfg.closeAnim) {
                 self.noneAnim();
                 return;
             }
-            self.notSupport ? self.fixedAnim() : self.css3Anim();
+            letIE10 || cfg.direction == 'right' ? self.fixedAnim() : self.css3Anim();
         },
         /**
          * css3动画
@@ -110,22 +116,23 @@ KISSY.add('gallery/autoResponsive/1.0/anim', function (S) {
             /**
              * css3效果代码添加
              */
-            var self = this;
-            D.css(self.elm, S.merge(
-                self.cssPrefixes('transform', 'translate(' + self.x + 'px,' + self.y + 'px) '),
-                self.cssPrefixes('transition-duration', self.duration + 's'))
+            var self = this,
+                cfg = self.cfg;
+            D.css(cfg.elm, S.merge(
+                self.cssPrefixes('transform', 'translate(' + cfg.x + 'px,' + cfg.y + 'px) '),
+                self.cssPrefixes('transition-duration', cfg.duration + 's'))
             );
             /**
              * 单元素计算排序后触发
              */
-            self._self.fire('afterElemSort', {
+            cfg.owner.fire('afterUnitSort', {
                 autoResponsive: {
-                    elm: self.elm,
+                    elm: cfg.elm,
                     position: {
-                        x: self.x,
-                        y: self.y
+                        x: cfg.x,
+                        y: cfg.y
                     },
-                    frame: self._self.frame
+                    frame: cfg.owner.frame
                 }
             });
         },
@@ -134,24 +141,25 @@ KISSY.add('gallery/autoResponsive/1.0/anim', function (S) {
          */
         fixedAnim: function () {
             var self = this,
-                cssRules = {'top': self.y},
+                cfg = self.cfg,
+                cssRules = {'top': cfg.y},
                 direction = 'left';
-            if (self.direction == 'right') {
+            if (cfg.direction == 'right') {
                 direction = 'right';
             }
-            cssRules[direction] = self.x;
-            new Anim(self.elm, cssRules, self.duration, self.easing, function () {
+            cssRules[direction] = cfg.x;
+            new Anim(cfg.elm, cssRules, cfg.duration, cfg.easing, function () {
                 /**
                  * 单元素计算排序后触发
                  */
-                self._self.fire('afterElemSort', {
+                cfg.owner.fire('afterUnitSort', {
                     autoResponsive: {
-                        elm: self.elm,
+                        elm: cfg.elm,
                         position: {
-                            x: self.x,
-                            y: self.y
+                            x: cfg.x,
+                            y: cfg.y
                         },
-                        frame: self._self.frame
+                        frame: cfg.owner.frame
                     }
                 });
             }).run();
@@ -160,22 +168,23 @@ KISSY.add('gallery/autoResponsive/1.0/anim', function (S) {
          * 无动画
          */
         noneAnim: function () {
-            var self = this;
-            D.css(self.elm, {
-                left: self.x,
-                top: self.y
+            var self = this,
+                cfg = self.cfg;
+            D.css(cfg.elm, {
+                left: cfg.x,
+                top: cfg.y
             });
             /**
              * 单元素计算排序后触发
              */
-            self._self.fire('afterElemSort', {
+            cfg.owner.fire('afterUnitSort', {
                 autoResponsive: {
-                    elm: self.elm,
+                    elm: cfg.elm,
                     position: {
-                        x: self.x,
-                        y: self.y
+                        x: cfg.x,
+                        y: cfg.y
                     },
-                    frame: self._self.frame
+                    frame: cfg.owner.frame
                 }
             });
         }
@@ -328,19 +337,19 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
      * @name GridSort
      * @class 栅格布局算法
      */
-    function GridSort(cfg, _self) {
+    function GridSort(cfg, owner) {
         var self = this;
-        S.mix(self, S.merge(cfg, {
-            _self: _self
-        }));
-        self.doneQuery = [];
-        self._init();
+        cfg.owner = owner;
+        self.cfg = cfg;
+        cfg.owner.doneQuery = [];
     }
+
     S.augment(GridSort, {
-        _init: function () {
-            var self = this;
-            var items = S.query(self.selector, self.container);
-            switch (self.layout) {
+        init: function () {
+            var self = this,
+                cfg = self.cfg;
+            var items = S.query(cfg.selector, cfg.container);
+            switch (cfg.sortBy) {
                 case EMPTY:
                 case 'grid':
                 default:
@@ -352,46 +361,55 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
             }
         },
         _filter: function (elm) {
-            var self = this;
-            if (self.filter == EMPTY) {
+            var self = this,
+                cfg = self.cfg;
+            if (cfg.filter == EMPTY) {
                 return;
             }
-            ;
             D.show(elm);
-            if (D.hasClass(elm, self.filter)) {
+            if (D.hasClass(elm, cfg.filter)) {
                 D.hide(elm);
                 return true;
             }
-            ;
         },
         coordinate: function (curQuery, elm) {
-            return this._autoFit(curQuery, D.outerWidth(elm), D.outerHeight(elm));
+            var cfg = this.cfg,
+                isRecountUnitWH = cfg.isRecountUnitWH;
+
+            if (isRecountUnitWH || !elm.__width) {
+                elm.__width = D.outerWidth(elm);
+                elm.__height = D.outerHeight(elm);
+            }
+
+            return this._autoFit(curQuery, elm.__width, elm.__height);
         },
         callAnim: function (elm, coordinate) {
-            var self = this;
+            var self = this,
+                cfg = self.cfg;
             new AutoAnim({
                 elm: elm,
                 x: coordinate[0],
                 y: coordinate[1],
-                animate: self.animate,
-                duration: self.duration,
-                easing: self.easing,
-                direction: self.direction,
-                frame: self._self.frame,
-                _self: self._self
+                closeAnim: cfg.closeAnim,
+                duration: cfg.duration,
+                easing: cfg.easing,
+                direction: cfg.direction,
+                frame: cfg.owner.frame,
+                owner: cfg.owner
             });
         },
         _cache: function (elm) {
-            var self = this, isCache = false;
-            if (self.priority == EMPTY) {
+            var self = this, isCache = false,
+                cfg = self.cfg;
+            if (cfg.priority == EMPTY) {
                 return  isCache;
             }
-            if (!self.cacheQuery) {
-                self.cacheQuery = [];
+            if (!cfg.cacheQuery) {
+                cfg.cacheQuery = [];
             }
-            if (!D.hasClass(elm, self.priority)) {
+            if (!D.hasClass(elm, cfg.priority)) {
                 isCache = true;
-                self.cacheQuery.push(elm);
+                cfg.cacheQuery.push(elm);
             }
             return isCache;
         },
@@ -400,16 +418,18 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
          * 记录全局缓存
          */
         clearCache: function (curQuery, _items) {
-            var self = this;
-            if (self.cacheQuery) {
-                self.cacheQuery = [];
+            var self = this,
+                cfg = self.cfg;
+            if (cfg.cacheQuery) {
+                cfg.cacheQuery = [];
             }
-            self._self.curQuery = curQuery;
-            self._self.itemLength = _items.length;
+            cfg.owner.curQuery = curQuery;
+            cfg.owner.itemsLen = _items.length;
         },
         asyncize: function (handle) {
-            var self = this;
-            if (self._self.get('async')) {
+            var self = this,
+                cfg = self.cfg;
+            if (cfg.owner.get('suspend')) {
                 setTimeout(function () {
                     handle.call(self);
                 }, 0);
@@ -417,113 +437,111 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
                 handle.call(self);
             }
         },
-        _gridSort: function (_items) {
+        _render: function (curQuery, item) {
             var self = this,
-                _maxHeight = 0,
+                cfg = self.cfg;
+            /**
+             * 遍历单个元素之前触发
+             */
+            cfg.owner.fire('beforeUnitSort', {
+                autoResponsive: {
+                    elm: item,
+                    frame: cfg.owner.frame
+                }
+            });
+            var coordinate = self.coordinate(curQuery, item),
+                height = coordinate[1] + item.__height;
+            if ((self._maxHeight || 0) < height) {
+                self._maxHeight = height;
+            }
+            /**
+             * 调用动画
+             */
+            self.asyncize(function () {
+                self.callAnim(item, coordinate);
+            });
+        },
+        _gridSort: function (items) {
+            var self = this,
+                cfg = self.cfg,
                 curQuery = self._getCols();
             /**
              * 设置关键帧
              */
             self._setFrame();
-            if (self.random) {
-                _items = _items.shuffle();
+            if (cfg.random) {
+                items = items.shuffle();
             }
             /**
              * 排序之前触发beforeSort
              */
-            self._self.fire('beforeSort', {
+            cfg.owner.fire('beforeSort', {
                 autoResponsive: {
-                    elms: _items
+                    elms: items
                 }
             });
-            S.each(_items, function (i, _key) {
-                if (self.cache && _key < self._self.itemLength) {
+            S.each(items, function (v, k) {
+                if (cfg.cache && k < cfg.owner.itemsLen) {
                     return;
                 }
-                if (self._filter(i)) {
+                if (self._filter(v)) {
                     return;
                 }
-                if (self._cache(i)) {
+                if (self._cache(v)) {
                     return;
                 }
-                /**
-                 * 遍历单个元素之前触发
-                 */
-                self._self.fire('beforeElemSort', {
-                    autoResponsive: {
-                        elm: i,
-                        frame: self._self.frame
-                    }
-                });
-                var coordinate = self.coordinate(curQuery, i);
-                if (_maxHeight < coordinate[1] + D.outerHeight(i)) {
-                    _maxHeight = coordinate[1] + D.outerHeight(i);
-                }
-                /**
-                 * 调用动画
-                 */
-                self.asyncize(function () {
-                    self.callAnim(i, coordinate);
-                });
+                self._render(curQuery, v);
             });
-            S.each(self.cacheQuery, function (i) {
-                /**
-                 * 遍历单个元素之后触发
-                 */
-                self._self.fire('beforeElemSort', {
-                    autoResponsive: {
-                        elm: i,
-                        frame: self._self.frame
-                    }
-                });
-                var coordinate = self.coordinate(curQuery, i);
-                if (_maxHeight < coordinate[1] + D.outerHeight(i)) {
-                    _maxHeight = coordinate[1] + D.outerHeight(i);
-                }
-                self.asyncize(function () {
-                    self.callAnim(i, coordinate);
-                });
+            S.each(cfg.cacheQuery, function (v) {
+                self._render(curQuery, v);
             });
             /**
              * 清空缓存队列
              */
-            self.clearCache(curQuery, _items);
+            self.clearCache(curQuery, items);
             /**
              * 排序之后触发
              */
-            self._self.fire('afterSort', {
+            cfg.owner.fire('afterSort', {
                 autoResponsive: {
-                    elms: _items,
+                    elms: items,
                     curMinMaxColHeight: self._getMinMaxColHeight(),
-                    frame: self._self.frame
+                    frame: cfg.owner.frame
                 }
             });
-            self.setHeight(_maxHeight);
+            self.setHeight();
         },
-        _getMinMaxColHeight:function(){
+        _getMinMaxColHeight: function () {
             var self = this,
+                cfg = self.cfg,
                 _min = Infinity,
-                doneQuery = self.doneQuery;
-            for(var i=0;i<doneQuery.length;i++){
-                if(doneQuery[i]!=0 && doneQuery[i]<_min){
+                doneQuery = cfg.owner.doneQuery;
+            for (var i = 0; i < doneQuery.length; i++) {
+                if (doneQuery[i] != 0 && doneQuery[i] < _min) {
                     _min = doneQuery[i];
                 }
             }
             return {
-                min:_min,
-                max:Math.max.apply(Math,doneQuery)
+                min: _min,
+                max: Math.max.apply(Math, doneQuery)
             };
         },
         _setFrame: function () {
             var self = this;
-            self._self.frame++;
+            self.cfg.owner.frame++;
         },
-        _cellSort: function (_items) {
+        /**
+         * @deprecated 该功能暂时未完善
+         *
+         * @param items
+         * @private
+         */
+        _cellSort: function (items) {
             var self = this,
                 _maxHeight = 0,
                 _row = 0,
                 curQuery = [];
-            S.each(_items, function (i, key) {
+            S.each(items, function (i, key) {
                 S.log('star from here!');
                 curQuery.push(self._getCells());
                 //self.callAnim(i,coordinate);
@@ -533,12 +551,13 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
             return this._getCols();
         },
         _getCols: function () {
-            var self = this;
-            if (self._self.curQuery && self.cache) {
-                return self._self.curQuery;
+            var self = this,
+                cfg = self.cfg;
+            if (cfg.owner.curQuery && cfg.cache) {
+                return cfg.owner.curQuery;
             } else {
                 var curQuery = new LinkedList({});
-                for (var i = 0; i < Math.ceil(D.outerWidth(self.container) / self.colWidth); i++) {
+                for (var i = 0, span = Math.ceil(D.outerWidth(cfg.container) / cfg.gridWidth); i < span; i++) {
                     curQuery.add(0);
                 }
                 return curQuery;
@@ -550,18 +569,19 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
         _getCur: function (_num, curQuery) {
             var cur = [null, Infinity],
                 _curQuery = curQuery.query.length ? curQuery.query : curQuery;
-            S.each(_curQuery, function (i, key) {
-                var _query = [];
-                if (key + _num >= _curQuery.length) {
-                    return;
+
+            for (var i = 0, len = _curQuery.length; i < len - _num; i++) {
+                var max = 0;
+
+                for (var j = i; j < i + _num; j++) {
+                    if (curQuery.get(j) > max) {
+                        max = curQuery.get(j);
+                    }
                 }
-                for (var j = key; j < key + _num; j++) {
-                    _query.push(curQuery.get(j));
+                if (cur[1] > max) {
+                    cur = [i, max];
                 }
-                if (cur[1] > Math.max.apply(Math, _query)) {
-                    cur = [key, Math.max.apply(Math, _query)];
-                }
-            });
+            }
             return cur;
         },
         /**
@@ -569,23 +589,25 @@ KISSY.add('gallery/autoResponsive/1.0/gridsort', function (S, AutoAnim, LinkedLi
          */
         _autoFit: function (curQuery, cW, cH) {
             var self = this,
-                _num = Math.ceil((cW + self.colMargin.x) / self.colWidth),
+                cfg = self.cfg,
+                _num = Math.ceil((cW + cfg.unitMargin.x) / cfg.gridWidth),
                 cur = self._getCur(_num, curQuery);
             for (var i = cur[0]; i < _num + cur[0]; i++) {
-                curQuery.update(i, cur[1] + cH + self.colMargin.y);
+                curQuery.update(i, cur[1] + cH + cfg.unitMargin.y);
             }
-            self.doneQuery = curQuery.query;
-            return [cur[0] * self.colWidth + self.colMargin.x, cur[1] + self.colMargin.y];
+            cfg.owner.doneQuery = curQuery.query;
+            return [cur[0] * cfg.gridWidth + cfg.unitMargin.x, cur[1] + cfg.unitMargin.y];
         },
         /**
          * 设置容器高度
          */
-        setHeight: function (height) {
-            var self = this;
-            if (!self.autoHeight) {
+        setHeight: function () {
+            var self = this,
+                cfg = self.cfg;
+            if (!cfg.autoHeight) {
                 return;
             }
-            D.height(self.container, height + self.colMargin.y);
+            D.height(cfg.container, (self._maxHeight || 0) + cfg.unitMargin.y);
         }
     });
     return GridSort;
@@ -615,13 +637,14 @@ KISSY.add('gallery/autoResponsive/1.0/base', function (S, Config, GridSort, Base
         self.fire('beforeInit', {
             autoResponsive: self
         });
-        if (self.get('init')) {
+        if (self.get('autoInit')) {
             self.init();
         }
         self.fire('afterInit', {
             autoResponsive: self
         });
     }
+
     S.extend(AutoResponsive, Base, {
         /**
          * 初始化组件
@@ -640,7 +663,7 @@ KISSY.add('gallery/autoResponsive/1.0/base', function (S, Config, GridSort, Base
             /**
              * 添加插件
              */
-            S.each(self.get('plugin'), function (i) {
+            S.each(self.get('plugins'), function (i) {
                 i.init(self);
                 S.mix(self.api, i.api);
             });
@@ -651,26 +674,28 @@ KISSY.add('gallery/autoResponsive/1.0/base', function (S, Config, GridSort, Base
         render: function () {
             var self = this,
                 userCfg = self.getAttrVals();
-            self.frame =  self.frame || 0;
-            arguments[0] && S.each(arguments[0],function(i,_key){
+            self.frame = self.frame || 0;
+            arguments[0] && S.each(arguments[0], function (i, _key) {
                 userCfg[_key] = i;
             });
             /**
              * 应用插件属性
              */
             S.mix(userCfg, self.api);
-            new GridSort(userCfg, self);
+            self.gridSort = self.gridSort || new GridSort(userCfg, self);
+            self.gridSort.init();
         },
         /**
          * 绑定浏览器resize事件
          */
         _bind: function (handle) {
-            var self = this;
-            if (!self.get('resize')) {
+            var self = this,
+                whensRecountUnitWH = self.get('whensRecountUnitWH');
+            if (self.get('closeResize')) {
                 return;
             }
             E.on(win, 'resize', function (e) {
-                handle.call(self);
+                handle.call(self, {isRecountUnitWH: S.inArray('resize', whensRecountUnitWH)});
             });
         },
         /**
@@ -679,7 +704,7 @@ KISSY.add('gallery/autoResponsive/1.0/base', function (S, Config, GridSort, Base
         _bindEvent: function () {
             var self = this;
             self._bind(S.buffer(function () {   // 使用buffer，不要使用throttle
-                self.render();
+                self.render(arguments);
                 /**
                  * 浏览器改变触发resize事件
                  */
@@ -689,13 +714,15 @@ KISSY.add('gallery/autoResponsive/1.0/base', function (S, Config, GridSort, Base
         /**
          * 重新布局调整
          */
-        adjust: function () {
-            var self = this;
+        adjust: function (isRecountUnitWH) {
+            var self = this, whensRecountUnitWH = self.get('whensRecountUnitWH');
             self.__isAdjusting = 1;
-            self.render();
+            self.render({
+                isRecountUnitWH: isRecountUnitWH || S.inArray('adjust', whensRecountUnitWH)
+            });
             self.__isAdjusting = 0;
         },
-        isAdjusting: function(){
+        isAdjusting: function () {
             return this.__isAdjusting || 0;
         },
         /**
@@ -725,7 +752,7 @@ KISSY.add('gallery/autoResponsive/1.0/base', function (S, Config, GridSort, Base
         margin: function (margin) {
             var self = this;
             self.render({
-                colMargin: margin
+                unitMargin: margin
             });
         },
         /**
@@ -757,22 +784,22 @@ KISSY.add('gallery/autoResponsive/1.0/base', function (S, Config, GridSort, Base
         },
         /**
          * append 方法,调用跟随队列优化性能
-         * @param {Object} 节点对象
+         * @param {Object} 节点对象（可以为单个元素、多个元素数组、fragments，以及混合数组）
          */
-        append: function (node) {
+        append: function (nodes) {
             var self = this;
-            D.append(node, self.get('container'));
+            D.append(nodes, self.get('container'));
             self.render({
                 cache: true
             });
         },
         /**
          * dom prepend 方法,耗费性能
-         * @param {Object} 节点对象
+         * @param {Object} 节点对象（可以为单个元素、多个元素数组、fragments，以及混合数组）
          */
-        prepend: function (node) {
+        prepend: function (nodes) {
             var self = this;
-            D.prepend(node, self.get('container'));
+            D.prepend(nodes, self.get('container'));
             self.render();
         }
     }, { ATTRS: new Config()});
@@ -786,9 +813,7 @@ KISSY.add('gallery/autoResponsive/1.0/base', function (S, Config, GridSort, Base
  */
 KISSY.add('gallery/autoResponsive/1.0/plugin/hash',function (S) {
     'use strict';
-    var E = S.Event,
-        win = window,
-        AND = '&',
+    var AND = '&',
         EQUAL = '=';
 
     /**
@@ -806,7 +831,7 @@ KISSY.add('gallery/autoResponsive/1.0/plugin/hash',function (S) {
      * 启用插件便开始解析
      */
     S.augment(Hash, {
-        init: function (_self) {
+        init: function (owner) {
             var self = this;
             S.log('hash init!');
             if (!self.hasHash()) {
@@ -864,6 +889,7 @@ KISSY.add('gallery/autoResponsive/1.0/plugin/drag',function (S) {
     var E = S.Event, DD = S.DD,
         DraggableDelegate = DD.DraggableDelegate,
         Droppable = DD.Droppable;
+
     /**
      * @name Drag
      * @class 拖拽功能
@@ -871,6 +897,7 @@ KISSY.add('gallery/autoResponsive/1.0/plugin/drag',function (S) {
      */
     function Drag(cfg) {
     }
+
     /**
      *
      */
@@ -888,7 +915,7 @@ KISSY.add('gallery/autoResponsive/1.0/plugin/drag',function (S) {
                 node: elm
             }).on("dropenter", function (ev) {
                     D.insertAfter(ev.drag.get("node"), ev.drop.get("node"));
-                    self._self.render();
+                    self.owner.render();
                 });
         },
         _bindBrag: function () {
@@ -916,7 +943,7 @@ KISSY.add('gallery/autoResponsive/1.0/plugin/drag',function (S) {
 }, {requires: ['event', 'dd']});
 /**
  * @Description:    Loader
- * @Author:         dafeng.xdf[at]taobao.com zhuofeng.ls@taobao.com
+ * @Author:         dafeng.xdf[at]taobao.com zhuofeng.ls[at]taobao.com
  * @Date:           2013.03.05
  *
  * @Log:
@@ -926,7 +953,7 @@ KISSY.add('gallery/autoResponsive/1.0/plugin/drag',function (S) {
  *    - 2013.03.05 dafeng.xdf
  *      1.[+] build this file.
  */
-KISSY.add('autoResponsive/1.0/plugin/loader', function (S) {
+KISSY.add('gallery/autoResponsive/1.0/plugin/loader',function (S) {
     'use strict';
     var D = S.DOM, $ = S.all, win = window, $win = $(win),
 
@@ -960,14 +987,14 @@ KISSY.add('autoResponsive/1.0/plugin/loader', function (S) {
         /**
          * loader插件初始化
          * @public 供宿主对象在插件初始化时调用
-         * @param _self Base对象（即插件宿主对象）
+         * @param owner Base对象（即插件宿主对象）
          */
-        init: function (_self) {
+        init: function (owner) {
             var self = this,
                 userCfg = self.config,
                 mod = userCfg.mod;
 
-            self._self = _self;
+            self.owner = owner;
 
             self.__bindMethods();
 
@@ -990,7 +1017,7 @@ KISSY.add('autoResponsive/1.0/plugin/loader', function (S) {
          */
         __doScroll: function () {
             var self = this,
-                owner = self._self,
+                owner = self.owner,
                 userCfg = self.config;
             S.log('AutoResponsive.Loader::__doScroll...');
             if (self.__loading) {
@@ -1062,7 +1089,7 @@ KISSY.add('autoResponsive/1.0/plugin/loader', function (S) {
             var self = this;
 
             // 创建一个新的时间片管理器（旧的如果任务还没处理完还会继续处理，直到处理完毕自动销毁）
-            timedChunk(items, self.__appendItems, self, function () {
+            timedChunk(items, self.__appendItems, self,function () {
 
                 callback && callback.call(self);
 
@@ -1080,7 +1107,7 @@ KISSY.add('autoResponsive/1.0/plugin/loader', function (S) {
          */
         __appendItems: function (items) {
             var self = this,
-                owner = self._self;
+                owner = self.owner;
 
             items = S.makeArray(items);
             owner.append(items);
@@ -1091,7 +1118,7 @@ KISSY.add('autoResponsive/1.0/plugin/loader', function (S) {
          */
         __bindMethods: function () {
             var self = this,
-                owner = self._self,
+                owner = self.owner,
                 curMinMaxColHeight = {min: 0, max: 0};
             owner.on('afterSort', function (e) {
                 curMinMaxColHeight = e.autoResponsive.curMinMaxColHeight;

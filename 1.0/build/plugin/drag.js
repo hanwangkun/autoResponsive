@@ -14,6 +14,7 @@ KISSY.add('gallery/autoResponsive/1.0/plugin/drag',function (S) {
     var E = S.Event, DD = S.DD,
         DraggableDelegate = DD.DraggableDelegate,
         Droppable = DD.Droppable;
+
     /**
      * @name Drag
      * @class 拖拽功能
@@ -21,6 +22,7 @@ KISSY.add('gallery/autoResponsive/1.0/plugin/drag',function (S) {
      */
     function Drag(cfg) {
     }
+
     /**
      *
      */
@@ -38,7 +40,7 @@ KISSY.add('gallery/autoResponsive/1.0/plugin/drag',function (S) {
                 node: elm
             }).on("dropenter", function (ev) {
                     D.insertAfter(ev.drag.get("node"), ev.drop.get("node"));
-                    self._self.render();
+                    self.owner.render();
                 });
         },
         _bindBrag: function () {
