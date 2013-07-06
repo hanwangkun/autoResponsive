@@ -311,7 +311,6 @@ autoResponsive.option({
 * demo: http://xudafeng.github.io/autoResponsive/cat/custom/#append
 */
 KISSY.use('gallery/autoResponsive/1.1/index',function(S,T){
-
     var E = S.Event,D = S.DOM;
 
     var append = new T({
