@@ -2,11 +2,13 @@
 
 autoResponsive，是基于 KISSY 1.3.0 或更高版本的自适应布局组件。
 
->* version: 1.0
+>* version: 1.1
 >* page: [github](http://xudafeng.github.io/autoResponsive/ "github")
 >* author: dafeng
 >* website: [xdf.me](http://xdf.me/ "blog")
 >* email: dafeng.xdf [at] taobao.com
+
+###请使用新版本1.1
 
 ## 她的特点
 * 支持条件排序、随机排序
@@ -58,7 +60,7 @@ KISSY.config({
 ```
 #### KISSY 1.3.0 无需配置,直接初始化即可
 ```javascript
-KISSY.use('gallery/autoResponsive/1.0/index', function (S, Ar) {
+KISSY.use('gallery/autoResponsive/1.1index', function (S, Ar) {
 	var AutoResponsive = new Ar({
 			container:'#J_container',
 			selector:'div',
@@ -232,7 +234,7 @@ KISSY.use('gallery/autoResponsive/1.0/index', function (S, Ar) {
 * 默认自动初始化 ，如需手动初始化，请设置 autoInit:false
 * 用于手动初始化组件的情况
 */
-KISSY.use('gallery/autoResponsive/1.0/index', function (S, AutoResponsive) {
+KISSY.use('gallery/autoResponsive/1.1/index', function (S, AutoResponsive) {
 	var autoResponsive = new AutoResponsive({
 			container:'#J_container',
 			selector:'div',
@@ -308,7 +310,7 @@ autoResponsive.option({
 /**
 * demo: http://xudafeng.github.io/autoResponsive/cat/custom/#append
 */
-KISSY.use('gallery/autoResponsive/1.0/index',function(S,T){
+KISSY.use('gallery/autoResponsive/1.1/index',function(S,T){
 
     var E = S.Event,D = S.DOM;
 
