@@ -37,7 +37,7 @@ KISSY.add('gallery/autoResponsive/1.0/config', function () {
      * @param {Boolean} random               随机排序开关（默认关闭）
      * @param {String}  sortBy               排序算法（可选值：<code>'grid'</code>或<code>'cell'</code>，默认为<code>'grid'</code>）
      * @param {Boolean} autoHeight           容器高度自适应开关（默认为true）
-     * @param {Boolean} suspend              渲染任务队列是否支持挂起（挂起时主动将执行交给UI线程 | 默认为false）
+     * @param {Boolean} suspend              渲染任务队列是否支持挂起（挂起时主动将执行交给UI线程 | 默认为true）
      * @param {Array}   plugins              插件队列
      * @param {Boolean} autoInit             是否自动初始化（默认为true）
      * @param {Boolean} closeResize          是否关闭resize绑定（默认不关闭）
@@ -53,7 +53,7 @@ KISSY.add('gallery/autoResponsive/1.0/config', function () {
             priority: {value: EMPTY},
             gridWidth: {value: 10},
             unitMargin: {value: {x: 0, y: 0}},
-            closeAnim: {value: true},
+            closeAnim: {value: false},
             duration: {value: 1},
             easing: {value: 'easeNone'},
             direction: {value: 'left'},
@@ -63,7 +63,7 @@ KISSY.add('gallery/autoResponsive/1.0/config', function () {
             closeResize: {value: false},
             autoInit: {value: true},
             plugins: {value: []},
-            suspend: {value: false},
+            suspend: {value: true},
             cache: {value: false},
             resizeFrequency: {value: 200},
             whensRecountUnitWH: {value: []}
