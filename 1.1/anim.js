@@ -27,7 +27,7 @@ KISSY.add(function (S) {
                 self.noneAnim();
                 return;
             }
-            letIE10 || cfg.direction == 'right' ? self.fixedAnim() : self.css3Anim();
+            letIE10 ? self.fixedAnim() : self.css3Anim();
         },
         /**
          * css3动画
@@ -45,10 +45,17 @@ KISSY.add(function (S) {
              */
             var self = this,
                 cfg = self.cfg;
-            D.css(cfg.elm, S.merge(
-                self.cssPrefixes('transform', 'translate(' + cfg.x + 'px,' + cfg.y + 'px) '),
-                self.cssPrefixes('transition-duration', cfg.duration + 's'))
-            );
+            if (cfg.direction !== 'right') {
+                D.css(cfg.elm, S.merge(
+                    self.cssPrefixes('transform', 'translate(' + cfg.x + 'px,' + cfg.y + 'px) '),
+                    self.cssPrefixes('transition-duration', cfg.duration + 's'))
+                );
+            }else{
+                D.css(cfg.elm, S.merge(
+                    self.cssPrefixes('transform', 'translate(' + (cfg.owner.gridSort.containerWH + cfg.owner.userConfig.unitMargin.x - cfg.elm.__width-cfg.x)  + 'px,' + cfg.y + 'px) '),
+                    self.cssPrefixes('transition-duration', cfg.duration + 's'))
+                );
+            }
             /**
              * 单元素计算排序后触发
              */

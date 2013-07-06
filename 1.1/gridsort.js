@@ -18,9 +18,9 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
     S.augment(GridSort, {
         init: function (cfg, owner) {
             var self = this;
-                self.cfg = cfg;
-                cfg.owner = owner;
-                cfg.owner.doneQuery = [];
+            self.cfg = cfg;
+            cfg.owner = owner;
+            cfg.owner.doneQuery = [];
 
             var items = S.query(cfg.selector, cfg.container);
             switch (cfg.sortBy) {
@@ -123,6 +123,7 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
                     frame: cfg.owner.frame
                 }
             });
+            self._maxHeight = 0;
             var coordinate = self.coordinate(curQuery, item),
                 height = coordinate[1] + item.__height;
             if ((self._maxHeight || 0) < height) {
@@ -227,11 +228,12 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
         _getCols: function () {
             var self = this,
                 cfg = self.cfg;
+            self.containerWH = D.outerWidth(cfg.container);
             if (cfg.owner.curQuery && cfg.cache) {
                 return cfg.owner.curQuery;
             } else {
                 var curQuery = new LinkedList({});
-                for (var i = 0, span = Math.ceil(D.outerWidth(cfg.container) / cfg.gridWidth); i < span; i++) {
+                for (var i = 0, span = Math.ceil(self.containerWH / cfg.gridWidth); i < span; i++) {
                     curQuery.add(0);
                 }
                 return curQuery;
