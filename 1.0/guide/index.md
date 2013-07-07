@@ -10,6 +10,9 @@ autoResponsive，是基于 KISSY 1.3.0 或更高版本的自适应布局组件�
 
 ###请使用新版本1.1
 
+![alt autoResponsive](http://img04.taobaocdn.com/tps/i4/T1A6FDFnlbXXcq.EHS-300-319.png "autoResponsive")
+
+####autoResponsive - 奶茶般清纯和简单
 ## 她的特点
 * 支持条件排序、随机排序
 * 支持特定条件的过滤排序
