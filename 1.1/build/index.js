@@ -110,20 +110,11 @@ KISSY.add('gallery/autoResponsive/1.1/anim',function (S) {
         css3Anim: function () {
             /**
              * css3效果代码添加
+             * 为了减少对象读取css3模式去除duration配置，改为css中读取
              */
             var self = this,
                 cfg = self.cfg;
-            if (cfg.direction !== 'right') {
-                D.css(cfg.elm, S.merge(
-                    self.cssPrefixes('transform', 'translate(' + cfg.x + 'px,' + cfg.y + 'px) '),
-                    self.cssPrefixes('transition-duration', cfg.closeAnim ? 0 : cfg.duration + 's'))
-                );
-            }else{
-                D.css(cfg.elm, S.merge(
-                    self.cssPrefixes('transform', 'translate(' + (cfg.owner.gridSort.containerWH - cfg.elm.__width-cfg.x)  + 'px,' + cfg.y + 'px) '),
-                    self.cssPrefixes('transition-duration', cfg.closeAnim ? 0 : cfg.duration + 's'))
-                );
-            }
+            D.css(cfg.elm, self.cssPrefixes('transform', 'translate(' + ((cfg.direction !== 'right') ? cfg.x : (cfg.owner.gridSort.containerWH - cfg.elm.__width - cfg.x)) + 'px,' + cfg.y + 'px) '));
             /**
              * 单元素计算排序后触发
              */

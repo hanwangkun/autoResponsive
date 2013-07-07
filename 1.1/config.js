@@ -17,8 +17,8 @@ KISSY.add(function () {
      * @param {Number}  gridWidth            最小栅格单元宽度<code>px</code>
      * @param {Object}  unitMargin           单元格外边距<code>px</code>
      * @param {Boolean} closeAnim            是否关闭动画（默认开启）
-     * @param {Number}  duration             补间动画时间
-     * @param {String}  easing               补间动画算子
+     * @param {Number}  duration             补间动画时间，此项只针对IE系列生效
+     * @param {String}  easing               补间动画算子，此项只针对IE系列生效
      * @param {String}  direction            排序起始方向（可选值：<code>'right'</code>）
      * @param {Boolean} random               随机排序开关（默认关闭）
      * @param {String}  sortBy               排序算法（可选值：<code>'grid'</code>或<code>'cell'</code>，默认为<code>'grid'</code>）
