@@ -144,14 +144,14 @@ KISSY.use('gallery/autoResponsive/1.1index', function (S, Ar) {
         <td>Number</td>
         <td>1</td>
         <td>r/w</td>
-        <td>补间动画时间<code>onlyIE<code></td>
+        <td>补间动画时间onlyIE</td>
     </tr>
     <tr>
         <td>easing</td>
         <td>String</td>
         <td>"easeNone"</td>
         <td>r/w</td>
-        <td>补间动画算子<code>onlyIE<code></td>
+        <td>补间动画算子onlyIE</td>
     </tr>
     <tr>
         <td>direction</td>
