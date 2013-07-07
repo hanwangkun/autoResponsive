@@ -21,7 +21,8 @@ autoResponsive，是基于 KISSY 1.3.0 或更高版本的自适应布局组件�
 * 支持自定义展示方向
 * 支持拖拽功能[重构中]
 * hash回溯路由
-![alt autoResponsive](http://img03.taobaocdn.com/tps/i3/T1UCBDFbxcXXch_dZz-643-684.png "autoResponsive")
+* ![alt autoResponsive](http://img03.taobaocdn.com/tps/i3/T1UCBDFbxcXXch_dZz-643-684.png "autoResponsive")
+
 ## 快速上手
 ### 1.依赖如下dom结构
 ```css
