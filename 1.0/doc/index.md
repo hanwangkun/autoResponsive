@@ -78,7 +78,7 @@ KISSY.use('gallery/autoResponsive/1.1index', function (S, Ar) {
 
 ### 3.配置项
 ####常用参数：
-<table>
+<table class="table table-striped table-bordered">
     <thead>
     <tr>
         <th>参数名</th>
@@ -341,7 +341,7 @@ KISSY.use('gallery/autoResponsive/1.1/index',function(S,T){
 * 针对瀑布流对append方法做了性能优化：[性能压测](http://xudafeng.github.io/autoResponsive/demo/waterfall/stress.html)
 
 ## 事件说明
-<table>
+<table class="table table-striped table-bordered">
     <thead>
     <tr>
         <th>事件名</th>
