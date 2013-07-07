@@ -28,10 +28,11 @@ KISSY.add(function (S) {
          * css3动画
          */
         cssPrefixes: function (styleKey, styleValue) {
-            var fixedRule = {};
-            S.each('-webkit- -moz- -o- -ms-  '.split(BLANK), function (i) {
-                fixedRule[i + styleKey] = styleValue;
-            });
+            var fixedRule = {},
+                prefixes = ['-webkit-','-moz-','-o-','-ms-',BLANK];
+            for (var i = 0; i < 5; i++){
+                fixedRule[prefixes[i] + styleKey] = styleValue;
+            }
             return fixedRule;
         },
         css3Anim: function () {
