@@ -144,14 +144,14 @@ KISSY.use('gallery/autoResponsive/1.1index', function (S, Ar) {
         <td>Number</td>
         <td>1</td>
         <td>r/w</td>
-        <td>补间动画时间</td>
+        <td>补间动画时间（<code>onlyIE<code>）</td>
     </tr>
     <tr>
         <td>easing</td>
         <td>String</td>
         <td>"easeNone"</td>
         <td>r/w</td>
-        <td>补间动画算子</td>
+        <td>补间动画算子（<code>onlyIE<code>）</td>
     </tr>
     <tr>
         <td>direction</td>
@@ -221,10 +221,12 @@ KISSY.use('gallery/autoResponsive/1.1index', function (S, Ar) {
         <td>Array</td>
         <td>[]</td>
         <td>r/w</td>
-        <td>重新计算单元宽高的行为时刻（可选值：<code>'closeResize', 'adjust'</code>）</td>
+        <td>重新计算单元宽高的行为时刻(可选值：<code>'closeResize', 'adjust'</code>)</td>
     </tr>
     </tbody>
 </table>
+**提醒**
+* duration、easing配置只针对IE，css3浏览器请使用<code>transition: all .3s ease-in 0s;</code>设置以提高性能
 
 ## 常用方法说明
 ####init ()：初始化组件
@@ -311,7 +313,6 @@ autoResponsive.option({
 * demo: http://xudafeng.github.io/autoResponsive/cat/custom/#append
 */
 KISSY.use('gallery/autoResponsive/1.1/index',function(S,T){
-
     var E = S.Event,D = S.DOM;
 
     var append = new T({

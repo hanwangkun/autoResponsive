@@ -144,14 +144,14 @@ KISSY.use('gallery/autoResponsive/1.1index', function (S, Ar) {
         <td>Number</td>
         <td>1</td>
         <td>r/w</td>
-        <td>补间动画时间(<code>onlyIE<code>)</td>
+        <td>补间动画时间（<code>onlyIE<code>）</td>
     </tr>
     <tr>
         <td>easing</td>
         <td>String</td>
         <td>"easeNone"</td>
         <td>r/w</td>
-        <td>补间动画算子(<code>onlyIE<code>)</td>
+        <td>补间动画算子（<code>onlyIE<code>）</td>
     </tr>
     <tr>
         <td>direction</td>
@@ -221,7 +221,7 @@ KISSY.use('gallery/autoResponsive/1.1index', function (S, Ar) {
         <td>Array</td>
         <td>[]</td>
         <td>r/w</td>
-        <td>重新计算单元宽高的行为时刻（可选值：<code>'closeResize', 'adjust'</code>）</td>
+        <td>重新计算单元宽高的行为时刻(可选值：<code>'closeResize', 'adjust'</code>)</td>
     </tr>
     </tbody>
 </table>
