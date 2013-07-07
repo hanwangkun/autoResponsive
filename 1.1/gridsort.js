@@ -167,9 +167,12 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
                 }
                 self._render(curQuery, v);
             });
-            S.each(cfg.cacheQuery, function (v) {
-                self._render(curQuery, v);
-            });
+            var cacheQuery = cfg.cacheQuery;
+            if(cacheQuery){
+                for(var k=0; k < cacheQuery.length; k++){
+                    self._render(curQuery, cacheQuery[k]);
+                }
+            }
             /**
              * 清空缓存队列
              */
