@@ -124,7 +124,6 @@ KISSY.use('gallery/autoResponsive/1.1index', function (S, Ar) {
         <td>r/w</td>
         <td>最小栅格单元宽度<code>px</code></td>
     </tr>
-
     <tr>
         <td>unitMargin</td>
         <td>Object</td>
