@@ -10,7 +10,7 @@ autoResponsive，是基于 KISSY 1.3.0 或更高版本的自适应布局组件�
 
 ###请使用新版本1.1
 
-<div style="width:40%"> ![alt autoResponsive](http://img03.taobaocdn.com/tps/i3/T1UCBDFbxcXXch_dZz-643-684.png "autoResponsive") </div>
+<div style="width:40%"> <img src="http://img03.taobaocdn.com/tps/i3/T1UCBDFbxcXXch_dZz-643-684.png"/> </div>
 
 ## 她的特点
 * 支持条件排序、随机排序
