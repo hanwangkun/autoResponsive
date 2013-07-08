@@ -82,7 +82,9 @@ KISSY.add('gallery/autoResponsive/1.1/anim',function (S) {
 
         letIE10 = S.UA.ie < 11,
 
-        prefixes = ['-webkit-', '-moz-', '-ms-', '-o-', ''];
+        prefixes = ['-webkit-', '-moz-', '-ms-', '-o-', ''],
+
+        animType = letIE10 ? 'fixedAnim' : 'css3Anim';
 
     /**
      * @name AutoAnim
@@ -96,7 +98,7 @@ KISSY.add('gallery/autoResponsive/1.1/anim',function (S) {
 
     S.augment(AutoAnim, {
         _init: function () {
-            this[letIE10 ? 'fixedAnim' : 'css3Anim']();
+            this[animType]();
         },
         /**
          * supply css ua prefix
@@ -120,7 +122,7 @@ KISSY.add('gallery/autoResponsive/1.1/anim',function (S) {
              */
             var cfg = this.cfg;
             // TODO 优化点：既然css3Anim在循环中，可以考虑将‘cfg.direction !== 'right'’该判断条件在逻辑树上上提，以加快该函数的执行
-            D.css(cfg.elm, self.cssPrefixes('transform', 'translate(' + ((cfg.direction !== 'right') ? cfg.x : (cfg.owner.gridSort.containerWH - cfg.elm.__width - cfg.x)) + 'px,' + cfg.y + 'px) '));
+            D.css(cfg.elm, this.cssPrefixes('transform', 'translate(' + ((cfg.direction !== 'right') ? cfg.x : (cfg.owner.gridSort.containerWH - cfg.elm.__width - cfg.x)) + 'px,' + cfg.y + 'px) '));
 
             // 单元排序后触发
             cfg.owner.fire('afterUnitSort', {
