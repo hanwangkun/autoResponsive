@@ -396,9 +396,11 @@ KISSY.add('gallery/autoResponsive/1.1/gridsort',function (S, AutoAnim, LinkedLis
             } else { // 有规则，走renderQueue
                 var renderQueue = []; // 记录的只是序号
 
+                actions.push('_tail');
+
                 for (var j = s; j < m; j++) {
 
-                    for (var t = 0, r; t < l; t++) {
+                    for (var t = 0, r; t < l + 1; t++) {
                         r = this[actions[t]](renderQueue, j, items[j]);
 
                         // 说明得到明确的插入位置，做插入并停止后面的actions执行
@@ -475,6 +477,16 @@ KISSY.add('gallery/autoResponsive/1.1/gridsort',function (S, AutoAnim, LinkedLis
                 return this._priority(queue, idx, elm);
             }
 
+        },
+        /**
+         * 尾部action，只负责把当前的idx压栈，以免丢失
+         * @param queue
+         * @param idx
+         * @param elm
+         * @private
+         */
+        _tail: function (queue, idx, elm) {
+            return Infinity; // 找到了队列的插入位置，即队列的末尾
         },
         _render: function (curQuery, item) {
             var self = this,
@@ -617,9 +629,9 @@ KISSY.add('gallery/autoResponsive/1.1/gridsort',function (S, AutoAnim, LinkedLis
                 doneQuery = cfg.owner.curQuery.query, // TODO 如果使用的类型是链表？
                 max = Math.max.apply(Math, doneQuery);
 
-            if(max == 0){ // 说明是空容器
+            if (max == 0) { // 说明是空容器
                 min = 0;
-            }  else {
+            } else {
                 for (var i = 0, len = doneQuery.length; i < len; i++) {
                     if (doneQuery[i] != 0 && doneQuery[i] < min) {
                         min = doneQuery[i];
