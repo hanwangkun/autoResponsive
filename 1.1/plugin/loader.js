@@ -55,6 +55,8 @@ KISSY.add(function (S) {
 
             self.__bindMethods();
 
+            self.__started = self.__destroyed = self.__stopped = 0;
+
             if (mod === 'manual') { // 手动触发模式 | 这种情况多是用户自定义load触发条件，如点击更多按钮时触发
                 // nothing to do
 
@@ -72,11 +74,16 @@ KISSY.add(function (S) {
          * 在自动触发模式下，监测屏幕滚动位置是否满足触发load数据的条件
          * @private
          */
-        __doScroll: function () {
+        __doScroll: function (e) {
             var self = this,
                 owner = self.owner,
                 userCfg = self.config;
+
+            if(self.__scrollDirection === 'up')
+                return;
+
             S.log('AutoResponsive.Loader::__doScroll...');
+
             if (self.__loading) {
                 return;
             }
@@ -114,6 +121,11 @@ KISSY.add(function (S) {
                 userCfg = self.config,
                 load = userCfg.load;
 
+            if (self.__stopped) {
+                S.log('AutoResponsive.Loader::load: this loader has stopped, please to resume!', 'warn');
+                return;
+            }
+
             S.log('AutoResponsive.Loader::loading...');
 
             self.__loading = 1;
@@ -121,19 +133,31 @@ KISSY.add(function (S) {
             load && load(success, end);
 
             function success(items, callback) {
-                self.__loading = 0;
-
                 self.__addItems(items, function () {
 
                     callback && callback.call(self);
 
                     self.__doScroll(); // 加载完不够一屏再次检测
                 });
+
+                self.__loading = 0;
             }
 
             function end() {
                 self.stop();
             }
+        },
+        isLoading: function () {
+            return this.__loading;
+        },
+        isStarted: function () {
+            return this.__started;
+        },
+        isStopped: function () {
+            return this.__stopped;
+        },
+        isDestroyed: function () {
+            return this.__destroyed;
         },
         /**
          * 将指定函数（__appendItems）封装到时间片函数中
@@ -192,6 +216,10 @@ KISSY.add(function (S) {
          * @public
          */
         start: function () {
+            var self = this;
+            $win.on('mousewheel', function (e) {
+                self.__scrollDirection = e.deltaY > 0 ? 'up' : 'down';
+            });
             this.resume();
         },
         /**
@@ -200,6 +228,7 @@ KISSY.add(function (S) {
          */
         stop: function () {
             this.pause();
+            this.__stopped = 1;
         },
         /**
          * 暂停loader数据load功能
@@ -210,7 +239,6 @@ KISSY.add(function (S) {
                 return;
 
             $win.detach('scroll', this.__onScroll);
-            this.__onScroll.stop();
         },
         /**
          * 恢复（重新唤醒）loader数据load功能
@@ -223,6 +251,7 @@ KISSY.add(function (S) {
             }
             $win.on('scroll', self.__onScroll);
             self.__started = 1;
+            self.__stopped = 0;
         },
         /**
          * 停止loader所有工作，销毁loader对象

@@ -286,15 +286,22 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
         _getMinMaxColHeight: function () {
             var cfg = this.cfg,
                 min = Infinity,
-                doneQuery = cfg.owner.curQuery.query;      // TODO 如果使用的类型是链表？
-            for (var i = 0, len = doneQuery.length; i < len; i++) {
-                if (doneQuery[i] != 0 && doneQuery[i] < min) {
-                    min = doneQuery[i];
+                doneQuery = cfg.owner.curQuery.query, // TODO 如果使用的类型是链表？
+                max = Math.max.apply(Math, doneQuery);
+
+            if(max == 0){ // 说明是空容器
+                min = 0;
+            }  else {
+                for (var i = 0, len = doneQuery.length; i < len; i++) {
+                    if (doneQuery[i] != 0 && doneQuery[i] < min) {
+                        min = doneQuery[i];
+                    }
                 }
             }
+
             return {
                 min: min,
-                max: Math.max.apply(Math, doneQuery)
+                max: max
             };
         },
         /**
