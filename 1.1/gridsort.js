@@ -144,7 +144,7 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
                     }
                     return Infinity; // 找到了队列的插入位置，即队列的末尾
                 };
-                this._priority(queue, idx, elm);
+                return this._priority(queue, idx, elm);
             }
 
         },
