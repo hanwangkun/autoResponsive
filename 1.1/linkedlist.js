@@ -125,6 +125,13 @@ KISSY.add(function (S) {
                 return;
             }
             self.node(index).value = value;
+        },
+        /**
+         * 返回query长度
+         * @returns {Number}
+         */
+        size: function(){
+            return this.query.length || this.length;
         }
     });
     return LinkedList;

@@ -15,36 +15,156 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
     function GridSort() {
     }
 
-    S.augment(GridSort, {
+    GridSort.prototype = {
         init: function (cfg, owner) {
-            var self = this;
-            self.cfg = cfg;
+            this.cfg = cfg;
             cfg.owner = owner;
-            cfg.owner.doneQuery = [];
 
             var items = S.query(cfg.selector, cfg.container);
             switch (cfg.sortBy) {
                 case EMPTY:
                 case 'grid':
                 default:
-                    self._gridSort(items);
+                    this._gridSort(items);
                     break;
                 case 'cell':
-                    self._cellSort(items);
+                    this._cellSort(items);
                     break;
             }
         },
-        _filter: function (elm) {
-            var self = this,
-                cfg = self.cfg;
-            if (cfg.filter == EMPTY) {
-                return;
+
+        _gridSort: function (items) {
+            var cfg = this.cfg,
+                curQuery = this._getCols();
+            // 设置关键帧
+            this._setFrame();
+
+            if (cfg.random) {
+                items = items.shuffle();
             }
+
+            // 排序之前触发beforeSort
+            cfg.owner.fire('beforeSort', {
+                autoResponsive: {
+                    elms: items
+                }
+            });
+
+            var actions = []; // 注意里面的规则顺序
+            if (cfg.filter !== EMPTY) {
+                actions.push('_filter');
+            }
+
+            if (cfg.priority !== EMPTY) {
+                actions.push('_priority');
+            }
+
+            var l = actions.length, m = items.length, s = cfg.cache ? cfg.owner._lastPos : 0;
+
+            if (l == 0) { // 没有规则，说明全渲染，那就直接渲染
+                for (var i = s; i < m; i++) {
+                    this._render(curQuery, items[i]);
+                }
+            } else { // 有规则，走renderQueue
+                var renderQueue = []; // 记录的只是序号
+
+                for (var j = s; j < m; j++) {
+
+                    for (var t = 0, r; t < l; t++) {
+                        r = this[actions[t]](renderQueue, j, items[j]);
+
+                        // 说明得到明确的插入位置，做插入并停止后面的actions执行
+                        if (typeof r === 'number') {
+                            renderQueue.splice(r, 0, j);
+                            break;
+                        }
+                        // 没得到明确插入位置，本次就不插入
+                        // r为false表示继续向后执行后面的actions
+                        // r为true表示停止后面的actions执行
+                        else if (typeof r === 'boolean' && r) {
+                            break;
+                        }
+                    }
+                }
+
+                for (var k = 0, n = renderQueue.length; k < n; k++) {
+                    this._render(curQuery, items[renderQueue[k]]);
+                }
+            }
+
+            // 记录一下这次渲染结束的位置(即下一次渲染开始的位置)
+            cfg.owner._lastPos = m;
+
+            var curMinMaxColHeight = this._getMinMaxColHeight();
+
+            // 排序之后触发
+            cfg.owner.fire('afterSort', {
+                autoResponsive: {
+                    elms: items,
+                    curMinMaxColHeight: curMinMaxColHeight,
+                    frame: cfg.owner.frame
+                }
+            });
+
+            // 更新容器高度
+            this.setHeight(curMinMaxColHeight.max);
+        },
+        _getCols: function () {
+            var cfg = this.cfg;
+            this.containerWH = D.outerWidth(cfg.container);
+            if (cfg.owner.curQuery && cfg.cache) {
+                return cfg.owner.curQuery;
+            } else {
+                var curQuery = new LinkedList({});
+                for (var i = 0, span = Math.ceil(this.containerWH / cfg.gridWidth); i < span; i++) {
+                    curQuery.add(0);
+                }
+                return cfg.owner.curQuery = curQuery;
+            }
+        },
+        _setFrame: function () {
+            this.cfg.owner.frame++;
+        },
+        _filter: function (queue, idx, elm) {
+            var cfg = this.cfg;
             D.show(elm);
             if (D.hasClass(elm, cfg.filter)) {
                 D.hide(elm);
-                return true;
+                return true; // 停止后面的actions执行，并且不插入
             }
+            return false; // 继续执行后面的actions，插入与否由后面的actions决定
+        },
+        _priority: function (queue, idx, elm) {
+            if (queue._priorityInsertPos == undefined) {
+                queue._priorityInsertPos = 0;
+                this._priority = function (queue, idx, elm) {
+                    var cfg = this.cfg;
+                    if (D.hasClass(elm, cfg.priority)) {
+                        return queue._priorityInsertPos++; // 找到了队列的插入位置
+                    }
+                    return Infinity; // 找到了队列的插入位置，即队列的末尾
+                };
+                this._priority(queue, idx, elm);
+            }
+
+        },
+        _render: function (curQuery, item) {
+            var self = this,
+                cfg = self.cfg;
+
+            // 遍历单个元素之前触发
+            cfg.owner.fire('beforeUnitSort', {
+                autoResponsive: {
+                    elm: item,
+                    frame: cfg.owner.frame
+                }
+            });
+
+            var coordinate = self.coordinate(curQuery, item);
+            // 调用动画
+            self.asyncize(function () {
+                self.callAnim(item, coordinate);
+            });
         },
         coordinate: function (curQuery, elm) {
             var cfg = this.cfg,
@@ -57,187 +177,17 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
 
             return this._autoFit(curQuery, elm.__width, elm.__height);
         },
-        callAnim: function (elm, coordinate) {
-            var self = this,
-                cfg = self.cfg;
-            new AutoAnim({
-                elm: elm,
-                x: coordinate[0],
-                y: coordinate[1],
-                closeAnim: cfg.closeAnim,
-                duration: cfg.duration,
-                easing: cfg.easing,
-                direction: cfg.direction,
-                frame: cfg.owner.frame,
-                owner: cfg.owner
-            });
-        },
-        _cache: function (elm) {
-            var self = this, isCache = false,
-                cfg = self.cfg;
-            if (cfg.priority == EMPTY) {
-                return  isCache;
-            }
-            if (!cfg.cacheQuery) {
-                cfg.cacheQuery = [];
-            }
-            if (!D.hasClass(elm, cfg.priority)) {
-                isCache = true;
-                cfg.cacheQuery.push(elm);
-            }
-            return isCache;
-        },
         /**
-         * 清除缓存
-         * 记录全局缓存
+         * 返回x，y轴坐标
          */
-        clearCache: function (curQuery, _items) {
-            var self = this,
-                cfg = self.cfg;
-            if (cfg.cacheQuery) {
-                cfg.cacheQuery = [];
+        _autoFit: function (curQuery, cW, cH) {
+            var cfg = this.cfg,
+                num = Math.ceil((cW + cfg.unitMargin.x) / cfg.gridWidth),
+                cur = this._getCur(num, curQuery);
+            for (var i = cur[0], len = num + cur[0], newH = cur[1] + cH + cfg.unitMargin.y; i < len; i++) {
+                curQuery.update(i, newH);
             }
-            cfg.owner.curQuery = curQuery;
-            cfg.owner.itemsLen = _items.length;
-        },
-        asyncize: function (handle) {
-            var self = this,
-                cfg = self.cfg;
-            if (cfg.owner.get('suspend')) {
-                setTimeout(function () {
-                    handle.call(self);
-                }, 0);
-            } else {
-                handle.call(self);
-            }
-        },
-        _render: function (curQuery, item) {
-            var self = this,
-                cfg = self.cfg;
-            /**
-             * 遍历单个元素之前触发
-             */
-            cfg.owner.fire('beforeUnitSort', {
-                autoResponsive: {
-                    elm: item,
-                    frame: cfg.owner.frame
-                }
-            });
-            self._maxHeight = 0;
-            var coordinate = self.coordinate(curQuery, item),
-                height = coordinate[1] + item.__height;
-            if ((self._maxHeight || 0) < height) {
-                self._maxHeight = height;
-            }
-            /**
-             * 调用动画
-             */
-            self.asyncize(function () {
-                self.callAnim(item, coordinate);
-            });
-        },
-        _gridSort: function (items) {
-            var self = this,
-                cfg = self.cfg,
-                curQuery = self._getCols();
-            /**
-             * 设置关键帧
-             */
-            self._setFrame();
-            if (cfg.random) {
-                items = items.shuffle();
-            }
-            /**
-             * 排序之前触发beforeSort
-             */
-            cfg.owner.fire('beforeSort', {
-                autoResponsive: {
-                    elms: items
-                }
-            });
-            S.each(items, function (v, k) {
-                if (cfg.cache && k < cfg.owner.itemsLen) {
-                    return;
-                }
-                if (self._filter(v)) {
-                    return;
-                }
-                if (self._cache(v)) {
-                    return;
-                }
-                self._render(curQuery, v);
-            });
-            S.each(cfg.cacheQuery, function (v) {
-                self._render(curQuery, v);
-            });
-            /**
-             * 清空缓存队列
-             */
-            self.clearCache(curQuery, items);
-            /**
-             * 排序之后触发
-             */
-            cfg.owner.fire('afterSort', {
-                autoResponsive: {
-                    elms: items,
-                    curMinMaxColHeight: self._getMinMaxColHeight(),
-                    frame: cfg.owner.frame
-                }
-            });
-            self.setHeight();
-        },
-        _getMinMaxColHeight: function () {
-            var self = this,
-                cfg = self.cfg,
-                _min = Infinity,
-                doneQuery = cfg.owner.doneQuery;
-            for (var i = 0; i < doneQuery.length; i++) {
-                if (doneQuery[i] != 0 && doneQuery[i] < _min) {
-                    _min = doneQuery[i];
-                }
-            }
-            return {
-                min: _min,
-                max: Math.max.apply(Math, doneQuery)
-            };
-        },
-        _setFrame: function () {
-            var self = this;
-            self.cfg.owner.frame++;
-        },
-        /**
-         * @deprecated 该功能暂时未完善
-         *
-         * @param items
-         * @private
-         */
-        _cellSort: function (items) {
-            var self = this,
-                _maxHeight = 0,
-                _row = 0,
-                curQuery = [];
-            S.each(items, function (i, key) {
-                S.log('star from here!');
-                curQuery.push(self._getCells());
-                //self.callAnim(i,coordinate);
-            });
-        },
-        _getCells: function () {
-            return this._getCols();
-        },
-        _getCols: function () {
-            var self = this,
-                cfg = self.cfg;
-            self.containerWH = D.outerWidth(cfg.container);
-            if (cfg.owner.curQuery && cfg.cache) {
-                return cfg.owner.curQuery;
-            } else {
-                var curQuery = new LinkedList({});
-                for (var i = 0, span = Math.ceil(self.containerWH / cfg.gridWidth); i < span; i++) {
-                    curQuery.add(0);
-                }
-                return curQuery;
-            }
+            return [cur[0] * cfg.gridWidth + cfg.unitMargin.x, cur[1] + cfg.unitMargin.y];
         },
         /**
          * 获取当前指针
@@ -253,10 +203,9 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
          * @private
          */
         _stepALG: function (num, curQuery) {
-            var cur = [null, Infinity],
-                _curQuery = curQuery.query.length ? curQuery.query : curQuery;
+            var cur = [null, Infinity];
 
-            for (var i = 0, len = _curQuery.length; i < len - num + 1; i++) {
+            for (var i = 0, len = curQuery.size(); i < len - num + 1; i++) {
                 var max = 0;
 
                 for (var j = i; j < i + num; j++) {
@@ -279,10 +228,9 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
          */
         _skipALG: function (num, curQuery) {
             var min = Infinity,
-                i = 0, idx = 0,
-                _curQuery = curQuery.query.length ? curQuery.query : curQuery;
+                i = 0, idx = 0;
 
-            for (var len = _curQuery.length; i < len - num + 1; i++) {
+            for (var len = curQuery.size(); i < len - num + 1; i++) {
                 var max = -Infinity, curValue;
 
                 for (var j = 0; j < num; j++) {
@@ -310,31 +258,76 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
             }
             return [idx, min];
         },
-        /**
-         * 返回x，y轴坐标
-         */
-        _autoFit: function (curQuery, cW, cH) {
+        asyncize: function (handle) {
             var self = this,
-                cfg = self.cfg,
-                num = Math.ceil((cW + cfg.unitMargin.x) / cfg.gridWidth),
-                cur = self._getCur(num, curQuery);
-            for (var i = cur[0]; i < num + cur[0]; i++) {
-                curQuery.update(i, cur[1] + cH + cfg.unitMargin.y);
+                cfg = self.cfg;
+            if (cfg.owner.get('suspend')) {
+                setTimeout(function () {
+                    handle.call(self);
+                }, 0);
+            } else {
+                handle.call(self);
             }
-            cfg.owner.doneQuery = curQuery.query;
-            return [cur[0] * cfg.gridWidth + cfg.unitMargin.x, cur[1] + cfg.unitMargin.y];
+        },
+        callAnim: function (elm, coordinate) {
+            var cfg = this.cfg;
+            new AutoAnim({
+                elm: elm,
+                x: coordinate[0],
+                y: coordinate[1],
+                closeAnim: cfg.closeAnim,
+                duration: cfg.duration,
+                easing: cfg.easing,
+                direction: cfg.direction,
+                frame: cfg.owner.frame,
+                owner: cfg.owner
+            });
+        },
+        _getMinMaxColHeight: function () {
+            var cfg = this.cfg,
+                min = Infinity,
+                doneQuery = cfg.owner.curQuery.query;      // TODO 如果使用的类型是链表？
+            for (var i = 0, len = doneQuery.length; i < len; i++) {
+                if (doneQuery[i] != 0 && doneQuery[i] < min) {
+                    min = doneQuery[i];
+                }
+            }
+            return {
+                min: min,
+                max: Math.max.apply(Math, doneQuery)
+            };
         },
         /**
          * 设置容器高度
+         * @param height
          */
-        setHeight: function () {
-            var self = this,
-                cfg = self.cfg;
+        setHeight: function (height) {
+            var cfg = this.cfg;
             if (!cfg.autoHeight) {
                 return;
             }
-            D.height(cfg.container, (self._maxHeight || 0) + cfg.unitMargin.y);
+            D.height(cfg.container, height + cfg.unitMargin.y);
+        },
+        /**
+         * @deprecated 该功能暂时未完善
+         *
+         * @param items
+         * @private
+         */
+        _cellSort: function (items) {
+            var self = this,
+                _maxHeight = 0,
+                _row = 0,
+                curQuery = [];
+            S.each(items, function (i, key) {
+                S.log('star from here!');
+                curQuery.push(self._getCells());
+                //self.callAnim(i,coordinate);
+            });
+        },
+        _getCells: function () {
+            return this._getCols();
         }
-    });
+    };
     return GridSort;
 }, {requires: ['./anim', './linkedlist', 'dom']});

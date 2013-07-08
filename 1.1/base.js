@@ -14,20 +14,23 @@ KISSY.add(function (S, Config, GridSort, Base) {
      * @extends Base
      */
     function AutoResponsive() {
-        var self = this;
-        AutoResponsive.superclass.constructor.apply(self, arguments);
-        if (!S.get(self.get('container'))) {
+        AutoResponsive.superclass.constructor.apply(this, arguments);
+
+        if (!S.get(this.get('container'))) {
             S.log('can not init, lack of container!');
             return;
         }
-        self.fire('beforeInit', {
-            autoResponsive: self
+
+        this.fire('beforeInit', {
+            autoResponsive: this
         });
-        if (self.get('autoInit')) {
-            self.init();
+
+        if (this.get('autoInit')) {
+            this.init();
         }
-        self.fire('afterInit', {
-            autoResponsive: self
+
+        this.fire('afterInit', {
+            autoResponsive: this
         });
     }
 
@@ -37,39 +40,36 @@ KISSY.add(function (S, Config, GridSort, Base) {
          * @return  排序实例
          */
         init: function () {
-            var self = this;
-            self._bindEvent();
-            self.initPlugin();
-            self.render();
+            this._bindEvent();
+            this.initPlugins();
+            this.render();
             S.log('init!');
         },
-        initPlugin: function () {
-            var self = this;
-            self.api = {};
-            /**
-             * 添加插件
-             */
-            S.each(self.get('plugins'), function (i) {
-                i.init(self);
-                S.mix(self.api, i.api);
-            });
+        /**
+         * 初始插件
+         */
+        initPlugins: function () {
+            this.api = {};
+            for (var i = 0, a = this.get('plugins'), len = a.length, v; i < len; i++) {
+                v = a[i];
+                v.init(this);
+                S.mix(this.api, v.api);
+            }
         },
         /**
          * 渲染排序结果
          */
         render: function () {
-            var self = this,
-                userCfg = self.getAttrVals();
-            self.frame = self.frame || 0;
+            var userCfg = this.getAttrVals();
+            this.frame = this.frame || 0;
             arguments[0] && S.each(arguments[0], function (i, _key) {
                 userCfg[_key] = i;
             });
-            /**
-             * 应用插件属性
-             */
-            S.mix(userCfg, self.api);
-            self.gridSort = self.gridSort || new GridSort();
-            self.gridSort.init(userCfg, self);
+
+            // 应用插件属性
+            S.mix(userCfg, this.api);
+            this.gridSort = this.gridSort || new GridSort();
+            this.gridSort.init(userCfg, this);
         },
         /**
          * 绑定浏览器resize事件
@@ -80,7 +80,7 @@ KISSY.add(function (S, Config, GridSort, Base) {
             if (self.get('closeResize')) {
                 return;
             }
-            E.on(win, 'resize', function (e) {
+            E.on(win, 'resize', function () {
                 handle.call(self, {isRecountUnitWH: S.inArray('resize', whensRecountUnitWH)});
             });
         },
@@ -91,22 +91,19 @@ KISSY.add(function (S, Config, GridSort, Base) {
             var self = this;
             self._bind(S.buffer(function () {   // 使用buffer，不要使用throttle
                 self.render(arguments);
-                /**
-                 * 浏览器改变触发resize事件
-                 */
-                self.fire('resize');
+                self.fire('resize'); // 浏览器改变触发resize事件
             }, self.get('resizeFrequency'), self));
         },
         /**
          * 重新布局调整
          */
         adjust: function (isRecountUnitWH) {
-            var self = this, whensRecountUnitWH = self.get('whensRecountUnitWH');
-            self.__isAdjusting = 1;
-            self.render({
+            var whensRecountUnitWH = this.get('whensRecountUnitWH');
+            this.__isAdjusting = 1;
+            this.render({
                 isRecountUnitWH: isRecountUnitWH || S.inArray('adjust', whensRecountUnitWH)
             });
-            self.__isAdjusting = 0;
+            this.__isAdjusting = 0;
         },
         isAdjusting: function () {
             return this.__isAdjusting || 0;
@@ -116,8 +113,7 @@ KISSY.add(function (S, Config, GridSort, Base) {
          * @param {String} 选择器
          */
         priority: function (selector) {
-            var self = this;
-            self.render({
+            this.render({
                 priority: selector
             });
         },
@@ -126,8 +122,7 @@ KISSY.add(function (S, Config, GridSort, Base) {
          * @param {String} 选择器
          */
         filter: function (selector) {
-            var self = this;
-            self.render({
+            this.render({
                 filter: selector
             });
         },
@@ -136,8 +131,7 @@ KISSY.add(function (S, Config, GridSort, Base) {
          * @param {Object} 边距
          */
         margin: function (margin) {
-            var self = this;
-            self.render({
+            this.render({
                 unitMargin: margin
             });
         },
@@ -146,8 +140,7 @@ KISSY.add(function (S, Config, GridSort, Base) {
          * @param {String} 方向
          */
         direction: function (direction) {
-            var self = this;
-            self.render({
+            this.render({
                 direction: direction
             });
         },
@@ -155,8 +148,7 @@ KISSY.add(function (S, Config, GridSort, Base) {
          * 随机排序
          */
         random: function () {
-            var self = this;
-            self.render({
+            this.render({
                 random: true
             });
         },
@@ -165,17 +157,15 @@ KISSY.add(function (S, Config, GridSort, Base) {
          * @param {Object} 设置对象
          */
         option: function (option) {
-            var self = this;
-            self.render(option);
+            this.render(option);
         },
         /**
          * append 方法,调用跟随队列优化性能
          * @param {Object} 节点对象（可以为单个元素、多个元素数组、fragments，以及混合数组）
          */
         append: function (nodes) {
-            var self = this;
-            D.append(nodes, self.get('container'));
-            self.render({
+            D.append(nodes, this.get('container'));
+            this.render({
                 cache: true
             });
         },
@@ -184,10 +174,11 @@ KISSY.add(function (S, Config, GridSort, Base) {
          * @param {Object} 节点对象（可以为单个元素、多个元素数组、fragments，以及混合数组）
          */
         prepend: function (nodes) {
-            var self = this;
-            D.prepend(nodes, self.get('container'));
-            self.render();
+            D.prepend(nodes, this.get('container'));
+            this.render();
         }
     }, { ATTRS: new Config()});
+
     return AutoResponsive;
+
 }, {requires: ['./config', './gridsort', 'base', 'dom', 'event']});
