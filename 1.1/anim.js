@@ -9,7 +9,9 @@ KISSY.add(function (S) {
 
         letIE10 = S.UA.ie < 11,
 
-        prefixes = ['-webkit-', '-moz-', '-ms-', '-o-', ''];
+        prefixes = ['-webkit-', '-moz-', '-ms-', '-o-', ''],
+
+        animType = letIE10 ? 'fixedAnim' : 'css3Anim';
 
     /**
      * @name AutoAnim
@@ -23,7 +25,7 @@ KISSY.add(function (S) {
 
     S.augment(AutoAnim, {
         _init: function () {
-            this[letIE10 ? 'fixedAnim' : 'css3Anim']();
+            this[animType]();
         },
         /**
          * supply css ua prefix

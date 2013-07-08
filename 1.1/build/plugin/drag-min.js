@@ -1,3 +1,3 @@
-/*! autoResponsive - v1.1 - 2013-07-08 11:26:34 AM
+/*! autoResponsive - v1.1 - 2013-07-08 11:45:58 AM
 * Copyright (c) 2013 xudafeng; Licensed  */
 KISSY.add("gallery/autoResponsive/1.1/plugin/drag",function(t){"use strict";function e(){}var i=(t.Event,t.DD),n=i.DraggableDelegate,r=i.Droppable;return t.augment(e,{init:function(){t.log("drag init!")},_bindDrop:function(t){var e=this;"on"==e.drag&&new r({node:t}).on("dropenter",function(t){D.insertAfter(t.drag.get("node"),t.drop.get("node")),e.owner.render()})},_bindBrag:function(){var t=this;"on"==t.drag&&new n({container:t.container,selector:t.selector,move:!0}).on("dragstart",function(t){var e=t.drag.get("node")[0];this.p={left:e.offsetLeft,top:e.offsetTop}}).on("drag",function(){}).on("dragend",function(t){D.css(t.drag.get("node"),this.p)})}}),e},{requires:["event","dd"]});
