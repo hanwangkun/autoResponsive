@@ -41,19 +41,13 @@ KISSY.add(function (S) {
          * css3动画效果
          */
         css3Anim: function () {
+            /*
+             * css3效果代码添加
+             * 为了减少对象读取css3模式去除duration配置，改为css中读取
+             */
             var cfg = this.cfg;
-
-            if (cfg.direction !== 'right') { // TODO 优化点：既然css3Anim在循环中，可以考虑将该判断条件在逻辑数上上提，以加该函数的执行
-                D.css(cfg.elm, S.merge(
-                    this.cssPrefixes('transform', 'translate(' + cfg.x + 'px,' + cfg.y + 'px) '),
-                    this.cssPrefixes('transition-duration', cfg.closeAnim ? 0 : cfg.duration + 's'))
-                );
-            } else {
-                D.css(cfg.elm, S.merge(
-                    this.cssPrefixes('transform', 'translate(' + (cfg.owner.gridSort.containerWH - cfg.elm.__width - cfg.x) + 'px,' + cfg.y + 'px) '),
-                    this.cssPrefixes('transition-duration', cfg.closeAnim ? 0 : cfg.duration + 's'))
-                );
-            }
+            // TODO 优化点：既然css3Anim在循环中，可以考虑将‘cfg.direction !== 'right'’该判断条件在逻辑树上上提，以加快该函数的执行
+            D.css(cfg.elm, self.cssPrefixes('transform', 'translate(' + ((cfg.direction !== 'right') ? cfg.x : (cfg.owner.gridSort.containerWH - cfg.elm.__width - cfg.x)) + 'px,' + cfg.y + 'px) '));
 
             // 单元排序后触发
             cfg.owner.fire('afterUnitSort', {

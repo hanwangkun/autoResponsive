@@ -10,6 +10,9 @@ autoResponsive，是基于 KISSY 1.3.0 或更高版本的自适应布局组件�
 
 ###请使用新版本1.1
 
+![alt autoResponsive](http://img04.taobaocdn.com/tps/i4/T1A6FDFnlbXXcq.EHS-300-319.png "autoResponsive")
+
+####autoResponsive - 奶茶般清纯和简单
 ## 她的特点
 * 支持条件排序、随机排序
 * 支持特定条件的过滤排序
@@ -78,7 +81,7 @@ KISSY.use('gallery/autoResponsive/1.1index', function (S, Ar) {
 
 ### 3.配置项
 ####常用参数：
-<table>
+<table class="table table-striped table-bordered">
     <thead>
     <tr>
         <th>参数名</th>
@@ -124,7 +127,6 @@ KISSY.use('gallery/autoResponsive/1.1index', function (S, Ar) {
         <td>r/w</td>
         <td>最小栅格单元宽度<code>px</code></td>
     </tr>
-
     <tr>
         <td>unitMargin</td>
         <td>Object</td>
@@ -144,14 +146,14 @@ KISSY.use('gallery/autoResponsive/1.1index', function (S, Ar) {
         <td>Number</td>
         <td>1</td>
         <td>r/w</td>
-        <td>补间动画时间</td>
+        <td>补间动画时间onlyIE</td>
     </tr>
     <tr>
         <td>easing</td>
         <td>String</td>
         <td>"easeNone"</td>
         <td>r/w</td>
-        <td>补间动画算子</td>
+        <td>补间动画算子onlyIE</td>
     </tr>
     <tr>
         <td>direction</td>
@@ -221,10 +223,12 @@ KISSY.use('gallery/autoResponsive/1.1index', function (S, Ar) {
         <td>Array</td>
         <td>[]</td>
         <td>r/w</td>
-        <td>重新计算单元宽高的行为时刻（可选值：<code>'closeResize', 'adjust'</code>）</td>
+        <td>重新计算单元宽高的行为时刻(可选值：<code>'closeResize', 'adjust'</code>)</td>
     </tr>
     </tbody>
 </table>
+**提醒**
+* duration、easing配置只针对IE，css3浏览器请使用<code>transition: all .3s ease-in 0s;</code>设置以提高性能
 
 ## 常用方法说明
 ####init ()：初始化组件
@@ -339,7 +343,7 @@ KISSY.use('gallery/autoResponsive/1.1/index',function(S,T){
 * 针对瀑布流对append方法做了性能优化：[性能压测](http://xudafeng.github.io/autoResponsive/demo/waterfall/stress.html)
 
 ## 事件说明
-<table>
+<table class="table table-striped table-bordered">
     <thead>
     <tr>
         <th>事件名</th>

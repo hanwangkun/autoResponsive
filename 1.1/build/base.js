@@ -27,8 +27,8 @@ KISSY.add('gallery/autoResponsive/1.1/config',function () {
      * @param {Number}  gridWidth            最小栅格单元宽度<code>px</code>
      * @param {Object}  unitMargin           单元格外边距<code>px</code>
      * @param {Boolean} closeAnim            是否关闭动画（默认开启）
-     * @param {Number}  duration             补间动画时间
-     * @param {String}  easing               补间动画算子
+     * @param {Number}  duration             补间动画时间，此项只针对IE系列生效
+     * @param {String}  easing               补间动画算子，此项只针对IE系列生效
      * @param {String}  direction            排序起始方向（可选值：<code>'right'</code>）
      * @param {Boolean} random               随机排序开关（默认关闭）
      * @param {String}  sortBy               排序算法（可选值：<code>'grid'</code>或<code>'cell'</code>，默认为<code>'grid'</code>）
@@ -97,29 +97,21 @@ KISSY.add('gallery/autoResponsive/1.1/anim',function (S) {
          * css3动画
          */
         cssPrefixes: function (styleKey, styleValue) {
-            var fixedRule = {};
-            S.each('-webkit- -moz- -o- -ms-  '.split(BLANK), function (i) {
-                fixedRule[i + styleKey] = styleValue;
-            });
+            var fixedRule = {},
+                prefixes = ['-webkit-','-moz-','-o-','-ms-',BLANK];
+            for (var i = 0; i < 5; i++){
+                fixedRule[prefixes[i] + styleKey] = styleValue;
+            }
             return fixedRule;
         },
         css3Anim: function () {
             /**
              * css3效果代码添加
+             * 为了减少对象读取css3模式去除duration配置，改为css中读取
              */
             var self = this,
                 cfg = self.cfg;
-            if (cfg.direction !== 'right') {
-                D.css(cfg.elm, S.merge(
-                    self.cssPrefixes('transform', 'translate(' + cfg.x + 'px,' + cfg.y + 'px) '),
-                    self.cssPrefixes('transition-duration', cfg.closeAnim ? 0 : cfg.duration + 's'))
-                );
-            }else{
-                D.css(cfg.elm, S.merge(
-                    self.cssPrefixes('transform', 'translate(' + (cfg.owner.gridSort.containerWH - cfg.elm.__width-cfg.x)  + 'px,' + cfg.y + 'px) '),
-                    self.cssPrefixes('transition-duration', cfg.closeAnim ? 0 : cfg.duration + 's'))
-                );
-            }
+            D.css(cfg.elm, self.cssPrefixes('transform', 'translate(' + ((cfg.direction !== 'right') ? cfg.x : (cfg.owner.gridSort.containerWH - cfg.elm.__width - cfg.x)) + 'px,' + cfg.y + 'px) '));
             /**
              * 单元素计算排序后触发
              */
@@ -494,9 +486,12 @@ KISSY.add('gallery/autoResponsive/1.1/gridsort',function (S, AutoAnim, LinkedLis
                 }
                 self._render(curQuery, v);
             });
-            S.each(cfg.cacheQuery, function (v) {
-                self._render(curQuery, v);
-            });
+            var cacheQuery = cfg.cacheQuery;
+            if(cacheQuery){
+                for(var k=0; k < cacheQuery.length; k++){
+                    self._render(curQuery, cacheQuery[k]);
+                }
+            }
             /**
              * 清空缓存队列
              */

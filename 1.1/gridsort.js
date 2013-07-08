@@ -45,7 +45,7 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
 
             // 排序之前触发beforeSort
             cfg.owner.fire('beforeSort', {
-                autoResponsive: {
+                autoResponsive: { // TODO 优化点：既然是给自定义事件传参，没必要再多挂一层 'autoResponsive' key
                     elms: items
                 }
             });
