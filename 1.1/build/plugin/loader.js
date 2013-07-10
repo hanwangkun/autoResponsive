@@ -28,19 +28,11 @@ KISSY.add('gallery/autoResponsive/1.1/plugin/loader',function (S) {
      * @constructor
      */
     function Loader(cfg) {
-        var self = this;
+        if (!(this instanceof Loader)) {
+            return new Loader(cfg);
+        }
 
-        // 用户配置修正
-        cfg = {
-            load: typeof cfg.load == 'function' ? cfg.load : function (success, end) {
-                S.log('AutoResponsive.Loader::constructor: the load function in user\'s config is undefined!', 'warn');
-            },
-            diff: cfg.diff || 0,  // 数据砖块预载高度
-            mod: cfg.mod == 'manual' ? 'manual' : 'auto',  // load触发模式
-            qpt: 15 // 每次渲染处理的最大单元数量，如15表示每次最多渲染15个数据砖块，多出来的部分下个时间片再处理
-        };
-
-        self.config = cfg;
+        this._makeCfg(cfg);
     }
 
     /**
@@ -53,13 +45,22 @@ KISSY.add('gallery/autoResponsive/1.1/plugin/loader',function (S) {
          * @param owner Base对象（即插件宿主对象）
          */
         init: function (owner) {
+
+            this.owner = owner;
+
+            this.__bindMethods();
+
+            this._reset();
+
+        },
+        /**
+         * 状态及绑定重置
+         * @private
+         */
+        _reset: function(){
             var self = this,
                 userCfg = self.config,
                 mod = userCfg.mod;
-
-            self.owner = owner;
-
-            self.__bindMethods();
 
             self.__started = self.__destroyed = self.__stopped = 0;
 
@@ -68,13 +69,37 @@ KISSY.add('gallery/autoResponsive/1.1/plugin/loader',function (S) {
 
             } else { // 自动触发模式
 
-                self.__onScroll = S.buffer(self.__doScroll, SCROLL_TIMER, self);
-
                 self.__onScroll(); // 初始化时立即检测一次，但是要等初始化 adjust 完成后.
 
                 self.start();
             }
+        },
+        /**
+         * 用户配置修正
+         * @param cfg
+         * @private
+         */
+        _makeCfg: function(cfg){
+            cfg = {
+                load: typeof cfg.load == 'function' ? cfg.load : function (success, end) {
+                    S.log('AutoResponsive.Loader::_makeCfg: the load function in user\'s config is undefined!', 'warn');
+                },
+                diff: cfg.diff || 0,  // 数据砖块预载高度
+                mod: cfg.mod == 'manual' ? 'manual' : 'auto',  // load触发模式
+                qpt: 15 // 每次渲染处理的最大单元数量，如15表示每次最多渲染15个数据砖块，多出来的部分下个时间片再处理
+            };
 
+            this.config = cfg;
+        },
+        /**
+         * 暴露成外部接口，主要目的是让使用者可以动态改变loader某些配置（如mod），而不需要重新实例化
+         * 修改的配置会立即生效
+         * @param cfg
+         */
+        changeCfg: function(cfg){
+            this.stop(); // 终止原来的loader
+            this._makeCfg(S.merge(this.config, cfg)); // 重新配置
+            this._reset(); // 状态及事件重置
         },
         /**
          * 在自动触发模式下，监测屏幕滚动位置是否满足触发load数据的条件
@@ -200,7 +225,9 @@ KISSY.add('gallery/autoResponsive/1.1/plugin/loader',function (S) {
             owner.append(items);
         },
         /**
-         * 为Base对象挂载getMaxColHeight、getMinColHeight方法
+         * 挂载一次，终身受用：
+         * 1.为Base对象挂载getMaxColHeight、getMinColHeight方法;
+         * 2.为Loader对象挂载__onScroll、__onMouseWheel私有方法
          * @private
          */
         __bindMethods: function () {
@@ -216,16 +243,18 @@ KISSY.add('gallery/autoResponsive/1.1/plugin/loader',function (S) {
             owner.getMinColHeight = function () {
                 return curMinMaxColHeight.min;
             };
+
+            self.__onScroll = debounce(self.__doScroll, SCROLL_TIMER, self, true); // 建议不要使用Kissy.buffer，否则感觉loader太不灵敏了
+            self.__onMouseWheel = function (e) {
+                self.__scrollDirection = e.deltaY > 0 ? 'up' : 'down';
+            };
         },
         /**
          * 启动loader数据load功能
          * @public
          */
         start: function () {
-            var self = this;
-            $win.on('mousewheel', function (e) {
-                self.__scrollDirection = e.deltaY > 0 ? 'up' : 'down';
-            });
+            $win.on('mousewheel', this.__onMouseWheel);
             this.resume();
         },
         /**
@@ -234,6 +263,7 @@ KISSY.add('gallery/autoResponsive/1.1/plugin/loader',function (S) {
          */
         stop: function () {
             this.pause();
+            $win.detach('scroll', this.__onMouseWheel);
             this.__stopped = 1;
         },
         /**
@@ -261,6 +291,7 @@ KISSY.add('gallery/autoResponsive/1.1/plugin/loader',function (S) {
         },
         /**
          * 停止loader所有工作，销毁loader对象
+         * @deprecated 该功能暂时未完善
          * @public
          */
         destroy: function () {
@@ -320,6 +351,44 @@ KISSY.add('gallery/autoResponsive/1.1/plugin/loader',function (S) {
         };
 
         return monitor;
+    }
+
+    /**
+     * 等同于kissy的buffer（保留尾帧的任务，延迟指定时间threshold后再执行）
+     * 比kissy的buffer优越的一点是可以设置保留首帧还是尾帧任务（execAsap=true表示保留首帧）
+     *
+     * @param fn reference to original function
+     * @param threshold
+     * @param context the context of the original function
+     * @param execAsap execute at start of the detection period
+     * @returns {Function}
+     * @private
+     */
+    function debounce (fn, threshold, context, execAsap) {
+        var timeout; // handle to setTimeout async task (detection period)
+        // return the new debounced function which executes the original function only once
+        // until the detection period expires
+        return function debounced() {
+            var obj = context || this, // reference to original context object
+                args = arguments; // arguments at execution time
+            // this is the detection function. it will be executed if/when the threshold expires
+            function delayed() {
+                // if we're executing at the end of the detection period
+                if (!execAsap)
+                    fn.apply(obj, args); // execute now
+                // clear timeout handle
+                timeout = null;
+            }
+
+            // stop any current detection period
+            if (timeout)
+                clearTimeout(timeout);
+            // otherwise, if we're not already waiting and we're executing at the beginning of the detection period
+            else if (execAsap)
+                fn.apply(obj, args); // execute now
+            // reset the detection period
+            timeout = setTimeout(delayed, threshold || 100);
+        };
     }
 
     return Loader;
