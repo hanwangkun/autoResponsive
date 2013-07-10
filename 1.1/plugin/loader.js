@@ -62,7 +62,7 @@ KISSY.add(function (S) {
 
             } else { // 自动触发模式
 
-                self.__onScroll = S.buffer(self.__doScroll, SCROLL_TIMER, self);
+                self.__onScroll = debounce(self.__doScroll, SCROLL_TIMER, self, true); // 建议不要使用Kissy.buffer，否则感觉loader太不灵敏了
 
                 self.__onScroll(); // 初始化时立即检测一次，但是要等初始化 adjust 完成后.
 
@@ -314,6 +314,44 @@ KISSY.add(function (S) {
         };
 
         return monitor;
+    }
+
+    /**
+     * 等同于kissy的buffer（保留尾帧的任务，延迟指定时间threshold后再执行）
+     * 比kissy的buffer优越的一点是可以设置保留首帧还是尾帧任务（execAsap=true表示保留首帧）
+     *
+     * @param fn reference to original function
+     * @param threshold
+     * @param context the context of the original function
+     * @param execAsap execute at start of the detection period
+     * @returns {Function}
+     * @private
+     */
+    function debounce (fn, threshold, context, execAsap) {
+        var timeout; // handle to setTimeout async task (detection period)
+        // return the new debounced function which executes the original function only once
+        // until the detection period expires
+        return function debounced() {
+            var obj = context || this, // reference to original context object
+                args = arguments; // arguments at execution time
+            // this is the detection function. it will be executed if/when the threshold expires
+            function delayed() {
+                // if we're executing at the end of the detection period
+                if (!execAsap)
+                    fn.apply(obj, args); // execute now
+                // clear timeout handle
+                timeout = null;
+            }
+
+            // stop any current detection period
+            if (timeout)
+                clearTimeout(timeout);
+            // otherwise, if we're not already waiting and we're executing at the beginning of the detection period
+            else if (execAsap)
+                fn.apply(obj, args); // execute now
+            // reset the detection period
+            timeout = setTimeout(delayed, threshold || 100);
+        };
     }
 
     return Loader;
