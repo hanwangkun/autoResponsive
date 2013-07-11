@@ -223,7 +223,14 @@ KISSY.use('gallery/autoResponsive/1.1index', function (S, Ar) {
         <td>Array</td>
         <td>[]</td>
         <td>r/w</td>
-        <td>重新计算单元宽高的行为时刻(可选值：<code>'closeResize', 'adjust'</code>)</td>
+        <td>重新计算单元宽高的行为时刻(可选值：<code>'resize', 'adjust'</code>)</td>
+    </tr>
+    <tr>
+        <td>delayOnResize</td>
+        <td>Number</td>
+        <td>-1</td>
+        <td>r/w</td>
+        <td>resize时延迟渲染，主要是解决css3动画对页面节点属性更新不及时导致问题</td>
     </tr>
     </tbody>
 </table>
@@ -300,7 +307,7 @@ autoResponsive.random();
 /**
 * 动态改变配置
 */
-autoResponsive.option({
+autoResponsive.changeCfg({
 	unitMargin:{
 		x :10,
 		y:1
