@@ -301,7 +301,7 @@ autoResponsive.margin({
 //随机排序
 autoResponsive.random();
 ```
-####option ()：自定义配置
+####changeCfg ()：自定义配置
 
 ```javascript
 /**
@@ -365,6 +365,10 @@ KISSY.use('gallery/autoResponsive/1.1/index',function(S,T){
     <tr>
         <td>afterInit </td>
         <td>初始化后触发</td>
+    </tr>
+    <tr>
+        <td>beforeResize </td>
+        <td>浏览器resize之前触发</td>
     </tr>
     <tr>
         <td>resize </td>
