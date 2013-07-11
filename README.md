@@ -63,7 +63,20 @@ KISSY.config({
 ```
 #### KISSY 1.3.0 无需配置,直接初始化即可
 ```javascript
-KISSY.use('gallery/autoResponsive/1.1index', function (S, Ar) {
+KISSY.use('gallery/autoResponsive/1.1/index', function (S, Ar) {
+	var AutoResponsive = new Ar({
+			container:'#J_container',
+			selector:'div',
+			unitMargin:{
+				x :10,
+				y:10
+			}
+	});
+});
+/**
+* 如果不需要加载插件，请是直接使用base
+*/
+KISSY.use('gallery/autoResponsive/1.1/base', function (S, Ar) {
 	var AutoResponsive = new Ar({
 			container:'#J_container',
 			selector:'div',
@@ -75,6 +88,7 @@ KISSY.use('gallery/autoResponsive/1.1index', function (S, Ar) {
 })
 ```
 **提醒**
+* 支持kissy的seed机制
 * container为外层容器选择器
 * selector为排布元素选择器
 * use()回调的第一个参数是KISSY，第二个参数才是组件
