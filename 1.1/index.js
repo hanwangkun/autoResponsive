@@ -7,5 +7,6 @@ KISSY.add(function (S, AutoResponsive, Hash, Drag, Loader) {
     AutoResponsive.Hash = Hash;
     AutoResponsive.Drag = Drag;
     AutoResponsive.Loader = Loader;
+    console.log('delete')
     return AutoResponsive;
 }, {requires: ['./base', './plugin/hash', './plugin/drag', './plugin/loader']});

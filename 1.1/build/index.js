@@ -1415,5 +1415,6 @@ KISSY.add('gallery/autoResponsive/1.1/index',function (S, AutoResponsive, Hash, 
     AutoResponsive.Hash = Hash;
     AutoResponsive.Drag = Drag;
     AutoResponsive.Loader = Loader;
+    console.log('delete')
     return AutoResponsive;
 }, {requires: ['./base', './plugin/hash', './plugin/drag', './plugin/loader']});
