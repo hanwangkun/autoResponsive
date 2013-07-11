@@ -4,7 +4,7 @@
  * @Date:           2013.3.5
  * @Todo:           gridSort
  */
-KISSY.add(function (S, AutoAnim, LinkedList) {
+KISSY.add('gallery/autoResponsive/1.1/gridsort',function (S, AutoAnim, LinkedList) {
     'use strict';
     var D = S.DOM, EMPTY = '';
 

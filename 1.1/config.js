@@ -3,7 +3,7 @@
  * @Author:         dafeng.xdf[at]taobao.com
  * @Date:           2013.3.5
  */
-KISSY.add(function () {
+KISSY.add('gallery/autoResponsive/1.1/config',function () {
     'use strict';
     var EMPTY = '';
 
@@ -29,6 +29,7 @@ KISSY.add(function () {
      * @param {Boolean} closeResize          是否关闭resize绑定（默认不关闭）
      * @param {Number}  resizeFrequency      resize触发频率
      * @param {Array}   whensRecountUnitWH   重新计算单元宽高的行为时刻（可选值：<code>'closeResize', 'adjust'</code>）
+     * @param {Number}  delayOnResize        resize时延迟渲染，主要是解决css3动画对页面节点属性更新不及时导致的渲染时依赖的数据不准确问题[临时解决办法]
      */
     function Config() {
         return {
@@ -52,7 +53,8 @@ KISSY.add(function () {
             suspend: {value: true},
             cache: {value: false},
             resizeFrequency: {value: 200},
-            whensRecountUnitWH: {value: []}
+            whensRecountUnitWH: {value: []},
+            delayOnResize:-1
         };
     }
     return Config;

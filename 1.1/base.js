@@ -3,7 +3,7 @@
  * @Author:         dafeng.xdf[at]taobao.com
  * @Date:           2013.3.5
  */
-KISSY.add(function (S, Config, GridSort, Base) {
+KISSY.add('gallery/autoResponsive/1.1/base',function (S, Config, GridSort, Base) {
     'use strict';
     var D = S.DOM, E = S.Event, win = window;
 
@@ -60,7 +60,9 @@ KISSY.add(function (S, Config, GridSort, Base) {
          * 渲染排序结果
          */
         render: function () {
-            var userCfg = this.getAttrVals();
+            var userCfg = this.getAttrVals(),
+                whensRecountUnitWH = this.get('whensRecountUnitWH');
+            userCfg.isRecountUnitWH = !!whensRecountUnitWH.length;
             this.frame = this.frame || 0;
             arguments[0] && S.each(arguments[0], function (i, _key) {
                 userCfg[_key] = i;
@@ -90,7 +92,15 @@ KISSY.add(function (S, Config, GridSort, Base) {
         _bindEvent: function () {
             var self = this;
             self._bind(S.buffer(function () {   // 使用buffer，不要使用throttle
-                self.render(arguments);
+                var delayOnResize = self.get('delayOnResize');
+                self.fire('beforeResize');
+                if(delayOnResize !== -1){
+                    setTimeout(function(){
+                        self.render(arguments);
+                    },delayOnResize);
+                }else{
+                    self.render(arguments);
+                }
                 self.fire('resize'); // 浏览器改变触发resize事件
             }, self.get('resizeFrequency'), self));
         },
@@ -156,8 +166,11 @@ KISSY.add(function (S, Config, GridSort, Base) {
          * 改变组件设置
          * @param {Object} 设置对象
          */
-        option: function (option) {
-            this.render(option);
+        changeCfg: function (cfg) {
+            var self = this;
+            S.each(cfg,function(i,key){
+                self.set(key,i);
+            });
         },
         /**
          * append 方法,调用跟随队列优化性能

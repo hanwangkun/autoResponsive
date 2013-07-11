@@ -39,6 +39,7 @@ KISSY.add('gallery/autoResponsive/1.1/config',function () {
      * @param {Boolean} closeResize          是否关闭resize绑定（默认不关闭）
      * @param {Number}  resizeFrequency      resize触发频率
      * @param {Array}   whensRecountUnitWH   重新计算单元宽高的行为时刻（可选值：<code>'closeResize', 'adjust'</code>）
+     * @param {Number}  delayOnResize        resize时延迟渲染，主要是解决css3动画对页面节点属性更新不及时导致的渲染时依赖的数据不准确问题[临时解决办法]
      */
     function Config() {
         return {
@@ -62,7 +63,8 @@ KISSY.add('gallery/autoResponsive/1.1/config',function () {
             suspend: {value: true},
             cache: {value: false},
             resizeFrequency: {value: 200},
-            whensRecountUnitWH: {value: []}
+            whensRecountUnitWH: {value: []},
+            delayOnResize:-1
         };
     }
     return Config;
@@ -740,7 +742,9 @@ KISSY.add('gallery/autoResponsive/1.1/base',function (S, Config, GridSort, Base)
          * 渲染排序结果
          */
         render: function () {
-            var userCfg = this.getAttrVals();
+            var userCfg = this.getAttrVals(),
+                whensRecountUnitWH = this.get('whensRecountUnitWH');
+            userCfg.isRecountUnitWH = !!whensRecountUnitWH.length;
             this.frame = this.frame || 0;
             arguments[0] && S.each(arguments[0], function (i, _key) {
                 userCfg[_key] = i;
@@ -770,7 +774,15 @@ KISSY.add('gallery/autoResponsive/1.1/base',function (S, Config, GridSort, Base)
         _bindEvent: function () {
             var self = this;
             self._bind(S.buffer(function () {   // 使用buffer，不要使用throttle
-                self.render(arguments);
+                var delayOnResize = self.get('delayOnResize');
+                self.fire('beforeResize');
+                if(delayOnResize !== -1){
+                    setTimeout(function(){
+                        self.render(arguments);
+                    },delayOnResize);
+                }else{
+                    self.render(arguments);
+                }
                 self.fire('resize'); // 浏览器改变触发resize事件
             }, self.get('resizeFrequency'), self));
         },
@@ -836,8 +848,11 @@ KISSY.add('gallery/autoResponsive/1.1/base',function (S, Config, GridSort, Base)
          * 改变组件设置
          * @param {Object} 设置对象
          */
-        option: function (option) {
-            this.render(option);
+        changeCfg: function (cfg) {
+            var self = this;
+            S.each(cfg,function(i,key){
+                self.set(key,i);
+            });
         },
         /**
          * append 方法,调用跟随队列优化性能
