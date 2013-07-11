@@ -133,6 +133,7 @@ KISSY.add('gallery/autoResponsive/1.1/anim',function (S) {
                     frame: cfg.owner.frame
                 }
             });
+            S.log('css3 anim success');
         },
         /**
          * 降级模拟css3动画
@@ -162,6 +163,7 @@ KISSY.add('gallery/autoResponsive/1.1/anim',function (S) {
                     }
                 });
             }).run();
+            S.log('kissy anim success');
         },
         /**
          * 无动画
@@ -185,6 +187,7 @@ KISSY.add('gallery/autoResponsive/1.1/anim',function (S) {
                     frame: cfg.owner.frame
                 }
             });
+            S.log('maybe your anim is closed');
         }
     });
     return AutoAnim;
@@ -725,7 +728,7 @@ KISSY.add('gallery/autoResponsive/1.1/base',function (S, Config, GridSort, Base)
             this._bindEvent();
             this.initPlugins();
             this.render();
-            S.log('autoResponsive init!');
+            S.log('AutoResponsive init!');
         },
         /**
          * 初始插件
@@ -796,6 +799,7 @@ KISSY.add('gallery/autoResponsive/1.1/base',function (S, Config, GridSort, Base)
                 isRecountUnitWH: isRecountUnitWH || S.inArray('adjust', whensRecountUnitWH)
             });
             this.__isAdjusting = 0;
+            S.log('adjust success');
         },
         isAdjusting: function () {
             return this.__isAdjusting || 0;

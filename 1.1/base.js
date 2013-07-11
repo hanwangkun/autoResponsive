@@ -43,7 +43,7 @@ KISSY.add('gallery/autoResponsive/1.1/base',function (S, Config, GridSort, Base)
             this._bindEvent();
             this.initPlugins();
             this.render();
-            S.log('autoResponsive init!');
+            S.log('AutoResponsive init!');
         },
         /**
          * 初始插件
@@ -114,6 +114,7 @@ KISSY.add('gallery/autoResponsive/1.1/base',function (S, Config, GridSort, Base)
                 isRecountUnitWH: isRecountUnitWH || S.inArray('adjust', whensRecountUnitWH)
             });
             this.__isAdjusting = 0;
+            S.log('adjust success');
         },
         isAdjusting: function () {
             return this.__isAdjusting || 0;

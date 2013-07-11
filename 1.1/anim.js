@@ -62,6 +62,7 @@ KISSY.add(function (S) {
                     frame: cfg.owner.frame
                 }
             });
+            S.log('css3 anim success');
         },
         /**
          * 降级模拟css3动画
@@ -91,6 +92,7 @@ KISSY.add(function (S) {
                     }
                 });
             }).run();
+            S.log('kissy anim success');
         },
         /**
          * 无动画
@@ -114,6 +116,7 @@ KISSY.add(function (S) {
                     frame: cfg.owner.frame
                 }
             });
+            S.log('maybe your anim is closed');
         }
     });
     return AutoAnim;
