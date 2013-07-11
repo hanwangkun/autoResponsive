@@ -725,7 +725,7 @@ KISSY.add('gallery/autoResponsive/1.1/base',function (S, Config, GridSort, Base)
             this._bindEvent();
             this.initPlugins();
             this.render();
-            S.log('init!');
+            S.log('autoResponsive init!');
         },
         /**
          * 初始插件
