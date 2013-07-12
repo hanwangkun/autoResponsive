@@ -139,13 +139,12 @@ KISSY.add('gallery/autoResponsive/1.1/gridsort',function (S, AutoAnim, LinkedLis
         _priority: function (queue, idx, elm) {
             if (queue._priorityInsertPos == undefined) {
                 queue._priorityInsertPos = 0;
-                    var cfg = this.cfg;
-                    if (D.hasClass(elm, cfg.priority)) {
-                        return queue._priorityInsertPos++; // 找到了队列的插入位置
-                    }
-
-                return this._priority(queue, idx, elm);
             }
+            var cfg = this.cfg;
+            if (D.hasClass(elm, cfg.priority)) {
+                return queue._priorityInsertPos++; // 找到了队列的插入位置
+            }
+            return Infinity; // 找到了队列的插入位置，即队列的末尾
         },
         /**
          * 尾部action，只负责把当前的idx压栈，以免丢失
