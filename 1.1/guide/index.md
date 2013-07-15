@@ -389,20 +389,20 @@ KISSY.use('gallery/autoResponsive/1.1/index',function(S,T){
         <td>浏览器resize时添加动作</td>
     </tr>
     <tr>
-        <td>beforeSort </td>
-        <td>排序前触发</td>
+        <td>beforeLocate </td>
+        <td>排序定位计算前触发</td>
     </tr>
     <tr>
-        <td>afterSort </td>
-        <td>排序后触发</td>
+        <td>afterLocate </td>
+        <td>排序定位计算后触发</td>
     </tr>
     <tr>
-        <td>beforeUnitSort </td>
-        <td>单元素排序前触发</td>
+        <td>beforeUnitArrange </td>
+        <td>单元素排序并且定位完成前触发</td>
     </tr>
     <tr>
-        <td>afterUnitSort  </td>
-        <td>单元素排序后触发</td>
+        <td>afterUnitArrange  </td>
+        <td>单元素排序并且定位完成后触发</td>
     </tr>
     </tbody>
 </table>
