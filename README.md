@@ -25,4 +25,4 @@ autoResponsive，是基于 KISSY 1.3.0 或更高版本的自适应布局组件�
 * 支持拖拽功能[重构中]
 * hash回溯路由
 
-##[最新文档](https://github.com/xudafeng/autoResponsive/blob/master/1.1/guide/index.md "lasted docs")
+##[最新文档](./1.1/guide/index.md "lasted docs")
