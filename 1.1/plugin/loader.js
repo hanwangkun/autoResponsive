@@ -12,7 +12,7 @@
  */
 KISSY.add(function (S) {
     'use strict';
-    var D = S.DOM, $ = S.all, win = window, $win = $(win),
+    var D = S.DOM, E = S.Event, win = window,
 
         SCROLL_TIMER = 50;
 
@@ -129,8 +129,8 @@ KISSY.add(function (S) {
             var offsetTop = D.offset(container).top,
                 diff = userCfg.diff,
                 minColHeight = owner.getMinColHeight(),
-                scrollTop = $win.scrollTop(),
-                height = $win.height();
+                scrollTop = D.scrollTop(win),
+                height = D.height(win);
 
             // 动态加载 | 低于预加载线(或被用户看到了)时触发加载
             if (diff + scrollTop + height >= offsetTop + minColHeight) {
@@ -228,7 +228,7 @@ KISSY.add(function (S) {
             var self = this,
                 owner = self.owner,
                 curMinMaxColHeight = {min: 0, max: 0};
-            owner.on('afterSort', function (e) {
+            owner.on('afterLocate', function (e) {
                 curMinMaxColHeight = e.autoResponsive.curMinMaxColHeight;
             });
             owner.getMaxColHeight = function () {
@@ -248,7 +248,7 @@ KISSY.add(function (S) {
          * @public
          */
         start: function () {
-            $win.on('mousewheel', this.__onMouseWheel);
+            E.on(win, 'mousewheel', this.__onMouseWheel);
             this.resume();
         },
         /**
@@ -257,7 +257,7 @@ KISSY.add(function (S) {
          */
         stop: function () {
             this.pause();
-            $win.detach('scroll', this.__onMouseWheel);
+            E.detach(win, 'scroll', this.__onMouseWheel);
             this.__stopped = 1;
         },
         /**
@@ -268,7 +268,7 @@ KISSY.add(function (S) {
             if (this.__destroyed)
                 return;
 
-            $win.detach('scroll', this.__onScroll);
+            E.detach(win, 'scroll', this.__onScroll);
         },
         /**
          * 恢复（重新唤醒）loader数据load功能
@@ -279,7 +279,7 @@ KISSY.add(function (S) {
             if (self.__destroyed) {
                 return;
             }
-            $win.on('scroll', self.__onScroll);
+            E.on(win, 'scroll', self.__onScroll);
             self.__started = 1;
             self.__stopped = 0;
         },
