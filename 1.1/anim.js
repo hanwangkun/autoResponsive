@@ -52,7 +52,7 @@ KISSY.add(function (S) {
             D.css(cfg.elm, this.cssPrefixes('transform', 'translate(' + ((cfg.direction !== 'right') ? cfg.x : (cfg.owner.gridSort.containerWH - cfg.elm.__width - cfg.x)) + 'px,' + cfg.y + 'px) '));
 
             // 单元排序后触发
-            cfg.owner.fire('afterUnitSort', {
+            cfg.owner.fire('afterUnitArrange', {
                 autoResponsive: {     // TODO 优化点：既然是给自定义事件传参，没必要再多挂一层 'autoResponsive' key
                     elm: cfg.elm,
                     position: {
@@ -81,7 +81,7 @@ KISSY.add(function (S) {
             new Anim(cfg.elm, cssRules, cfg.duration, cfg.easing, function () {
 
                 // 单元排序后触发
-                cfg.owner.fire('afterUnitSort', {
+                cfg.owner.fire('afterUnitArrange', {
                     autoResponsive: {
                         elm: cfg.elm,
                         position: {
@@ -106,7 +106,7 @@ KISSY.add(function (S) {
             });
 
             // 单元排序后触发
-            cfg.owner.fire('afterUnitSort', {
+            cfg.owner.fire('afterUnitArrange', {
                 autoResponsive: {
                     elm: cfg.elm,
                     position: {

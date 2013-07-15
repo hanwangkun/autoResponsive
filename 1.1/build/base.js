@@ -123,7 +123,7 @@ KISSY.add('gallery/autoResponsive/1.1/anim',function (S) {
             D.css(cfg.elm, this.cssPrefixes('transform', 'translate(' + ((cfg.direction !== 'right') ? cfg.x : (cfg.owner.gridSort.containerWH - cfg.elm.__width - cfg.x)) + 'px,' + cfg.y + 'px) '));
 
             // 单元排序后触发
-            cfg.owner.fire('afterUnitSort', {
+            cfg.owner.fire('afterUnitArrange', {
                 autoResponsive: {     // TODO 优化点：既然是给自定义事件传参，没必要再多挂一层 'autoResponsive' key
                     elm: cfg.elm,
                     position: {
@@ -152,7 +152,7 @@ KISSY.add('gallery/autoResponsive/1.1/anim',function (S) {
             new Anim(cfg.elm, cssRules, cfg.duration, cfg.easing, function () {
 
                 // 单元排序后触发
-                cfg.owner.fire('afterUnitSort', {
+                cfg.owner.fire('afterUnitArrange', {
                     autoResponsive: {
                         elm: cfg.elm,
                         position: {
@@ -177,7 +177,7 @@ KISSY.add('gallery/autoResponsive/1.1/anim',function (S) {
             });
 
             // 单元排序后触发
-            cfg.owner.fire('afterUnitSort', {
+            cfg.owner.fire('afterUnitArrange', {
                 autoResponsive: {
                     elm: cfg.elm,
                     position: {
@@ -376,8 +376,8 @@ KISSY.add('gallery/autoResponsive/1.1/gridsort',function (S, AutoAnim, LinkedLis
                 items = items.shuffle();
             }
 
-            // 排序之前触发beforeSort
-            cfg.owner.fire('beforeSort', {
+            // 排序之前触发beforeLocate
+            cfg.owner.fire('beforeLocate', {
                 autoResponsive: { // TODO 优化点：既然是给自定义事件传参，没必要再多挂一层 'autoResponsive' key
                     elms: items
                 }
@@ -433,7 +433,7 @@ KISSY.add('gallery/autoResponsive/1.1/gridsort',function (S, AutoAnim, LinkedLis
             var curMinMaxColHeight = this._getMinMaxColHeight();
 
             // 排序之后触发
-            cfg.owner.fire('afterSort', {
+            cfg.owner.fire('afterLocate', {
                 autoResponsive: {
                     elms: items,
                     curMinMaxColHeight: curMinMaxColHeight,
@@ -494,7 +494,7 @@ KISSY.add('gallery/autoResponsive/1.1/gridsort',function (S, AutoAnim, LinkedLis
                 cfg = self.cfg;
 
             // 遍历单个元素之前触发
-            cfg.owner.fire('beforeUnitSort', {
+            cfg.owner.fire('beforeUnitArrange', {
                 autoResponsive: {
                     elm: item,
                     frame: cfg.owner.frame
@@ -502,6 +502,13 @@ KISSY.add('gallery/autoResponsive/1.1/gridsort',function (S, AutoAnim, LinkedLis
             });
 
             var coordinate = self.coordinate(curQuery, item);
+            // 排序之后触发
+            cfg.owner.fire('afterUnitArrange', {
+                autoResponsive: {
+                    elm: item,
+                    frame: cfg.owner.frame
+                }
+            });
             // 调用动画
             self.asyncize(function () {
                 self.callAnim(item, coordinate);
