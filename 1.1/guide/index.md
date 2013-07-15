@@ -88,7 +88,7 @@ KISSY.use('gallery/autoResponsive/1.1/base', function (S, Ar) {
 })
 ```
 **提醒**
-* 支持kissy的seed机制
+* 支持kissy的seed机制，（不依赖node模块）目前只依赖kissy的dom和event模块
 * container为外层容器选择器
 * selector为排布元素选择器
 * use()回调的第一个参数是KISSY，第二个参数才是组件
