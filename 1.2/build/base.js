@@ -1,11 +1,11 @@
 /*
 combined files : 
 
-gallery/autoResponsive/1.1/config
+gallery/autoResponsive/1.2/config
 gallery/autoResponsive/1.2/anim
 gallery/autoResponsive/1.2/linkedlist
-gallery/autoResponsive/1.1/gridsort
-gallery/autoResponsive/1.1/base
+gallery/autoResponsive/1.2/gridsort
+gallery/autoResponsive/1.2/base
 
 */
 /**
@@ -13,7 +13,7 @@ gallery/autoResponsive/1.1/base
  * @Author:         dafeng.xdf[at]taobao.com
  * @Date:           2013.3.5
  */
-KISSY.add('gallery/autoResponsive/1.1/config',function () {
+KISSY.add('gallery/autoResponsive/1.2/config',function () {
     'use strict';
     var EMPTY = '';
 
@@ -337,7 +337,7 @@ KISSY.add('gallery/autoResponsive/1.2/linkedlist',function (S) {
  * @Date:           2013.3.5
  * @Todo:           gridSort
  */
-KISSY.add('gallery/autoResponsive/1.1/gridsort',function (S, AutoAnim, LinkedList) {
+KISSY.add('gallery/autoResponsive/1.2/gridsort',function (S, AutoAnim, LinkedList) {
     'use strict';
     var D = S.DOM, EMPTY = '';
 
@@ -691,7 +691,7 @@ KISSY.add('gallery/autoResponsive/1.1/gridsort',function (S, AutoAnim, LinkedLis
  * @Author:         dafeng.xdf[at]taobao.com
  * @Date:           2013.3.5
  */
-KISSY.add('gallery/autoResponsive/1.1/base',function (S, Config, GridSort, Base) {
+KISSY.add('gallery/autoResponsive/1.2/base',function (S, Config, GridSort, Base) {
     'use strict';
     var D = S.DOM, E = S.Event, win = window;
 

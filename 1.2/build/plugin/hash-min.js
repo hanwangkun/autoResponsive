@@ -1,3 +1,3 @@
-/*! autoResponsive - v1.2 - 2013-07-16 7:24:24 PM
+/*! autoResponsive - v1.2 - 2013-07-16 7:27:51 PM
 * Copyright (c) 2013 xudafeng; Licensed  */
 KISSY.add("gallery/autoResponsive/1.2/plugin/hash",function(e){"use strict";function t(e){var t=this;t.prefix=e.prefix||"ks-",t.api={}}var i="&",n="=";return e.augment(t,{init:function(){var t=this;e.log("hash init!"),t.hasHash()&&t.parse()},hasHash:function(){return location.hash?!0:!1},parse:function(){var e=this;e.getParam()},getParam:function(){var t=this;t.hash=location.hash.split(i),e.each(t.hash,function(e){t.getPriority(e),t.getFilter(e)})},getPriority:function(t){var i=this,r=i.prefix+"priority";-1!=t.indexOf(r)&&e.mix(i.api,{priority:t.split(n)[1]})},getFilter:function(t){var i=this,r=i.prefix+"filter";-1!=t.indexOf(r)&&e.mix(i.api,{filter:t.split(n)[1]})}}),t},{requires:["event"]});
