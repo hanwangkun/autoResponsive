@@ -247,6 +247,13 @@ KISSY.use('gallery/autoResponsive/1.2/base', function (S, Ar) {
         <td>r/w</td>
         <td>resize时延迟渲染，主要是解决css3动画对页面节点属性更新不及时导致问题</td>
     </tr>
+    <tr>
+        <td>landscapeOrientation</td>
+        <td>Boolean</td>
+        <td>false</td>
+        <td>r/w</td>
+        <td>横屏开关，默认浏览器竖屏</td>
+    </tr>
     </tbody>
 </table>
 **提醒**
