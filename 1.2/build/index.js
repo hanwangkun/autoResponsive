@@ -44,6 +44,7 @@ KISSY.add('gallery/autoResponsive/1.2/config',function () {
      * @param {Number}  resizeFrequency      resize触发频率
      * @param {Array}   whensRecountUnitWH   重新计算单元宽高的行为时刻（可选值：<code>'closeResize', 'adjust'</code>）
      * @param {Number}  delayOnResize        resize时延迟渲染，主要是解决css3动画对页面节点属性更新不及时导致的渲染时依赖的数据不准确问题[临时解决办法]
+     * @param {Boolean} landscapeOrientation 布局方向设置为横向，默认为false，竖向
      */
     function Config() {
         return {
@@ -68,7 +69,8 @@ KISSY.add('gallery/autoResponsive/1.2/config',function () {
             cache: {value: false},
             resizeFrequency: {value: 200},
             whensRecountUnitWH: {value: []},
-            delayOnResize:-1
+            delayOnResize:-1,
+            landscapeOrientation:false
         };
     }
     return Config;
