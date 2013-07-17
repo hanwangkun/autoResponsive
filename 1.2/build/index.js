@@ -69,8 +69,8 @@ KISSY.add('gallery/autoResponsive/1.2/config',function () {
             cache: {value: false},
             resizeFrequency: {value: 200},
             whensRecountUnitWH: {value: []},
-            delayOnResize:-1,
-            landscapeOrientation:false
+            delayOnResize: {value: -1},
+            landscapeOrientation: {value:false}
         };
     }
     return Config;
@@ -452,7 +452,7 @@ KISSY.add('gallery/autoResponsive/1.2/gridsort',function (S, AutoAnim, LinkedLis
         },
         _getCols: function () {
             var cfg = this.cfg;
-            this.containerWH = D.outerWidth(cfg.container);
+            this.containerWH = cfg.landscapeOrientation ? D.outerHeight(cfg.container) :D.outerWidth(cfg.container);
             if (cfg.owner.curQuery && cfg.cache) {
                 return cfg.owner.curQuery;
             } else {
@@ -535,13 +535,14 @@ KISSY.add('gallery/autoResponsive/1.2/gridsort',function (S, AutoAnim, LinkedLis
          * 返回x，y轴坐标
          */
         _autoFit: function (curQuery, cW, cH) {
-            var cfg = this.cfg,
-                num = Math.ceil((cW + cfg.unitMargin.x) / cfg.gridWidth),
+            var cfg = this.cfg,_position,
+                num = Math.ceil((( cfg.landscapeOrientation ? cH : cW ) + cfg.unitMargin.x) / cfg.gridWidth),
                 cur = this._getCur(num, curQuery);
-            for (var i = cur[0], len = num + cur[0], newH = cur[1] + cH + cfg.unitMargin.y; i < len; i++) {
+            for (var i = cur[0], len = num + cur[0], newH = cur[1] + (cfg.landscapeOrientation ? cW : cH) + cfg.unitMargin.y; i < len; i++) {
                 curQuery.update(i, newH);
             }
-            return [cur[0] * cfg.gridWidth + cfg.unitMargin.x, cur[1] + cfg.unitMargin.y];
+            _position = [cur[0] * cfg.gridWidth + cfg.unitMargin.x, cur[1] + cfg.unitMargin.y];
+            return cfg.landscapeOrientation ? _position.reverse() : _position;
         },
         /**
          * 获取当前指针
@@ -667,7 +668,7 @@ KISSY.add('gallery/autoResponsive/1.2/gridsort',function (S, AutoAnim, LinkedLis
             if (!cfg.autoHeight) {
                 return;
             }
-            D.height(cfg.container, height + cfg.unitMargin.y);
+            cfg.landscapeOrientation ? D.width(cfg.container, height + cfg.unitMargin.x) :D.height(cfg.container, height + cfg.unitMargin.y);
         },
         /**
          * @deprecated 该功能暂时未完善

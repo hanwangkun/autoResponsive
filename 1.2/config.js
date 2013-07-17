@@ -55,8 +55,8 @@ KISSY.add(function () {
             cache: {value: false},
             resizeFrequency: {value: 200},
             whensRecountUnitWH: {value: []},
-            delayOnResize:-1,
-            landscapeOrientation:false
+            delayOnResize: {value: -1},
+            landscapeOrientation: {value:false}
         };
     }
     return Config;
