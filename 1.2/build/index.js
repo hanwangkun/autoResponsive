@@ -968,10 +968,11 @@ KISSY.add('gallery/autoResponsive/1.2/plugin/hash',function (S) {
  * @Description:    拖拽功能
  * @Author:         dafeng.xdf[at]taobao.com
  * @Date:           2013.3.5
+ * @Log:            1.2版本对drag重构
  */
 KISSY.add('gallery/autoResponsive/1.2/plugin/drag',function (S) {
     'use strict';
-    var E = S.Event, DD = S.DD,
+    var D = S.DOM, E = S.Event, DD = S.DD,
         DraggableDelegate = DD.DraggableDelegate,
         Droppable = DD.Droppable;
 
@@ -990,42 +991,10 @@ KISSY.add('gallery/autoResponsive/1.2/plugin/drag',function (S) {
         init: function () {
             var self = this;
             S.log('drag init!');
-        },
-        _bindDrop: function (elm) {
-            var self = this;
-            if (self.drag != 'on') {
-                return;
-            }
-            new Droppable({
-                node: elm
-            }).on("dropenter", function (ev) {
-                    D.insertAfter(ev.drag.get("node"), ev.drop.get("node"));
-                    self.owner.render();
-                });
-        },
-        _bindBrag: function () {
-            var self = this;
-            if (self.drag != 'on') {
-                return;
-            }
-            new DraggableDelegate({
-                container: self.container,
-                selector: self.selector,
-                move: true
-            }).on('dragstart',function (ev) {
-                    var _target = ev.drag.get("node")[0];
-                    this.p = {
-                        left: _target.offsetLeft,
-                        top: _target.offsetTop
-                    };
-                }).on('drag',function () {
-                }).on('dragend', function (ev) {
-                    D.css(ev.drag.get("node"), this.p);
-                });
         }
     });
     return Drag;
-}, {requires: ['event', 'dd']});
+}, {requires: ['dom','event','dd']});
 /**
  * @Description:    Loader
  * @Author:         dafeng.xdf[at]taobao.com zhuofeng.ls[at]taobao.com
