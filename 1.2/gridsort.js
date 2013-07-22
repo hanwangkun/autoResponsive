@@ -51,6 +51,9 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
             });
 
             var actions = []; // 注意里面的规则顺序
+            if(cfg.exclude !== EMPTY){
+                actions.push('_exclude');
+            }
             if (cfg.filter !== EMPTY) {
                 actions.push('_filter');
             }
@@ -126,6 +129,12 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
         },
         _setFrame: function () {
             this.cfg.owner.frame++;
+        },
+        _exclude:function(queue, idx, elm){
+            var cfg = this.cfg;
+            if(D.hasClass(elm,cfg.exclude)){
+                return true;
+            }
         },
         _filter: function (queue, idx, elm) {
             var cfg = this.cfg;
