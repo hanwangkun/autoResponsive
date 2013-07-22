@@ -759,11 +759,9 @@ KISSY.add('gallery/autoResponsive/1.2/base',function (S, Config, GridSort, Base)
          * 初始插件
          */
         initPlugins: function () {
-            this.api = {};
             for (var i = 0, a = this.get('plugins'), len = a.length, v; i < len; i++) {
                 v = a[i];
                 v.init(this);
-                S.mix(this.api, v.api);
             }
         },
         /**
@@ -778,8 +776,6 @@ KISSY.add('gallery/autoResponsive/1.2/base',function (S, Config, GridSort, Base)
                 userCfg[_key] = i;
             });
 
-            // 应用插件属性
-            S.mix(userCfg, this.api);
             this.gridSort = this.gridSort || new GridSort();
             this.gridSort.init(userCfg, this);
         },
@@ -910,6 +906,7 @@ KISSY.add('gallery/autoResponsive/1.2/base',function (S, Config, GridSort, Base)
  * @Description:    hash回溯、功能路由
  * @Author:         dafeng.xdf[at]taobao.com
  * @Date:           2013.3.5
+ * @Log:            2013.7.20重构hash插件
  */
 KISSY.add('gallery/autoResponsive/1.2/plugin/hash',function (S) {
     'use strict';
@@ -924,7 +921,6 @@ KISSY.add('gallery/autoResponsive/1.2/plugin/hash',function (S) {
     function Hash(cfg) {
         var self = this;
         self.prefix = cfg.prefix || 'ks-';
-        self.api = {};
     }
 
     /**
@@ -933,6 +929,7 @@ KISSY.add('gallery/autoResponsive/1.2/plugin/hash',function (S) {
     S.augment(Hash, {
         init: function (owner) {
             var self = this;
+            self.owner = owner;
             S.log('hash init!');
             if (!self.hasHash()) {
                 return;
@@ -962,18 +959,14 @@ KISSY.add('gallery/autoResponsive/1.2/plugin/hash',function (S) {
             var self = this,
                 _priority = self.prefix + 'priority';
             if (str.indexOf(_priority) != -1) {
-                S.mix(self.api, {
-                    priority: str.split(EQUAL)[1]
-                });
+
             }
         },
         getFilter: function (str) {
             var self = this,
                 _filter = self.prefix + 'filter';
             if (str.indexOf(_filter) != -1) {
-                S.mix(self.api, {
-                    filter: str.split(EQUAL)[1]
-                });
+
             }
         }
     });

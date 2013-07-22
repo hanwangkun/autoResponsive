@@ -755,11 +755,9 @@ KISSY.add('gallery/autoResponsive/1.2/base',function (S, Config, GridSort, Base)
          * 初始插件
          */
         initPlugins: function () {
-            this.api = {};
             for (var i = 0, a = this.get('plugins'), len = a.length, v; i < len; i++) {
                 v = a[i];
                 v.init(this);
-                S.mix(this.api, v.api);
             }
         },
         /**
@@ -774,8 +772,6 @@ KISSY.add('gallery/autoResponsive/1.2/base',function (S, Config, GridSort, Base)
                 userCfg[_key] = i;
             });
 
-            // 应用插件属性
-            S.mix(userCfg, this.api);
             this.gridSort = this.gridSort || new GridSort();
             this.gridSort.init(userCfg, this);
         },

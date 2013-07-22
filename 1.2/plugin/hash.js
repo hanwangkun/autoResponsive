@@ -2,6 +2,7 @@
  * @Description:    hash回溯、功能路由
  * @Author:         dafeng.xdf[at]taobao.com
  * @Date:           2013.3.5
+ * @Log:            2013.7.20重构hash插件
  */
 KISSY.add(function (S) {
     'use strict';
@@ -16,7 +17,6 @@ KISSY.add(function (S) {
     function Hash(cfg) {
         var self = this;
         self.prefix = cfg.prefix || 'ks-';
-        self.api = {};
     }
 
     /**
@@ -25,6 +25,7 @@ KISSY.add(function (S) {
     S.augment(Hash, {
         init: function (owner) {
             var self = this;
+            self.owner = owner;
             S.log('hash init!');
             if (!self.hasHash()) {
                 return;
@@ -54,18 +55,14 @@ KISSY.add(function (S) {
             var self = this,
                 _priority = self.prefix + 'priority';
             if (str.indexOf(_priority) != -1) {
-                S.mix(self.api, {
-                    priority: str.split(EQUAL)[1]
-                });
+
             }
         },
         getFilter: function (str) {
             var self = this,
                 _filter = self.prefix + 'filter';
             if (str.indexOf(_filter) != -1) {
-                S.mix(self.api, {
-                    filter: str.split(EQUAL)[1]
-                });
+
             }
         }
     });
