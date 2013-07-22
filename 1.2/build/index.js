@@ -648,6 +648,10 @@ KISSY.add('gallery/autoResponsive/1.2/gridsort',function (S, AutoAnim, LinkedLis
                 frame: cfg.owner.frame,
                 owner: cfg.owner
             });
+            elm.autoResponsiveCoordinate = {
+                x:coordinate[0],
+                y:coordinate[1]
+            };
         },
         _getMinMaxColHeight: function () {
             var cfg = this.cfg,

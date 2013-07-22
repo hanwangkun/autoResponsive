@@ -307,6 +307,10 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
                 frame: cfg.owner.frame,
                 owner: cfg.owner
             });
+            elm.autoResponsiveCoordinate = {
+                x:coordinate[0],
+                y:coordinate[1]
+            };
         },
         _getMinMaxColHeight: function () {
             var cfg = this.cfg,
