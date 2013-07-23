@@ -442,6 +442,8 @@ KISSY.use('gallery/autoResponsive/1.2/index',function(S,T){
 
 ####drag：拖拽功能
 ####loader：加载器
+#####loader 使用指南：
+
 ####hash：hash回溯路由
 ##优秀demo
 ####<a href="http://xudafeng.github.io/autoResponsive/demo/crossend/" target="_blank">专辑跨终端（resize例子）</a>
