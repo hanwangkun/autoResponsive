@@ -423,7 +423,7 @@ KISSY.use('gallery/autoResponsive/1.1/index',function(S,T){
     </tbody>
     <tfoot>
     <tr>
-        <td>注：定位只是脚本计算好了坐标位置，但还没有真正将单元渲染到指定位置；排版才是脚本真正将单元渲染出来</td>
+        <td colspan="2">注：定位只是脚本计算好了坐标位置，但还没有真正将单元渲染到指定位置；排版才是脚本真正将单元渲染出来</td>
     </tr>
     </tfoot>
 </table>
