@@ -51,24 +51,15 @@ KISSY.add(function (S) {
             // TODO 优化点：既然css3Anim在循环中，可以考虑将‘cfg.direction !== 'right'’该判断条件在逻辑树上上提，以加快该函数的执行
             D.css(cfg.elm, this.cssPrefixes('transform', 'translate(' + ((cfg.direction !== 'right') ? cfg.x : (cfg.owner.gridSort.containerWH - cfg.elm.__width - cfg.x)) + 'px,' + cfg.y + 'px) '));
 
-            // 单元排序后触发
-            cfg.owner.fire('afterUnitArrange', {
-                autoResponsive: {     // TODO 优化点：既然是给自定义事件传参，没必要再多挂一层 'autoResponsive' key
-                    elm: cfg.elm,
-                    position: {
-                        x: cfg.x,
-                        y: cfg.y
-                    },
-                    frame: cfg.owner.frame
-                }
-            });
+            this._fireAfterUnitArrange(cfg);
             S.log('css3 anim success');
         },
         /**
          * 降级模拟css3动画
          */
         fixedAnim: function () {
-            var cfg = this.cfg,
+            var self = this,
+                cfg = self.cfg,
                 cssRules = {'top': cfg.y};
 
             if (cfg.closeAnim) {
@@ -80,17 +71,7 @@ KISSY.add(function (S) {
 
             new Anim(cfg.elm, cssRules, cfg.duration, cfg.easing, function () {
 
-                // 单元排序后触发
-                cfg.owner.fire('afterUnitArrange', {
-                    autoResponsive: {
-                        elm: cfg.elm,
-                        position: {
-                            x: cfg.x,
-                            y: cfg.y
-                        },
-                        frame: cfg.owner.frame
-                    }
-                });
+                self._fireAfterUnitArrange(cfg);
             }).run();
             S.log('kissy anim success');
         },
@@ -105,7 +86,11 @@ KISSY.add(function (S) {
                 top: cfg.y
             });
 
-            // 单元排序后触发
+            this._fireAfterUnitArrange(cfg);
+            S.log('maybe your anim is closed');
+        },
+        _fireAfterUnitArrange: function(cfg){
+            // 单元排版后触发
             cfg.owner.fire('afterUnitArrange', {
                 autoResponsive: {
                     elm: cfg.elm,
@@ -116,7 +101,6 @@ KISSY.add(function (S) {
                     frame: cfg.owner.frame
                 }
             });
-            S.log('maybe your anim is closed');
         }
     });
     return AutoAnim;

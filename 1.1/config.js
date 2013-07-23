@@ -3,7 +3,7 @@
  * @Author:         dafeng.xdf[at]taobao.com
  * @Date:           2013.3.5
  */
-KISSY.add('gallery/autoResponsive/1.1/config',function () {
+KISSY.add(function () {
     'use strict';
     var EMPTY = '';
 
@@ -54,7 +54,7 @@ KISSY.add('gallery/autoResponsive/1.1/config',function () {
             cache: {value: false},
             resizeFrequency: {value: 200},
             whensRecountUnitWH: {value: []},
-            delayOnResize:-1
+            delayOnResize: {value: -1}
         };
     }
     return Config;

@@ -381,38 +381,59 @@ KISSY.use('gallery/autoResponsive/1.2/index',function(S,T){
     </thead>
     <tbody>
     <tr>
-        <td>beforeInit </td>
+        <td>beforeInit</td>
         <td>初始化前触发</td>
     </tr>
     <tr>
-        <td>afterInit </td>
+        <td>afterInit</td>
         <td>初始化后触发</td>
     </tr>
     <tr>
-        <td>beforeResize </td>
+        <td>beforeResize</td>
         <td>浏览器resize之前触发</td>
     </tr>
     <tr>
-        <td>resize </td>
+        <td>resize</td>
         <td>浏览器resize时添加动作</td>
     </tr>
     <tr>
-        <td>beforeLocate </td>
-        <td>排序定位计算前触发</td>
+        <td>beforeLocate</td>
+        <td>定位计算前触发</td>
     </tr>
     <tr>
-        <td>afterLocate </td>
-        <td>排序定位计算后触发</td>
+        <td>afterLocate</td>
+        <td>定位计算后触发</td>
     </tr>
     <tr>
-        <td>beforeUnitArrange </td>
-        <td>单元素排序并且定位完成前触发</td>
+        <td>beforeUnitLocate</td>
+        <td>单元定位计算前触发</td>
     </tr>
     <tr>
-        <td>afterUnitArrange  </td>
-        <td>单元素排序并且定位完成后触发</td>
+        <td>afterUnitLocate</td>
+        <td>单元定位计算后触发</td>
+    </tr>
+    <tr>
+        <td>beforeArrange</td>
+        <td>排版前触发</td>
+    </tr>
+    <tr>
+        <td>afterArrange</td>
+        <td>排版后触发</td>
+    </tr>
+    <tr>
+        <td>beforeUnitArrange</td>
+        <td>单元排版前触发</td>
+    </tr>
+    <tr>
+        <td>afterUnitArrange</td>
+        <td>单元排版后触发</td>
     </tr>
     </tbody>
+    <tfoot>
+    <tr>
+        <td>注：定位只是脚本计算好了坐标位置，但还没有真正将单元渲染到指定位置；排版才是脚本真正将单元渲染出来</td>
+    </tr>
+    </tfoot>
 </table>
 **注意**
 * 具体使用例子参见各demo

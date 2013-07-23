@@ -4,7 +4,7 @@
  * @Date:           2013.3.5
  * @Todo:           gridSort
  */
-KISSY.add('gallery/autoResponsive/1.1/gridsort',function (S, AutoAnim, LinkedList) {
+KISSY.add(function (S, AutoAnim, LinkedList) {
     'use strict';
     var D = S.DOM, EMPTY = '';
 
@@ -43,10 +43,10 @@ KISSY.add('gallery/autoResponsive/1.1/gridsort',function (S, AutoAnim, LinkedLis
                 items = items.shuffle();
             }
 
-            // 排序之前触发beforeLocate
-            cfg.owner.fire('beforeLocate', {
+            // 定位&排版之前触发
+            cfg.owner.fire('beforeLocate beforeArrange', {
                 autoResponsive: { // TODO 优化点：既然是给自定义事件传参，没必要再多挂一层 'autoResponsive' key
-                    elms: items
+                    elms: items // TODO items不精准，没有走过actions，所以可能存在被过滤元素，或顺序不正确问题
                 }
             });
 
@@ -59,9 +59,23 @@ KISSY.add('gallery/autoResponsive/1.1/gridsort',function (S, AutoAnim, LinkedLis
                 actions.push('_priority');
             }
 
-            var l = actions.length, m = items.length, s = cfg.cache ? cfg.owner._lastPos : 0;
+            var l = actions.length, m = items.length, s = cfg.cache ? cfg.owner._lastPos : 0, count = s, fn = S.noop;
 
             if (l == 0) { // 没有规则，说明全渲染，那就直接渲染
+                // 判断“排版结束”事件是否触发
+                cfg.owner.on('afterUnitArrange', fn = function(){
+                    if(++count >= m){
+                        cfg.owner.detach('afterUnitArrange', fn);
+
+                        count == m && cfg.owner.fire('afterArrange', {
+                            autoResponsive: {
+                                elms: items,
+                                frame: cfg.owner.frame
+                            }
+                        });
+                    }
+                });
+
                 for (var i = s; i < m; i++) {
                     this._render(curQuery, items[i]);
                 }
@@ -89,6 +103,21 @@ KISSY.add('gallery/autoResponsive/1.1/gridsort',function (S, AutoAnim, LinkedLis
                     }
                 }
 
+                count = 0;
+                // 判断“排版结束”事件是否触发
+                cfg.owner.on('afterUnitArrange', fn = function(){
+                    if(++count >= n){
+                        cfg.owner.detach('afterUnitArrange', fn);
+
+                        count == n && cfg.owner.fire('afterArrange', {
+                            autoResponsive: {
+                                elms: items,
+                                frame: cfg.owner.frame
+                            }
+                        });
+                    }
+                });
+
                 for (var k = 0, n = renderQueue.length; k < n; k++) {
                     this._render(curQuery, items[renderQueue[k]]);
                 }
@@ -99,7 +128,7 @@ KISSY.add('gallery/autoResponsive/1.1/gridsort',function (S, AutoAnim, LinkedLis
 
             var curMinMaxColHeight = this._getMinMaxColHeight();
 
-            // 排序之后触发
+            // 定位之后触发
             cfg.owner.fire('afterLocate', {
                 autoResponsive: {
                     elms: items,
@@ -137,7 +166,7 @@ KISSY.add('gallery/autoResponsive/1.1/gridsort',function (S, AutoAnim, LinkedLis
             return false; // 继续执行后面的actions，插入与否由后面的actions决定
         },
         _priority: function (queue, idx, elm) {
-            if (queue._priorityInsertPos == undefined) {
+            if (typeof queue._priorityInsertPos == 'undefined') {
                 queue._priorityInsertPos = 0;
             }
             var cfg = this.cfg;
@@ -160,8 +189,8 @@ KISSY.add('gallery/autoResponsive/1.1/gridsort',function (S, AutoAnim, LinkedLis
             var self = this,
                 cfg = self.cfg;
 
-            // 遍历单个元素之前触发
-            cfg.owner.fire('beforeUnitArrange', {
+            // 在单元定位、排版之前触发
+            cfg.owner.fire('beforeUnitLocate beforeUnitArrange', {
                 autoResponsive: {
                     elm: item,
                     frame: cfg.owner.frame
@@ -169,8 +198,8 @@ KISSY.add('gallery/autoResponsive/1.1/gridsort',function (S, AutoAnim, LinkedLis
             });
 
             var coordinate = self.coordinate(curQuery, item);
-            // 排序之后触发
-            cfg.owner.fire('afterUnitArrange', {
+            // 在单元定位之后触发
+            cfg.owner.fire('afterUnitLocate', {
                 autoResponsive: {
                     elm: item,
                     frame: cfg.owner.frame
@@ -276,7 +305,7 @@ KISSY.add('gallery/autoResponsive/1.1/gridsort',function (S, AutoAnim, LinkedLis
         asyncize: function (handle) {
             var self = this,
                 cfg = self.cfg;
-            if (cfg.owner.get('suspend')) {
+            if (cfg.owner.get('suspend')) { // TODO 优化点：既然该判断条件可以在逻辑树上上提，以加快该函数的执行
                 setTimeout(function () {
                     handle.call(self);
                 }, 0);
