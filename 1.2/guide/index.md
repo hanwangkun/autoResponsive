@@ -8,8 +8,7 @@ autoResponsive，是基于 KISSY 1.3.0 或更高版本的自适应布局组件�
 >* website: [xdf.me](http://xdf.me/ "blog")
 >* email: dafeng.xdf [at] taobao.com
 
-###新版本1.2正在完善中
-###建议目前使用1.1稳定版本
+###建议使用1.2版本
 
 ![alt autoResponsive](http://img04.taobaocdn.com/tps/i4/T1A6FDFnlbXXcq.EHS-300-319.png "autoResponsive")
 
@@ -25,6 +24,7 @@ autoResponsive，是基于 KISSY 1.3.0 或更高版本的自适应布局组件�
 * 支持自定义展示方向
 * 支持拖拽功能[重构中]
 * hash回溯路由
+* 支持横向瀑布流
 
 ## 快速上手
 ### 1.依赖如下dom结构
@@ -253,6 +253,13 @@ KISSY.use('gallery/autoResponsive/1.2/base', function (S, Ar) {
         <td>false</td>
         <td>r/w</td>
         <td>横屏开关，默认浏览器竖屏</td>
+    </tr>
+    <tr>
+        <td>exclude</td>
+        <td>String</td>
+        <td>''</td>
+        <td>r/w</td>
+        <td>排除设置，不隐藏但不参与排序</td>
     </tr>
     </tbody>
 </table>

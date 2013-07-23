@@ -9,9 +9,6 @@ autoResponsive，是基于 KISSY 1.3.0 或更高版本的自适应布局组件�
 >* email: dafeng.xdf [at] taobao.com
 
 
-###新版本1.2正在完善中
-###建议目前使用1.1稳定版本
-
 ![alt autoResponsive](http://img04.taobaocdn.com/tps/i4/T1A6FDFnlbXXcq.EHS-300-319.png "autoResponsive")
 
 ####autoResponsive - 奶茶般清纯和简单
