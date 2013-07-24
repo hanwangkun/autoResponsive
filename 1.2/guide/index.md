@@ -456,10 +456,11 @@ KISSY.use('gallery/autoResponsive/1.2/index',function(S,T){
 
 ####drag：拖拽功能
 
-```javascript
-
 >使用指南：
 >
+
+
+```javascript
 
 KISSY.use('gallery/autoResponsive/1.2/index',function(S,T){
     /**
