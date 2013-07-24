@@ -1130,6 +1130,10 @@ KISSY.add('gallery/autoResponsive/1.2/plugin/drag',function (S,Constrain,Scroll)
                 top: D.css(self.placeHolder,'top')
             });
             /**
+             * 插入占位元素之前
+             */
+            D.insertBefore(self.select,self.placeHolder);
+            /**
              * 去掉中间元素
              */
             D.remove(self.placeHolder);
