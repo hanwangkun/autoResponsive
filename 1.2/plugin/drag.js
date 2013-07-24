@@ -125,8 +125,8 @@ KISSY.add('gallery/autoResponsive/1.2/plugin/drag',function (S,Constrain,Scroll)
              * 拖动结束后设置拖起元素为中间元素的坐标
              */
             D.css(self.select,{
-                left: D.offset(self.placeHolder).left,
-                top: D.offset(self.placeHolder).top
+                left: D.css(self.placeHolder,'left'),
+                top: D.css(self.placeHolder,'top')
             });
             /**
              * 去掉中间元素
