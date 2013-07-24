@@ -25,7 +25,7 @@ KISSY.add(function (S) {
 
     S.augment(AutoAnim, {
         _init: function () {
-            this[animType]();
+            this[this.cfg.animType ? this.cfg.animType : animType]();
         },
         /**
          * supply css ua prefix

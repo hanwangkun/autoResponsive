@@ -334,7 +334,8 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
                 easing: cfg.easing,
                 direction: cfg.direction,
                 frame: cfg.owner.frame,
-                owner: cfg.owner
+                owner: cfg.owner,
+                animType:cfg.animType
             });
             elm.autoResponsiveCoordinate = {
                 x:coordinate[0],

@@ -42,6 +42,7 @@ KISSY.add('gallery/autoResponsive/1.2/config',function () {
      * @param {Number}  delayOnResize        resize时延迟渲染，主要是解决css3动画对页面节点属性更新不及时导致的渲染时依赖的数据不准确问题[临时解决办法]
      * @param {Boolean} landscapeOrientation 布局方向设置为横向，默认为false，竖向
      * @param {String}  exclude              排除设置
+     * @param {String}  animType             提供css3动画'css3Anim'（针对高级浏览器），和普通模拟动画'fixedAnim'（针对低版本浏览器）两种选项，可以强制指定
      */
     function Config() {
         return {
@@ -68,7 +69,8 @@ KISSY.add('gallery/autoResponsive/1.2/config',function () {
             whensRecountUnitWH: {value: []},
             delayOnResize: {value: -1},
             landscapeOrientation: {value:false},
-            exclude:{value:EMPTY}
+            exclude:{value:EMPTY},
+            animType:{value:EMPTY}
         };
     }
     return Config;
@@ -100,7 +102,7 @@ KISSY.add('gallery/autoResponsive/1.2/anim',function (S) {
 
     S.augment(AutoAnim, {
         _init: function () {
-            this[animType]();
+            this[this.cfg.animType ? this.cfg.animType : animType]();
         },
         /**
          * supply css ua prefix
@@ -655,7 +657,8 @@ KISSY.add('gallery/autoResponsive/1.2/gridsort',function (S, AutoAnim, LinkedLis
                 easing: cfg.easing,
                 direction: cfg.direction,
                 frame: cfg.owner.frame,
-                owner: cfg.owner
+                owner: cfg.owner,
+                animType:cfg.animType
             });
             elm.autoResponsiveCoordinate = {
                 x:coordinate[0],

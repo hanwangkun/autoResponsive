@@ -3,7 +3,7 @@
  * @Author:         dafeng.xdf[at]taobao.com
  * @Date:           2013.3.5
  */
-KISSY.add(function () {
+KISSY.add('gallery/autoResponsive/1.2/config',function () {
     'use strict';
     var EMPTY = '';
 
@@ -32,6 +32,7 @@ KISSY.add(function () {
      * @param {Number}  delayOnResize        resize时延迟渲染，主要是解决css3动画对页面节点属性更新不及时导致的渲染时依赖的数据不准确问题[临时解决办法]
      * @param {Boolean} landscapeOrientation 布局方向设置为横向，默认为false，竖向
      * @param {String}  exclude              排除设置
+     * @param {String}  animType             提供css3动画'css3Anim'（针对高级浏览器），和普通模拟动画'fixedAnim'（针对低版本浏览器）两种选项，可以强制指定
      */
     function Config() {
         return {
@@ -58,7 +59,8 @@ KISSY.add(function () {
             whensRecountUnitWH: {value: []},
             delayOnResize: {value: -1},
             landscapeOrientation: {value:false},
-            exclude:{value:EMPTY}
+            exclude:{value:EMPTY},
+            animType:{value:EMPTY}
         };
     }
     return Config;

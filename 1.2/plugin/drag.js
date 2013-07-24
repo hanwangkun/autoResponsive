@@ -10,12 +10,10 @@ KISSY.add('gallery/autoResponsive/1.2/plugin/drag',function (S,Constrain,Scroll)
         DD = S.DD, DDM = DD.DDM,
         DraggableDelegate = DD.DraggableDelegate,
         DroppableDelegate = DD.DroppableDelegate,
-        letIE10 = S.UA.ie < 11,
         prifixCls = 'ks-autoResponsive-dd-',
         placeHolderCls = prifixCls+'placeHolder',
         draggingCls = prifixCls+'dragging',
-        placeHolderTPL = '<div class="'+placeHolderCls+'"></div>',
-        prefixes = ['-webkit-', '-moz-', '-ms-', '-o-', ''];
+        placeHolderTPL = '<div class="'+placeHolderCls+'"></div>';
 
     /**
      * Drag
@@ -42,6 +40,13 @@ KISSY.add('gallery/autoResponsive/1.2/plugin/drag',function (S,Constrain,Scroll)
              * @type {*}
              */
             self.owner = owner;
+            /**
+             * 强制更改owner配置为fixedAnim
+             * @type {*}
+             */
+            self.owner.changeCfg({
+                animType:'fixedAnim'
+            });
             /**
              * 容器取自宿主配置
              * @type {*}
@@ -84,9 +89,9 @@ KISSY.add('gallery/autoResponsive/1.2/plugin/drag',function (S,Constrain,Scroll)
         },
         _bindOperate:function(){
             var self = this;
-            DDM.on('dragstart',self._callDebounce(self._dragStartOperate))
-                .on('dragend',self._callDebounce(self._dragEndOperate))
-                .on('dropover',self._callDebounce(self._dropOverOperate));
+            DDM.on('dragstart',self._debounce(self._dragStartOperate))
+                .on('dragend',self._debounce(self._dragEndOperate))
+                .on('dropover',self._debounce(self._dropOverOperate));
         },
         _dragStartOperate:function(e){
             var self = this,
@@ -166,7 +171,7 @@ KISSY.add('gallery/autoResponsive/1.2/plugin/drag',function (S,Constrain,Scroll)
              */
             D.insertBefore(self.placeHolder,self.select);
         },
-        _callDebounce:function(fn){
+        _debounce:function(fn){
             var self = this,
                 _threshold = self.threshold;
             /**
@@ -206,7 +211,6 @@ KISSY.add('gallery/autoResponsive/1.2/plugin/drag',function (S,Constrain,Scroll)
                     timeout = setTimeout(delayed, threshold || 100);
                 };
             }
-
             return debounce(fn,_threshold,self,true);
         }
     };

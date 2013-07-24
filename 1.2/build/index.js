@@ -46,6 +46,7 @@ KISSY.add('gallery/autoResponsive/1.2/config',function () {
      * @param {Number}  delayOnResize        resize时延迟渲染，主要是解决css3动画对页面节点属性更新不及时导致的渲染时依赖的数据不准确问题[临时解决办法]
      * @param {Boolean} landscapeOrientation 布局方向设置为横向，默认为false，竖向
      * @param {String}  exclude              排除设置
+     * @param {String}  animType             提供css3动画'css3Anim'（针对高级浏览器），和普通模拟动画'fixedAnim'（针对低版本浏览器）两种选项，可以强制指定
      */
     function Config() {
         return {
@@ -72,7 +73,8 @@ KISSY.add('gallery/autoResponsive/1.2/config',function () {
             whensRecountUnitWH: {value: []},
             delayOnResize: {value: -1},
             landscapeOrientation: {value:false},
-            exclude:{value:EMPTY}
+            exclude:{value:EMPTY},
+            animType:{value:EMPTY}
         };
     }
     return Config;
@@ -104,7 +106,7 @@ KISSY.add('gallery/autoResponsive/1.2/anim',function (S) {
 
     S.augment(AutoAnim, {
         _init: function () {
-            this[animType]();
+            this[this.cfg.animType ? this.cfg.animType : animType]();
         },
         /**
          * supply css ua prefix
@@ -659,7 +661,8 @@ KISSY.add('gallery/autoResponsive/1.2/gridsort',function (S, AutoAnim, LinkedLis
                 easing: cfg.easing,
                 direction: cfg.direction,
                 frame: cfg.owner.frame,
-                owner: cfg.owner
+                owner: cfg.owner,
+                animType:cfg.animType
             });
             elm.autoResponsiveCoordinate = {
                 x:coordinate[0],
@@ -997,12 +1000,10 @@ KISSY.add('gallery/autoResponsive/1.2/plugin/drag',function (S,Constrain,Scroll)
         DD = S.DD, DDM = DD.DDM,
         DraggableDelegate = DD.DraggableDelegate,
         DroppableDelegate = DD.DroppableDelegate,
-        letIE10 = S.UA.ie < 11,
         prifixCls = 'ks-autoResponsive-dd-',
         placeHolderCls = prifixCls+'placeHolder',
         draggingCls = prifixCls+'dragging',
-        placeHolderTPL = '<div class="'+placeHolderCls+'"></div>',
-        prefixes = ['-webkit-', '-moz-', '-ms-', '-o-', ''];
+        placeHolderTPL = '<div class="'+placeHolderCls+'"></div>';
 
     /**
      * Drag
@@ -1029,6 +1030,13 @@ KISSY.add('gallery/autoResponsive/1.2/plugin/drag',function (S,Constrain,Scroll)
              * @type {*}
              */
             self.owner = owner;
+            /**
+             * 强制更改owner配置为fixedAnim
+             * @type {*}
+             */
+            self.owner.changeCfg({
+                animType:'fixedAnim'
+            });
             /**
              * 容器取自宿主配置
              * @type {*}
@@ -1071,9 +1079,9 @@ KISSY.add('gallery/autoResponsive/1.2/plugin/drag',function (S,Constrain,Scroll)
         },
         _bindOperate:function(){
             var self = this;
-            DDM.on('dragstart',self._callDebounce(self._dragStartOperate))
-                .on('dragend',self._callDebounce(self._dragEndOperate))
-                .on('dropover',self._callDebounce(self._dropOverOperate));
+            DDM.on('dragstart',self._debounce(self._dragStartOperate))
+                .on('dragend',self._debounce(self._dragEndOperate))
+                .on('dropover',self._debounce(self._dropOverOperate));
         },
         _dragStartOperate:function(e){
             var self = this,
@@ -1153,7 +1161,7 @@ KISSY.add('gallery/autoResponsive/1.2/plugin/drag',function (S,Constrain,Scroll)
              */
             D.insertBefore(self.placeHolder,self.select);
         },
-        _callDebounce:function(fn){
+        _debounce:function(fn){
             var self = this,
                 _threshold = self.threshold;
             /**
@@ -1193,7 +1201,6 @@ KISSY.add('gallery/autoResponsive/1.2/plugin/drag',function (S,Constrain,Scroll)
                     timeout = setTimeout(delayed, threshold || 100);
                 };
             }
-
             return debounce(fn,_threshold,self,true);
         }
     };
