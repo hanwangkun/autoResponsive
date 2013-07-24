@@ -261,6 +261,13 @@ KISSY.use('gallery/autoResponsive/1.2/base', function (S, Ar) {
         <td>r/w</td>
         <td>排除设置，不隐藏但不参与排序</td>
     </tr>
+    <tr>
+        <td>animType</td>
+        <td>String</td>
+        <td>''</td>
+        <td>r/w</td>
+        <td>强制设置排版动画模式，css3Anim为css3动画，fixedAnim为普通的绝对定位</td>
+    </tr>
     </tbody>
 </table>
 **提醒**
@@ -448,8 +455,34 @@ KISSY.use('gallery/autoResponsive/1.2/index',function(S,T){
 ##插件说明
 
 ####drag：拖拽功能
+
+```javascript 
+
+KISSY.use('gallery/autoResponsive/1.2/index',function(S,T){
+
+    var E = S.Event,D = S.DOM;
+    var drag2 = new T.Drag({
+        closeConstrain :false,
+        selector:'.block'
+    });
+    var test = new T({
+        container:'.J_container_drag',
+        selector:'div',
+        unitMargin:{
+            x :10,
+            y:10
+        },
+        plugins:[drag2],
+        duration:0.1,
+        closeAnim:false
+    });
+});
+
+```
 ####loader：加载器
-#####loader 使用指南：
+
+>使用指南：
+>
 
 ####hash：hash回溯路由
 ##优秀demo
