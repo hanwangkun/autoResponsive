@@ -456,29 +456,39 @@ KISSY.use('gallery/autoResponsive/1.2/index',function(S,T){
 
 ####drag：拖拽功能
 
-```javascript 
+```javascript
 
->KISSY.use('gallery/autoResponsive/1.2/index',function(S,T){
+>使用指南：
 >
->    var E = S.Event,D = S.DOM;
->    var drag2 = new T.Drag({
->        closeConstrain :false,
->        selector:'.block'
->    });
->    var test = new T({
->        container:'.J_container_drag',
->        selector:'div',
->        unitMargin:{
->            x :10,
->            y:10
->        },
->        plugins:[drag2],
->        duration:0.1,
->        closeAnim:false
->    });
->});
 
->```
+KISSY.use('gallery/autoResponsive/1.2/index',function(S,T){
+    /**
+    * 先初始化插件
+    */
+    var E = S.Event,D = S.DOM;
+    var drag = new T.Drag({
+        closeConstrain :false,       //是否关闭边界限制
+        selector:'.block',           //拖拽元素过滤器
+        handlers:[],                 //拖拽操作代理dom
+        threshold :300               //时间敏感粒度ms
+    });
+    /**
+    * 初始化宿主
+    */
+    var test = new T({
+        container:'.J_container_drag',
+        selector:'div',
+        unitMargin:{
+            x :10,
+            y:10
+        },
+        plugins:[drag],              //插件实例传入插件队列
+        duration:0.1,
+        closeAnim:false
+    });
+});
+
+```
 ####loader：加载器
 
 >使用指南：
