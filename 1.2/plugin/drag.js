@@ -81,11 +81,22 @@ KISSY.add('gallery/autoResponsive/1.2/plugin/drag',function (S,Constrain,Scroll)
             self._bindOperate();
             S.log('drag init!');
         },
-        reset:function(){
-
+        /**
+         * 动态改变配置
+         */
+        changCfg:function(cfg){
+            var self = this;
+            S.each(cfg,function(i,key){
+                self.dragDelegate.set(key,i);
+            });
         },
         stop:function(){
-
+            var self = this;
+            self.dragDelegate.set('disabled',true);
+        },
+        restore:function(){
+            var self = this;
+            self.dragDelegate.set('disabled',false);
         },
         _bindOperate:function(){
             var self = this;
