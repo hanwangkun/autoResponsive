@@ -456,8 +456,8 @@ KISSY.use('gallery/autoResponsive/1.2/index',function(S,T){
 
 ####drag：拖拽功能
 
->使用指南：
->
+>作者：达峰
+>描述：1.2版本对drag插件重构
 
 
 ```javascript
@@ -492,8 +492,8 @@ KISSY.use('gallery/autoResponsive/1.2/index',function(S,T){
 ```
 ####loader：加载器
 
->使用指南：
->
+>作者：卓风
+>描述：更加稳定的数据加载器
 
 ####hash：hash回溯路由
 ##优秀demo
