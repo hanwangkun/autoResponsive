@@ -240,7 +240,7 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
             for (var i = cur[0], len = num + cur[0], newH = cur[1] + (cfg.landscapeOrientation ? cW : cH) + cfg.unitMargin.y; i < len; i++) {
                 curQuery.update(i, newH);
             }
-            _position = [cur[0] * cfg.gridWidth + cfg.unitMargin.x, cur[1] + cfg.unitMargin.y];
+            _position = [cur[0] * cfg.gridWidth, cur[1]];
             return cfg.landscapeOrientation ? _position.reverse() : _position;
         },
         /**
@@ -258,7 +258,6 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
          */
         _stepALG: function (num, curQuery) {
             var cur = [null, Infinity];
-
             for (var i = 0, len = curQuery.size(); i < len - num + 1; i++) {
                 var max = 0;
 
@@ -282,11 +281,10 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
          */
         _skipALG: function (num, curQuery) {
             var min = Infinity,
-                i = 0, idx = 0;
-
-            for (var len = curQuery.size(); i < len - num + 1; i++) {
+                idx = 0,
+                len = curQuery.size();
+            for (var i = 0; i <= (len < num ? 0 : len - num); i++) {
                 var max = -Infinity, curValue;
-
                 for (var j = 0; j < num; j++) {
                     curValue = curQuery.get(i + j);
                     if (curValue >= min) {
@@ -372,7 +370,7 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
             if (!cfg.autoHeight) {
                 return;
             }
-            cfg.landscapeOrientation ? D.width(cfg.container, height + cfg.unitMargin.x) :D.height(cfg.container, height + cfg.unitMargin.y);
+            cfg.landscapeOrientation ? D.width(cfg.container, height) :D.height(cfg.container, height);
         },
         /**
          * @deprecated 该功能暂时未完善
