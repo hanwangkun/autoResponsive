@@ -1,7 +1,7 @@
 /*
 combined files : 
 
-gallery/autoResponsive/1.2/plugin/drag
+gallery/autoResponsive/1.3/plugin/drag
 
 */
 /**
@@ -10,7 +10,7 @@ gallery/autoResponsive/1.2/plugin/drag
  * @Date:           2013.3.5
  * @Log:            1.2版本对drag重构
  */
-KISSY.add('gallery/autoResponsive/1.2/plugin/drag',function (S,Constrain,Scroll) {
+KISSY.add('gallery/autoResponsive/1.3/plugin/drag',function (S,Constrain,Scroll) {
     'use strict';
     var D = S.DOM,
         DD = S.DD, DDM = DD.DDM,
@@ -237,3 +237,4 @@ KISSY.add('gallery/autoResponsive/1.2/plugin/drag',function (S,Constrain,Scroll)
     };
     return Drag;
 }, {requires: ['dd/plugin/constrain','dd/plugin/scroll','dd','dom','event']});
+
