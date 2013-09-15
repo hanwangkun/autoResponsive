@@ -7,7 +7,7 @@ gallery/autoResponsive/1.3/plugin/loader
 */
 /**
  * @Description: 公用工具类
- * @Author:      dafeng.xdf[at]taobao.com
+ * @Author:      dafeng.xdf[at]taobao.com zhuofeng.ls@taobao.com
  * @Date:        2013.3.5
  */
 KISSY.add('gallery/autoResponsive/1.3/util',function (S) {
