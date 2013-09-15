@@ -33,6 +33,9 @@ module.exports = function(grunt) {
                         src: "<%= pkg.version %>/base.js",
                         dest: "<%= pkg.version %>/build/base.js"
                     },{
+                        src: "<%= pkg.version %>/util.js",
+                        dest: "<%= pkg.version %>/build/util.js"
+                    },{
                         src: "<%= pkg.version %>/plugin/drag.js",
                         dest: "<%= pkg.version %>/build/plugin/drag.js"
                     },{
@@ -58,6 +61,7 @@ module.exports = function(grunt) {
                 files: {
                     '<%= pkg.version %>/build/index-min.js': ['<%= pkg.version %>/build/index.js'],
                     '<%= pkg.version %>/build/base-min.js': ['<%= pkg.version %>/build/base.js'],
+                    '<%= pkg.version %>/build/util-min.js': ['<%= pkg.version %>/build/util.js'],
                     '<%= pkg.version %>/build/plugin/drag-min.js': ['<%= pkg.version %>/build/plugin/drag.js'],
                     '<%= pkg.version %>/build/plugin/hash-min.js': ['<%= pkg.version %>/build/plugin/hash.js'],
                     '<%= pkg.version %>/build/plugin/loader-min.js': ['<%= pkg.version %>/build/plugin/loader.js']
