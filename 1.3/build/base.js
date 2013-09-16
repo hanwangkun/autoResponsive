@@ -253,6 +253,7 @@ KISSY.add('gallery/autoResponsive/1.3/linkedlist',function (S) {
     });
     return LinkedList;
 });
+
 /**
  * @Description:    计算排序
  * @Author:         dafeng.xdf[at]taobao.com
@@ -262,7 +263,6 @@ KISSY.add('gallery/autoResponsive/1.3/linkedlist',function (S) {
 KISSY.add('gallery/autoResponsive/1.3/gridsort',function (S, AutoAnim, LinkedList) {
     'use strict';
     var D = S.DOM, EMPTY = '';
-
     /**
      * @name GridSort
      * @class 栅格布局算法
@@ -274,7 +274,6 @@ KISSY.add('gallery/autoResponsive/1.3/gridsort',function (S, AutoAnim, LinkedLis
         init: function (cfg, owner) {
             this.cfg = cfg;
             cfg.owner = owner;
-
             var items = S.query(cfg.selector, cfg.container);
             switch (cfg.sortBy) {
                 case EMPTY:
@@ -287,24 +286,20 @@ KISSY.add('gallery/autoResponsive/1.3/gridsort',function (S, AutoAnim, LinkedLis
                     break;
             }
         },
-
         _gridSort: function (items) {
             var cfg = this.cfg,
                 curQuery = this._getCols();
             // 设置关键帧
             this._setFrame();
-
             if (cfg.random) {
                 items = items.shuffle();
             }
-
             // 定位&排版之前触发
             cfg.owner.fire('beforeLocate beforeArrange', {
                 autoResponsive: { // TODO 优化点：既然是给自定义事件传参，没必要再多挂一层 'autoResponsive' key
                     elms: items // TODO items不精准，没有走过actions，所以可能存在被过滤元素，或顺序不正确问题
                 }
             });
-
             var actions = []; // 注意里面的规则顺序
             if(cfg.exclude !== EMPTY){
                 actions.push('_exclude');
@@ -312,19 +307,15 @@ KISSY.add('gallery/autoResponsive/1.3/gridsort',function (S, AutoAnim, LinkedLis
             if (cfg.filter !== EMPTY) {
                 actions.push('_filter');
             }
-
             if (cfg.priority !== EMPTY) {
                 actions.push('_priority');
             }
-
             var l = actions.length, m = items.length, s = cfg.cache ? cfg.owner._lastPos : 0, count = s, fn = S.noop;
-
             if (l == 0) { // 没有规则，说明全渲染，那就直接渲染
                 // 判断“排版结束”事件是否触发
                 cfg.owner.on('afterUnitArrange', fn = function(){
                     if(++count >= m){
                         cfg.owner.detach('afterUnitArrange', fn);
-
                         count == m && cfg.owner.fire('afterArrange', {
                             autoResponsive: {
                                 elms: items,
@@ -333,20 +324,15 @@ KISSY.add('gallery/autoResponsive/1.3/gridsort',function (S, AutoAnim, LinkedLis
                         });
                     }
                 });
-
                 for (var i = s; i < m; i++) {
                     this._render(curQuery, items[i]);
                 }
             } else { // 有规则，走renderQueue
                 var renderQueue = []; // 记录的只是序号
-
                 actions.push('_tail');
-
                 for (var j = s; j < m; j++) {
-
                     for (var t = 0, r; t < l + 1; t++) {
                         r = this[actions[t]](renderQueue, j, items[j]);
-
                         // 说明得到明确的插入位置，做插入并停止后面的actions执行
                         if (typeof r === 'number') {
                             renderQueue.splice(r, 0, j);
@@ -360,13 +346,11 @@ KISSY.add('gallery/autoResponsive/1.3/gridsort',function (S, AutoAnim, LinkedLis
                         }
                     }
                 }
-
                 count = 0;
                 // 判断“排版结束”事件是否触发
                 cfg.owner.on('afterUnitArrange', fn = function(){
                     if(++count >= n){
                         cfg.owner.detach('afterUnitArrange', fn);
-
                         count == n && cfg.owner.fire('afterArrange', {
                             autoResponsive: {
                                 elms: items,
@@ -375,17 +359,13 @@ KISSY.add('gallery/autoResponsive/1.3/gridsort',function (S, AutoAnim, LinkedLis
                         });
                     }
                 });
-
                 for (var k = 0, n = renderQueue.length; k < n; k++) {
                     this._render(curQuery, items[renderQueue[k]]);
                 }
             }
-
             // 记录一下这次渲染结束的位置(即下一次渲染开始的位置)
             cfg.owner._lastPos = m;
-
             var curMinMaxColHeight = this._getMinMaxColHeight();
-
             // 定位之后触发
             cfg.owner.fire('afterLocate', {
                 autoResponsive: {
@@ -394,7 +374,6 @@ KISSY.add('gallery/autoResponsive/1.3/gridsort',function (S, AutoAnim, LinkedLis
                     frame: cfg.owner.frame
                 }
             });
-
             // 更新容器高度
             this.setHeight(curMinMaxColHeight.max);
         },
@@ -452,7 +431,6 @@ KISSY.add('gallery/autoResponsive/1.3/gridsort',function (S, AutoAnim, LinkedLis
         _render: function (curQuery, item) {
             var self = this,
                 cfg = self.cfg;
-
             // 在单元定位、排版之前触发
             cfg.owner.fire('beforeUnitLocate beforeUnitArrange', {
                 autoResponsive: {
@@ -460,7 +438,6 @@ KISSY.add('gallery/autoResponsive/1.3/gridsort',function (S, AutoAnim, LinkedLis
                     frame: cfg.owner.frame
                 }
             });
-
             var coordinate = self.coordinate(curQuery, item);
             // 在单元定位之后触发
             cfg.owner.fire('afterUnitLocate', {
@@ -477,12 +454,10 @@ KISSY.add('gallery/autoResponsive/1.3/gridsort',function (S, AutoAnim, LinkedLis
         coordinate: function (curQuery, elm) {
             var cfg = this.cfg,
                 isRecountUnitWH = cfg.isRecountUnitWH;
-
             if (isRecountUnitWH || !elm.__width) {
                 elm.__width = D.outerWidth(elm);
                 elm.__height = D.outerHeight(elm);
             }
-
             return this._autoFit(curQuery, elm.__width, elm.__height);
         },
         /**
@@ -515,7 +490,6 @@ KISSY.add('gallery/autoResponsive/1.3/gridsort',function (S, AutoAnim, LinkedLis
             var cur = [null, Infinity];
             for (var i = 0, len = curQuery.size(); i < len - num + 1; i++) {
                 var max = 0;
-
                 for (var j = i; j < i + num; j++) {
                     if (curQuery.get(j) > max) {
                         max = curQuery.get(j);
@@ -548,12 +522,10 @@ KISSY.add('gallery/autoResponsive/1.3/gridsort',function (S, AutoAnim, LinkedLis
                             max = min; // 主要是绕过min > max这个条件，以免污染min
                             break;
                         }
-
                         j = -1; // reset
                         max = -Infinity; // reset
                         continue;
                     }
-
                     if (curValue > max) {
                         max = curValue;
                     }
@@ -600,7 +572,6 @@ KISSY.add('gallery/autoResponsive/1.3/gridsort',function (S, AutoAnim, LinkedLis
                 min = Infinity,
                 doneQuery = cfg.owner.curQuery.query, // TODO 如果使用的类型是链表？
                 max = Math.max.apply(Math, doneQuery);
-
             if (max == 0) { // 说明是空容器
                 min = 0;
             } else {
@@ -610,7 +581,6 @@ KISSY.add('gallery/autoResponsive/1.3/gridsort',function (S, AutoAnim, LinkedLis
                     }
                 }
             }
-
             return {
                 min: min,
                 max: max
@@ -658,9 +628,116 @@ KISSY.add('gallery/autoResponsive/1.3/gridsort',function (S, AutoAnim, LinkedLis
  */
 KISSY.add('gallery/autoResponsive/1.3/base',function (S, GridSort, Base) {
     'use strict';
-    var D = S.DOM, E = S.Event, win = window,
-        
-        EMPTY = '';
+    var D = S.DOM, E = S.Event,
+        win = window,
+        EMPTY = '',
+        config = {
+            /* @name Config
+             * @param {String}  container            外层容器
+             * @param {String}  selector             单元选择器
+             * @param {String}  filter               单元过滤器
+             * @param {String}  fixedSelector        [*]占位选择器
+             * @param {String}  priority             优先选择器
+             * @param {Number}  gridWidth            最小栅格单元宽度<code>px</code>
+             * @param {Object}  unitMargin           单元格外边距<code>px</code>
+             * @param {Boolean} closeAnim            是否关闭动画（默认开启）
+             * @param {Number}  duration             补间动画时间，此项只针对IE系列生效
+             * @param {String}  easing               补间动画算子，此项只针对IE系列生效
+             * @param {String}  direction            排序起始方向（可选值：<code>'right'</code>）
+             * @param {Boolean} random               随机排序开关（默认关闭）
+             * @param {String}  sortBy               排序算法（可选值：<code>'grid'</code>或<code>'cell'</code>，默认为<code>'grid'</code>）
+             * @param {Boolean} autoHeight           容器高度自适应开关（默认为true）
+             * @param {Boolean} suspend              渲染任务队列是否支持挂起（挂起时主动将执行交给UI线程 | 默认为true）
+             * @param {Array}   plugins              插件队列
+             * @param {Boolean} autoInit             是否自动初始化（默认为true）
+             * @param {Boolean} closeResize          是否关闭resize绑定（默认不关闭）
+             * @param {Number}  resizeFrequency      resize触发频率
+             * @param {Array}   whensRecountUnitWH   重新计算单元宽高的行为时刻（可选值：<code>'closeResize', 'adjust'</code>）
+             * @param {Number}  delayOnResize        resize时延迟渲染，主要是解决css3动画对页面节点属性更新不及时导致的渲染时依赖的数据不准确问题[临时解决办法]
+             * @param {Boolean} landscapeOrientation 布局方向设置为横向，默认为false，竖向
+             * @param {String}  exclude              排除设置
+             * @param {String}  animType             提供css3动画'css3Anim'（针对高级浏览器），和普通模拟动画'fixedAnim'（针对低版本浏览器）两种选项，可以强制指定
+             */
+            container: {
+                value: EMPTY
+            },
+
+            selector: {
+                value: EMPTY
+            },
+
+            filter: {
+                value: EMPTY
+            },
+            fixedSelector: {
+                value: EMPTY
+            },
+            priority: {
+                value: EMPTY
+            },
+            gridWidth: {
+                value: 10
+            },
+            unitMargin: {
+                value: {
+                    x: 0, y: 0
+                }
+            },
+            closeAnim: {
+                value: false
+            },
+            duration: {
+                value: 1}
+            ,
+            easing: {
+                value: 'easeNone'
+            },
+            direction: {
+                value: 'left'
+            },
+            random: {
+                value: false
+            },
+            sortBy: {
+                value: EMPTY
+            },
+            autoHeight: {
+                value: true
+            },
+            closeResize: {
+                value: false
+            },
+            autoInit: {
+                value: true
+            },
+            plugins: {
+                value: []
+            },
+            suspend: {
+                value: true
+            },
+            cache: {
+                value: false
+            },
+            resizeFrequency: {
+                value: 200
+            },
+            whensRecountUnitWH: {
+                value: []
+            },
+            delayOnResize: {
+                value: -1
+            },
+            landscapeOrientation: {
+                value:false}
+            ,
+            exclude:{
+                value:EMPTY
+            },
+            animType:{
+                value:EMPTY
+            }
+        };
     /**
      * @name AutoResponsive
      * @class 网页自适应布局
@@ -841,115 +918,7 @@ KISSY.add('gallery/autoResponsive/1.3/base',function (S, GridSort, Base) {
             D.prepend(nodes, this.get('container'));
             this.render();
         }
-    }, { ATTRS:{
-
-    /* @name Config
-     * @param {String}  container            外层容器
-     * @param {String}  selector             单元选择器
-     * @param {String}  filter               单元过滤器
-     * @param {String}  fixedSelector        [*]占位选择器
-     * @param {String}  priority             优先选择器
-     * @param {Number}  gridWidth            最小栅格单元宽度<code>px</code>
-     * @param {Object}  unitMargin           单元格外边距<code>px</code>
-     * @param {Boolean} closeAnim            是否关闭动画（默认开启）
-     * @param {Number}  duration             补间动画时间，此项只针对IE系列生效
-     * @param {String}  easing               补间动画算子，此项只针对IE系列生效
-     * @param {String}  direction            排序起始方向（可选值：<code>'right'</code>）
-     * @param {Boolean} random               随机排序开关（默认关闭）
-     * @param {String}  sortBy               排序算法（可选值：<code>'grid'</code>或<code>'cell'</code>，默认为<code>'grid'</code>）
-     * @param {Boolean} autoHeight           容器高度自适应开关（默认为true）
-     * @param {Boolean} suspend              渲染任务队列是否支持挂起（挂起时主动将执行交给UI线程 | 默认为true）
-     * @param {Array}   plugins              插件队列
-     * @param {Boolean} autoInit             是否自动初始化（默认为true）
-     * @param {Boolean} closeResize          是否关闭resize绑定（默认不关闭）
-     * @param {Number}  resizeFrequency      resize触发频率
-     * @param {Array}   whensRecountUnitWH   重新计算单元宽高的行为时刻（可选值：<code>'closeResize', 'adjust'</code>）
-     * @param {Number}  delayOnResize        resize时延迟渲染，主要是解决css3动画对页面节点属性更新不及时导致的渲染时依赖的数据不准确问题[临时解决办法]
-     * @param {Boolean} landscapeOrientation 布局方向设置为横向，默认为false，竖向
-     * @param {String}  exclude              排除设置
-     * @param {String}  animType             提供css3动画'css3Anim'（针对高级浏览器），和普通模拟动画'fixedAnim'（针对低版本浏览器）两种选项，可以强制指定
-     */
-            container: {
-                value: EMPTY
-            },
-
-            selector: {
-                value: EMPTY
-            },
-
-            filter: {
-                value: EMPTY
-            },
-            fixedSelector: {
-                value: EMPTY
-            },
-            priority: {
-                value: EMPTY
-            },
-            gridWidth: {
-                value: 10
-            },
-            unitMargin: {
-                value: {
-                    x: 0, y: 0
-                }
-            },
-            closeAnim: {
-                value: false
-            },
-            duration: {
-                value: 1}
-            ,
-            easing: {
-                value: 'easeNone'
-            },
-            direction: {
-                value: 'left'
-            },
-            random: {
-                value: false
-            },
-            sortBy: {
-                value: EMPTY
-            },
-            autoHeight: {
-                value: true
-            },
-            closeResize: {
-                value: false
-            },
-            autoInit: {
-                value: true
-            },
-            plugins: {
-                value: []
-            },
-            suspend: {
-                value: true
-            },
-            cache: {
-                value: false
-            },
-            resizeFrequency: {
-                value: 200
-            },
-            whensRecountUnitWH: {
-                value: []
-            },
-            delayOnResize: {
-                value: -1
-            },
-            landscapeOrientation: {
-                value:false}
-            ,
-            exclude:{
-                value:EMPTY
-            },
-            animType:{
-                value:EMPTY
-            }
-        }
-    });
+    }, { ATTRS: config });
 
     return AutoResponsive;
 

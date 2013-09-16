@@ -106,4 +106,3 @@ KISSY.add('gallery/autoResponsive/1.3/util',function (S) {
     return util;
 });
 
-

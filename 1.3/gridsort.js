@@ -7,7 +7,6 @@
 KISSY.add(function (S, AutoAnim, LinkedList) {
     'use strict';
     var D = S.DOM, EMPTY = '';
-
     /**
      * @name GridSort
      * @class 栅格布局算法
@@ -19,7 +18,6 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
         init: function (cfg, owner) {
             this.cfg = cfg;
             cfg.owner = owner;
-
             var items = S.query(cfg.selector, cfg.container);
             switch (cfg.sortBy) {
                 case EMPTY:
@@ -32,24 +30,20 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
                     break;
             }
         },
-
         _gridSort: function (items) {
             var cfg = this.cfg,
                 curQuery = this._getCols();
             // 设置关键帧
             this._setFrame();
-
             if (cfg.random) {
                 items = items.shuffle();
             }
-
             // 定位&排版之前触发
             cfg.owner.fire('beforeLocate beforeArrange', {
                 autoResponsive: { // TODO 优化点：既然是给自定义事件传参，没必要再多挂一层 'autoResponsive' key
                     elms: items // TODO items不精准，没有走过actions，所以可能存在被过滤元素，或顺序不正确问题
                 }
             });
-
             var actions = []; // 注意里面的规则顺序
             if(cfg.exclude !== EMPTY){
                 actions.push('_exclude');
@@ -57,19 +51,15 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
             if (cfg.filter !== EMPTY) {
                 actions.push('_filter');
             }
-
             if (cfg.priority !== EMPTY) {
                 actions.push('_priority');
             }
-
             var l = actions.length, m = items.length, s = cfg.cache ? cfg.owner._lastPos : 0, count = s, fn = S.noop;
-
             if (l == 0) { // 没有规则，说明全渲染，那就直接渲染
                 // 判断“排版结束”事件是否触发
                 cfg.owner.on('afterUnitArrange', fn = function(){
                     if(++count >= m){
                         cfg.owner.detach('afterUnitArrange', fn);
-
                         count == m && cfg.owner.fire('afterArrange', {
                             autoResponsive: {
                                 elms: items,
@@ -78,20 +68,15 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
                         });
                     }
                 });
-
                 for (var i = s; i < m; i++) {
                     this._render(curQuery, items[i]);
                 }
             } else { // 有规则，走renderQueue
                 var renderQueue = []; // 记录的只是序号
-
                 actions.push('_tail');
-
                 for (var j = s; j < m; j++) {
-
                     for (var t = 0, r; t < l + 1; t++) {
                         r = this[actions[t]](renderQueue, j, items[j]);
-
                         // 说明得到明确的插入位置，做插入并停止后面的actions执行
                         if (typeof r === 'number') {
                             renderQueue.splice(r, 0, j);
@@ -105,13 +90,11 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
                         }
                     }
                 }
-
                 count = 0;
                 // 判断“排版结束”事件是否触发
                 cfg.owner.on('afterUnitArrange', fn = function(){
                     if(++count >= n){
                         cfg.owner.detach('afterUnitArrange', fn);
-
                         count == n && cfg.owner.fire('afterArrange', {
                             autoResponsive: {
                                 elms: items,
@@ -120,17 +103,13 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
                         });
                     }
                 });
-
                 for (var k = 0, n = renderQueue.length; k < n; k++) {
                     this._render(curQuery, items[renderQueue[k]]);
                 }
             }
-
             // 记录一下这次渲染结束的位置(即下一次渲染开始的位置)
             cfg.owner._lastPos = m;
-
             var curMinMaxColHeight = this._getMinMaxColHeight();
-
             // 定位之后触发
             cfg.owner.fire('afterLocate', {
                 autoResponsive: {
@@ -139,7 +118,6 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
                     frame: cfg.owner.frame
                 }
             });
-
             // 更新容器高度
             this.setHeight(curMinMaxColHeight.max);
         },
@@ -197,7 +175,6 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
         _render: function (curQuery, item) {
             var self = this,
                 cfg = self.cfg;
-
             // 在单元定位、排版之前触发
             cfg.owner.fire('beforeUnitLocate beforeUnitArrange', {
                 autoResponsive: {
@@ -205,7 +182,6 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
                     frame: cfg.owner.frame
                 }
             });
-
             var coordinate = self.coordinate(curQuery, item);
             // 在单元定位之后触发
             cfg.owner.fire('afterUnitLocate', {
@@ -222,12 +198,10 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
         coordinate: function (curQuery, elm) {
             var cfg = this.cfg,
                 isRecountUnitWH = cfg.isRecountUnitWH;
-
             if (isRecountUnitWH || !elm.__width) {
                 elm.__width = D.outerWidth(elm);
                 elm.__height = D.outerHeight(elm);
             }
-
             return this._autoFit(curQuery, elm.__width, elm.__height);
         },
         /**
@@ -260,7 +234,6 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
             var cur = [null, Infinity];
             for (var i = 0, len = curQuery.size(); i < len - num + 1; i++) {
                 var max = 0;
-
                 for (var j = i; j < i + num; j++) {
                     if (curQuery.get(j) > max) {
                         max = curQuery.get(j);
@@ -293,12 +266,10 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
                             max = min; // 主要是绕过min > max这个条件，以免污染min
                             break;
                         }
-
                         j = -1; // reset
                         max = -Infinity; // reset
                         continue;
                     }
-
                     if (curValue > max) {
                         max = curValue;
                     }
@@ -345,7 +316,6 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
                 min = Infinity,
                 doneQuery = cfg.owner.curQuery.query, // TODO 如果使用的类型是链表？
                 max = Math.max.apply(Math, doneQuery);
-
             if (max == 0) { // 说明是空容器
                 min = 0;
             } else {
@@ -355,7 +325,6 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
                     }
                 }
             }
-
             return {
                 min: min,
                 max: max

@@ -107,7 +107,6 @@ KISSY.add('gallery/autoResponsive/1.3/util',function (S) {
     return util;
 });
 
-
 /**
  * @Description:    拖拽功能，依赖constrain、scroll两个dd组件
  * @Author:         dafeng.xdf[at]taobao.com

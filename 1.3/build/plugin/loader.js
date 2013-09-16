@@ -107,7 +107,6 @@ KISSY.add('gallery/autoResponsive/1.3/util',function (S) {
     return util;
 });
 
-
 /**
  * @Description:    Loader
  * @Author:         dafeng.xdf[at]taobao.com zhuofeng.ls[at]taobao.com
