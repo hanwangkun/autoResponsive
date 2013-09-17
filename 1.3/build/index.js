@@ -20,13 +20,9 @@ gallery/autoResponsive/1.3/index
 KISSY.add('gallery/autoResponsive/1.3/anim',function (S) {
     'use strict';
     var D = S.DOM, Anim = S.Anim,
-
         letIE10 = S.UA.ie < 11,
-
         prefixes = ['-webkit-', '-moz-', '-ms-', '-o-', ''],
-
         animType = letIE10 ? 'fixedAnim' : 'css3Anim';
-
     /**
      * @name AutoAnim
      * @class css动画，采用帧重复
@@ -36,7 +32,6 @@ KISSY.add('gallery/autoResponsive/1.3/anim',function (S) {
         this.cfg = cfg;
         this._init();
     }
-
     S.augment(AutoAnim, {
         _init: function () {
             this[this.cfg.animType ? this.cfg.animType : animType]();
@@ -46,11 +41,9 @@ KISSY.add('gallery/autoResponsive/1.3/anim',function (S) {
          */
         cssPrefixes: function (styleKey, styleValue) {
             var fixedRule = {};
-
             for (var i = 0, len = prefixes.length; i < len; i++) {
                 fixedRule[prefixes[i] + styleKey] = styleValue;
             }
-
             return fixedRule;
         },
         /**
@@ -64,7 +57,6 @@ KISSY.add('gallery/autoResponsive/1.3/anim',function (S) {
             var cfg = this.cfg;
             // TODO 优化点：既然css3Anim在循环中，可以考虑将‘cfg.direction !== 'right'’该判断条件在逻辑树上上提，以加快该函数的执行
             D.css(cfg.elm, this.cssPrefixes('transform', 'translate(' + ((cfg.direction !== 'right') ? cfg.x : (cfg.owner.gridSort.containerWH - cfg.elm.__width - cfg.x)) + 'px,' + cfg.y + 'px) '));
-
             this._fireAfterUnitArrange(cfg);
             S.log('css3 anim success');
         },
@@ -75,16 +67,12 @@ KISSY.add('gallery/autoResponsive/1.3/anim',function (S) {
             var self = this,
                 cfg = self.cfg,
                 cssRules = {'top': cfg.y};
-
             if (cfg.closeAnim) {
                 this.noneAnim();
                 return;
             }
-
             cssRules[cfg.direction == 'right' ? 'right' : 'left'] = cfg.x;
-
             new Anim(cfg.elm, cssRules, cfg.duration, cfg.easing, function () {
-
                 self._fireAfterUnitArrange(cfg);
             }).run();
             S.log('kissy anim success');
@@ -94,12 +82,10 @@ KISSY.add('gallery/autoResponsive/1.3/anim',function (S) {
          */
         noneAnim: function () {
             var cfg = this.cfg;
-
             D.css(cfg.elm, {
                 left: cfg.x,
                 top: cfg.y
             });
-
             this._fireAfterUnitArrange(cfg);
             S.log('maybe your anim is closed');
         },
