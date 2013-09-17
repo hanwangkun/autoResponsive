@@ -197,10 +197,11 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
         },
         coordinate: function (curQuery, elm) {
             var cfg = this.cfg,
-                isRecountUnitWH = cfg.isRecountUnitWH;
+                isRecountUnitWH = cfg.isRecountUnitWH,
+                fixedSize = cfg.owner.get('fixedSize');
             if (isRecountUnitWH || !elm.__width) {
-                elm.__width = D.outerWidth(elm);
-                elm.__height = D.outerHeight(elm);
+                elm.__width = fixedSize.width ? fixedSize.width : D.outerWidth(elm);
+                elm.__height = fixedSize.height ? fixedSize.height : D.outerHeight(elm);
             }
             return this._autoFit(curQuery, elm.__width, elm.__height);
         },

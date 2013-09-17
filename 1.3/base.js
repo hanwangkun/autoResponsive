@@ -34,6 +34,7 @@ KISSY.add(function (S, GridSort, Base) {
              * @param {Boolean} landscapeOrientation 布局方向设置为横向，默认为false，竖向
              * @param {String}  exclude              排除设置
              * @param {String}  animType             提供css3动画'css3Anim'（针对高级浏览器），和普通模拟动画'fixedAnim'（针对低版本浏览器）两种选项，可以强制指定
+             * @param {Object}  fixedSize            针对固定宽高的情况，若提供宽高则，计算量缩小{width:10,height:10}
              */
             container: {
                 value: EMPTY
@@ -64,8 +65,8 @@ KISSY.add(function (S, GridSort, Base) {
                 value: false
             },
             duration: {
-                value: 1}
-            ,
+                value: 1
+            },
             easing: {
                 value: 'easeNone'
             },
@@ -113,6 +114,10 @@ KISSY.add(function (S, GridSort, Base) {
             },
             animType:{
                 value:EMPTY
+            },
+            fixedSize:{
+                value:{
+                }
             }
         };
     /**
@@ -195,7 +200,7 @@ KISSY.add(function (S, GridSort, Base) {
          */
         _bindEvent: function () {
             var self = this;
-            self._bind(S.buffer(function () {   // 使用buffer，不要使用throttle
+            self._bind(S.buffer(function () {
                 var delayOnResize = self.get('delayOnResize');
                 self.fire('beforeResize');
                 if(delayOnResize !== -1){
