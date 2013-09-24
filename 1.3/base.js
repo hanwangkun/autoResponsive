@@ -21,7 +21,6 @@ KISSY.add(function (S, GridSort, Base) {
              * @param {Number}  duration             补间动画时间，此项只针对IE系列生效
              * @param {String}  easing               补间动画算子，此项只针对IE系列生效
              * @param {String}  direction            排序起始方向（可选值：<code>'right'</code>）
-             * @param {Boolean} random               随机排序开关（默认关闭）
              * @param {String}  sortBy               排序算法（可选值：<code>'grid'</code>或<code>'cell'</code>，默认为<code>'grid'</code>）
              * @param {Boolean} autoHeight           容器高度自适应开关（默认为true）
              * @param {Boolean} suspend              渲染任务队列是否支持挂起（挂起时主动将执行交给UI线程 | 默认为true）
@@ -72,9 +71,6 @@ KISSY.add(function (S, GridSort, Base) {
             },
             direction: {
                 value: 'left'
-            },
-            random: {
-                value: false
             },
             sortBy: {
                 value: EMPTY
@@ -262,14 +258,6 @@ KISSY.add(function (S, GridSort, Base) {
         direction: function (direction) {
             this.render({
                 direction: direction
-            });
-        },
-        /**
-         * 随机排序
-         */
-        random: function () {
-            this.render({
-                random: true
             });
         },
         /**

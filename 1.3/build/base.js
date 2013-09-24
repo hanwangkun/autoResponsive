@@ -128,14 +128,6 @@ KISSY.add('gallery/autoResponsive/1.3/linkedlist',function (S) {
          * 初始化，增加随机序列
          */
         init: function () {
-            S.augment(Array, {
-                shuffle: function () {
-                    for (var j, x, i = this.length;
-                         i;
-                         j = parseInt(Math.random() * i), x = this[--i], this[i] = this[j], this[j] = x);
-                    return this;
-                }
-            });
         },
         /**
          * 新增节点
@@ -277,9 +269,6 @@ KISSY.add('gallery/autoResponsive/1.3/gridsort',function (S, AutoAnim, LinkedLis
                 curQuery = this._getCols();
             // 设置关键帧
             this._setFrame();
-            if (cfg.random) {
-                items = items.shuffle();
-            }
             // 定位&排版之前触发
             cfg.owner.fire('beforeLocate beforeArrange', {
                 autoResponsive: { // TODO 优化点：既然是给自定义事件传参，没必要再多挂一层 'autoResponsive' key
@@ -631,7 +620,6 @@ KISSY.add('gallery/autoResponsive/1.3/base',function (S, GridSort, Base) {
              * @param {Number}  duration             补间动画时间，此项只针对IE系列生效
              * @param {String}  easing               补间动画算子，此项只针对IE系列生效
              * @param {String}  direction            排序起始方向（可选值：<code>'right'</code>）
-             * @param {Boolean} random               随机排序开关（默认关闭）
              * @param {String}  sortBy               排序算法（可选值：<code>'grid'</code>或<code>'cell'</code>，默认为<code>'grid'</code>）
              * @param {Boolean} autoHeight           容器高度自适应开关（默认为true）
              * @param {Boolean} suspend              渲染任务队列是否支持挂起（挂起时主动将执行交给UI线程 | 默认为true）
@@ -682,9 +670,6 @@ KISSY.add('gallery/autoResponsive/1.3/base',function (S, GridSort, Base) {
             },
             direction: {
                 value: 'left'
-            },
-            random: {
-                value: false
             },
             sortBy: {
                 value: EMPTY
@@ -872,14 +857,6 @@ KISSY.add('gallery/autoResponsive/1.3/base',function (S, GridSort, Base) {
         direction: function (direction) {
             this.render({
                 direction: direction
-            });
-        },
-        /**
-         * 随机排序
-         */
-        random: function () {
-            this.render({
-                random: true
             });
         },
         /**

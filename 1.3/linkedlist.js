@@ -25,14 +25,6 @@ KISSY.add(function (S) {
          * 初始化，增加随机序列
          */
         init: function () {
-            S.augment(Array, {
-                shuffle: function () {
-                    for (var j, x, i = this.length;
-                         i;
-                         j = parseInt(Math.random() * i), x = this[--i], this[i] = this[j], this[j] = x);
-                    return this;
-                }
-            });
         },
         /**
          * 新增节点

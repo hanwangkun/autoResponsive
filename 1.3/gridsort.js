@@ -35,9 +35,6 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
                 curQuery = this._getCols();
             // 设置关键帧
             this._setFrame();
-            if (cfg.random) {
-                items = items.shuffle();
-            }
             // 定位&排版之前触发
             cfg.owner.fire('beforeLocate beforeArrange', {
                 autoResponsive: { // TODO 优化点：既然是给自定义事件传参，没必要再多挂一层 'autoResponsive' key

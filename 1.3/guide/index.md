@@ -178,13 +178,6 @@ KISSY.use('gallery/autoResponsive/1.3/base', function (S, Ar) {
         <td>排序起始方向（可选值：<code>'right'</code>）</td>
     </tr>
     <tr>
-        <td>random</td>
-        <td>Boolean</td>
-        <td>false</td>
-        <td>r/w</td>
-        <td>随机排序开关（默认关闭）</td>
-    </tr>
-    <tr>
         <td>sortBy</td>
         <td>String</td>
         <td>""</td>
@@ -330,12 +323,6 @@ autoResponsive.margin({
 	x: 10, 
 	y: 20 
 });
-```
-####random ()：随机排序
-
-```javascript
-//随机排序
-autoResponsive.random();
 ```
 ####changeCfg ()：自定义配置
 
