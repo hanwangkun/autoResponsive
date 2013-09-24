@@ -299,6 +299,8 @@ KISSY.add('gallery/autoResponsive/1.3/gridsort',function (S, AutoAnim, LinkedLis
                         });
                     }
                 });
+                console.log('++++++')
+                    console.log(items)
                 for (var i = s; i < m; i++) {
                     this._render(curQuery, items[i]);
                 }
@@ -404,6 +406,7 @@ KISSY.add('gallery/autoResponsive/1.3/gridsort',function (S, AutoAnim, LinkedLis
             return Infinity; // 找到了队列的插入位置，即队列的末尾
         },
         _render: function (curQuery, item) {
+            console.log(item)
             var self = this,
                 cfg = self.cfg;
             // 在单元定位、排版之前触发
