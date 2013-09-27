@@ -35,22 +35,21 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
                 curQuery = this._getCols();
             // 设置关键帧
             this._setFrame();
-            // 定位&排版之前触发
-            cfg.owner.fire('beforeLocate beforeArrange', {
+
+            var actions = []; // 注意里面的规则顺序
+            //定位之前触发用于自定义规则
+            cfg.owner.fire('beforeLocate', {
+                autoResponsive: { 
+                    actions : actions,
+                    elms: items // TODO items不精准，没有走过actions，所以可能存在被过滤元素，或顺序不正确问题
+                }
+            });
+            //排版之前触发用于操作子元素
+            cfg.owner.fire('beforeArrange', {
                 autoResponsive: { // TODO 优化点：既然是给自定义事件传参，没必要再多挂一层 'autoResponsive' key
                     elms: items // TODO items不精准，没有走过actions，所以可能存在被过滤元素，或顺序不正确问题
                 }
             });
-            var actions = []; // 注意里面的规则顺序
-            if(cfg.exclude !== EMPTY){
-                actions.push('_exclude');
-            }
-            if (cfg.filter !== EMPTY) {
-                actions.push('_filter');
-            }
-            if (cfg.priority !== EMPTY) {
-                actions.push('_priority');
-            }
             var l = actions.length, m = items.length, s = cfg.cache ? cfg.owner._lastPos : 0, count = s, fn = S.noop;
             if (l == 0) { // 没有规则，说明全渲染，那就直接渲染
                 // 判断“排版结束”事件是否触发
@@ -73,7 +72,13 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
                 actions.push('_tail');
                 for (var j = s; j < m; j++) {
                     for (var t = 0, r; t < l + 1; t++) {
-                        r = this[actions[t]](renderQueue, j, items[j]);
+                        /**
+                         * @param renderQueue 用于排序的队列
+                         * @param j 当前下标
+                         * @param items dom元素数组
+                         * @return 当返回number时，表示插入到队列中哪个位置的前面
+                         */
+                        r =(typeof(actions[t]) =='function' ? actions[t] : this[actions[t]])(renderQueue, j, items);
                         // 说明得到明确的插入位置，做插入并停止后面的actions执行
                         if (typeof r === 'number') {
                             renderQueue.splice(r, 0, j);
@@ -133,31 +138,6 @@ KISSY.add(function (S, AutoAnim, LinkedList) {
         },
         _setFrame: function () {
             this.cfg.owner.frame++;
-        },
-        _exclude:function(queue, idx, elm){
-            var cfg = this.cfg;
-            if(D.hasClass(elm,cfg.exclude)){
-                return true;
-            }
-        },
-        _filter: function (queue, idx, elm) {
-            var cfg = this.cfg;
-            D.show(elm);
-            if (D.hasClass(elm, cfg.filter)) {
-                D.hide(elm);
-                return true; // 停止后面的actions执行，并且不插入
-            }
-            return false; // 继续执行后面的actions，插入与否由后面的actions决定
-        },
-        _priority: function (queue, idx, elm) {
-            if (typeof queue._priorityInsertPos == 'undefined') {
-                queue._priorityInsertPos = 0;
-            }
-            var cfg = this.cfg;
-            if (D.hasClass(elm, cfg.priority)) {
-                return queue._priorityInsertPos++; // 找到了队列的插入位置
-            }
-            return Infinity; // 找到了队列的插入位置，即队列的末尾
         },
         /**
          * 尾部action，只负责把当前的idx压栈，以免丢失

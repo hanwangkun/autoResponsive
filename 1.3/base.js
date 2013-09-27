@@ -225,24 +225,6 @@ KISSY.add(function (S, GridSort, Base) {
             return this.__isAdjusting || 0;
         },
         /**
-         * 优先排序方法
-         * @param {String} 选择器
-         */
-        priority: function (selector) {
-            this.render({
-                priority: selector
-            });
-        },
-        /**
-         * 过滤方法
-         * @param {String} 选择器
-         */
-        filter: function (selector) {
-            this.render({
-                filter: selector
-            });
-        },
-        /**
          * 调整边距
          * @param {Object} 边距
          */

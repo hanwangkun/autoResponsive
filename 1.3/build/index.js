@@ -9,6 +9,7 @@ gallery/autoResponsive/1.3/plugin/hash
 gallery/autoResponsive/1.3/util
 gallery/autoResponsive/1.3/plugin/drag
 gallery/autoResponsive/1.3/plugin/loader
+gallery/autoResponsive/1.3/plugin/sort
 gallery/autoResponsive/1.3/index
 
 */
@@ -274,22 +275,21 @@ KISSY.add('gallery/autoResponsive/1.3/gridsort',function (S, AutoAnim, LinkedLis
                 curQuery = this._getCols();
             // 设置关键帧
             this._setFrame();
-            // 定位&排版之前触发
-            cfg.owner.fire('beforeLocate beforeArrange', {
+
+            var actions = []; // 注意里面的规则顺序
+            //定位之前触发用于自定义规则
+            cfg.owner.fire('beforeLocate', {
+                autoResponsive: { 
+                    actions : actions,
+                    elms: items // TODO items不精准，没有走过actions，所以可能存在被过滤元素，或顺序不正确问题
+                }
+            });
+            //排版之前触发用于操作子元素
+            cfg.owner.fire('beforeArrange', {
                 autoResponsive: { // TODO 优化点：既然是给自定义事件传参，没必要再多挂一层 'autoResponsive' key
                     elms: items // TODO items不精准，没有走过actions，所以可能存在被过滤元素，或顺序不正确问题
                 }
             });
-            var actions = []; // 注意里面的规则顺序
-            if(cfg.exclude !== EMPTY){
-                actions.push('_exclude');
-            }
-            if (cfg.filter !== EMPTY) {
-                actions.push('_filter');
-            }
-            if (cfg.priority !== EMPTY) {
-                actions.push('_priority');
-            }
             var l = actions.length, m = items.length, s = cfg.cache ? cfg.owner._lastPos : 0, count = s, fn = S.noop;
             if (l == 0) { // 没有规则，说明全渲染，那就直接渲染
                 // 判断“排版结束”事件是否触发
@@ -312,7 +312,13 @@ KISSY.add('gallery/autoResponsive/1.3/gridsort',function (S, AutoAnim, LinkedLis
                 actions.push('_tail');
                 for (var j = s; j < m; j++) {
                     for (var t = 0, r; t < l + 1; t++) {
-                        r = this[actions[t]](renderQueue, j, items[j]);
+                        /**
+                         * @param renderQueue 用于排序的队列
+                         * @param j 当前下标
+                         * @param items dom元素数组
+                         * @return 当返回number时，表示插入到队列中哪个位置的前面
+                         */
+                        r =(typeof(actions[t]) =='function' ? actions[t] : this[actions[t]])(renderQueue, j, items);
                         // 说明得到明确的插入位置，做插入并停止后面的actions执行
                         if (typeof r === 'number') {
                             renderQueue.splice(r, 0, j);
@@ -372,31 +378,6 @@ KISSY.add('gallery/autoResponsive/1.3/gridsort',function (S, AutoAnim, LinkedLis
         },
         _setFrame: function () {
             this.cfg.owner.frame++;
-        },
-        _exclude:function(queue, idx, elm){
-            var cfg = this.cfg;
-            if(D.hasClass(elm,cfg.exclude)){
-                return true;
-            }
-        },
-        _filter: function (queue, idx, elm) {
-            var cfg = this.cfg;
-            D.show(elm);
-            if (D.hasClass(elm, cfg.filter)) {
-                D.hide(elm);
-                return true; // 停止后面的actions执行，并且不插入
-            }
-            return false; // 继续执行后面的actions，插入与否由后面的actions决定
-        },
-        _priority: function (queue, idx, elm) {
-            if (typeof queue._priorityInsertPos == 'undefined') {
-                queue._priorityInsertPos = 0;
-            }
-            var cfg = this.cfg;
-            if (D.hasClass(elm, cfg.priority)) {
-                return queue._priorityInsertPos++; // 找到了队列的插入位置
-            }
-            return Infinity; // 找到了队列的插入位置，即队列的末尾
         },
         /**
          * 尾部action，只负责把当前的idx压栈，以免丢失
@@ -827,24 +808,6 @@ KISSY.add('gallery/autoResponsive/1.3/base',function (S, GridSort, Base) {
         },
         isAdjusting: function () {
             return this.__isAdjusting || 0;
-        },
-        /**
-         * 优先排序方法
-         * @param {String} 选择器
-         */
-        priority: function (selector) {
-            this.render({
-                priority: selector
-            });
-        },
-        /**
-         * 过滤方法
-         * @param {String} 选择器
-         */
-        filter: function (selector) {
-            this.render({
-                filter: selector
-            });
         },
         /**
          * 调整边距
@@ -1567,13 +1530,162 @@ KISSY.add('gallery/autoResponsive/1.3/plugin/loader',function (S,Util) {
 }, {requires: ['../util','dom', 'event']});
 
 /**
+ * @Description:    Sort
+ * @Author:         dafeng.xdf[at]taobao.com
+ * @Date:           2013.09.01
+ */
+KISSY.add('gallery/autoResponsive/1.3/plugin/sort',function (S) {
+    'use strict';
+    var D = S.DOM;
+
+    var config = {};
+    /**
+     * @name Sort
+     * @class 排序插件
+     * @constructor
+     */
+    function Sort(cfg) {
+        if (!(this instanceof Sort)) {
+            return new Sort(cfg);
+        }
+        this._makeCfg(cfg);
+    }
+    /**
+     * 启用插件便开始解析
+     */
+    S.augment(Sort, {
+        /**
+         * loader插件初始化
+         * @public 供宿主对象在插件初始化时调用
+         * @param owner Base对象（即插件宿主对象）
+         * 重度依赖beforeLocate事件
+         */
+        init: function (owner) {
+            var self = this;
+            self.owner = owner;
+            self.actions = [];
+            self.owner.on('beforeLocate',function(d){
+                self.elms = d.autoResponsive.elms;
+                for (var i = 0;i<self.actions.length;i++){
+                    d.autoResponsive.actions.push(self.actions[i]);
+                }
+            });
+            S.log('plugin sort::init');
+        },
+        /**
+         * 用户配置修正
+         * @param cfg
+         * @private
+         */
+        _makeCfg: function(cfg){
+            cfg = config
+            this.config = cfg;
+        },
+        /**
+         * 暴露成外部接口
+         * 修改的配置会立即生效
+         * @param cfg
+         */
+        changeCfg: function(cfg){
+            this._makeCfg(S.merge(this.config, cfg)); // 重新配置
+        },
+        /**
+         * 随机排序
+         */
+        random:function(cfg){
+            var self = this;
+            self.clear();
+            self.actions.push(function(queue,index,items){
+                return parseInt(Math.random() * queue.length);
+            });
+        },
+        /**
+         * 优先排序
+         */
+        priority:function(cfg){
+            var self = this;
+            var attrName = cfg.attrName || 'data-priority';
+            var cache = [],_p =-1;
+            S.each(self.elms,function(i){
+                if( cfg.dataAttr && ( D.attr(i,attrName) == cfg.dataAttr ) || D.hasClass(i,cfg.classAttr)){
+                    cache.push(i);
+                }
+            });
+            self.actions.push(function(queue,index,items){
+                if(S.inArray(items[index],cache)){
+                    _p++;
+                    return _p;
+                }else{
+                    return queue.length;
+                }
+            });
+        },
+        /**
+         * 倒序
+         */
+        reverse:function(){
+            var self = this;
+            self.actions.push(function(queue,index,items){
+                return 0;
+            });
+        },
+        /**
+         * 过滤排序
+         */
+        filter:function(cfg){
+            var self = this;
+            self.clear();
+            var attrName = cfg.attrName || 'data-filter';
+            self.actions.push(function(queue,index,items){
+               if( (D.hasAttr(items[index],attrName) &&  D.attr(items[index],attrName) == cfg.dataAttr)){
+                    D.show(items[index]);
+               }else if(D.hasClass(items[index],cfg.classAttr)){
+                    D.show(items[index]);
+               }else if(S.inArray(D.attr(items[index],attrName),cfg.dataAttr)){
+                    D.show(items[index]);
+               }else {
+                    cfg.hide && D.hide(items[index]);
+                    return true;
+               }
+            });
+        },
+        /**
+         * 用户自定义算法
+         */
+        custom:function(action){
+            var self = this;
+            self.actions.push(action);
+        },
+        /**
+         * 清除规则
+         */
+        clear:function(){
+            var self = this;
+            //清除所有自定义规则
+            self.actions = [];
+        },
+        /**
+         * 撤销操作
+         */
+        restore:function(){
+            var self = this;
+            self.actions.pop();
+        }
+    });
+    return Sort;
+
+}, {requires: ['dom']});
+
+/**
  * @Description: 目前先挂载base，effect效果插件，hash插件
  * @Author:      dafeng.xdf[at]taobao.com
  * @Date:        2013.3.5
  */
-KISSY.add('gallery/autoResponsive/1.3/index',function (S, AutoResponsive, Hash, Drag, Loader) {
+KISSY.add('gallery/autoResponsive/1.3/index',function (S, AutoResponsive, Hash, Drag, Loader, Sort) {
     AutoResponsive.Hash = Hash;
     AutoResponsive.Drag = Drag;
     AutoResponsive.Loader = Loader;
+    AutoResponsive.Sort = Sort;
     return AutoResponsive;
-}, {requires: ['./base', './plugin/hash', './plugin/drag', './plugin/loader']});
+}, {requires: ['./base', './plugin/hash', './plugin/drag', './plugin/loader', './plugin/sort']});
+

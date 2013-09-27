@@ -44,6 +44,9 @@ module.exports = function(grunt) {
                     },{
                         src: "<%= pkg.version %>/plugin/loader.js",
                         dest: "<%= pkg.version %>/build/plugin/loader.js"
+                    },{
+                        src: "<%= pkg.version %>/plugin/sort.js",
+                        dest: "<%= pkg.version %>/build/plugin/sort.js"
                     }
                 ]
             }
@@ -64,7 +67,8 @@ module.exports = function(grunt) {
                     '<%= pkg.version %>/build/util-min.js': ['<%= pkg.version %>/build/util.js'],
                     '<%= pkg.version %>/build/plugin/drag-min.js': ['<%= pkg.version %>/build/plugin/drag.js'],
                     '<%= pkg.version %>/build/plugin/hash-min.js': ['<%= pkg.version %>/build/plugin/hash.js'],
-                    '<%= pkg.version %>/build/plugin/loader-min.js': ['<%= pkg.version %>/build/plugin/loader.js']
+                    '<%= pkg.version %>/build/plugin/loader-min.js': ['<%= pkg.version %>/build/plugin/loader.js'],
+                    '<%= pkg.version %>/build/plugin/sort-min.js': ['<%= pkg.version %>/build/plugin/sort.js']
                 }
             }
         },
