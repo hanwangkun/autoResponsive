@@ -110,19 +110,22 @@ KISSY.add('gallery/autoResponsive/1.3/plugin/sort',function (S) {
         filter:function(cfg){
             var self = this;
             self.clear();
-            var attrName = cfg.attrName || 'data-filter';
-            self.actions.push(function(queue,index,items){
-               if( (D.hasAttr(items[index],attrName) &&  D.attr(items[index],attrName) == cfg.dataAttr)){
-                    D.show(items[index]);
-               }else if(D.hasClass(items[index],cfg.classAttr)){
-                    D.show(items[index]);
-               }else if(S.inArray(D.attr(items[index],attrName),cfg.dataAttr)){
-                    D.show(items[index]);
-               }else {
-                    cfg.hide && D.hide(items[index]);
-                    return true;
-               }
-            });
+            var attrNames = cfg.attrName || ['data-filter'];
+            for(var j = 0;j<attrNames.length;j++){
+                var attrName =  attrNames[j]||'data-filter';
+                self.actions.push(function(queue,index,items){
+                   if( (D.hasAttr(items[index],attrName) &&  D.attr(items[index],attrName) == cfg.dataAttr)){
+                        D.show(items[index]);
+                   }else if(D.hasClass(items[index],cfg.classAttr)){
+                        D.show(items[index]);
+                   }else if(S.inArray(D.attr(items[index],attrName),cfg.dataAttr)){
+                        D.show(items[index]);
+                   }else {
+                        cfg.hide && D.hide(items[index]);
+                        return true;
+                   }
+                });
+            }
         },
         /**
          * 用户自定义算法
