@@ -248,13 +248,6 @@ KISSY.use('gallery/autoResponsive/1.3/base', function (S, Ar) {
         <td>横屏开关，默认浏览器竖屏</td>
     </tr>
     <tr>
-        <td>exclude</td>
-        <td>String</td>
-        <td>''</td>
-        <td>r/w</td>
-        <td>排除设置，不隐藏但不参与排序</td>
-    </tr>
-    <tr>
         <td>animType</td>
         <td>String</td>
         <td>''</td>
@@ -483,6 +476,44 @@ KISSY.use('gallery/autoResponsive/1.3/index',function(S,T){
 >描述：更加稳定的数据加载器
 
 ####hash：hash回溯路由
+
+####sort：排序插件
+
+>作者：达峰<br/>
+>描述：提供更多定制化的过滤，排序功能
+
+```javascript
+
+KISSY.use('gallery/autoResponsive/1.3/index',function(S,T){
+    /**
+    * 先初始化插件
+    */
+    var E = S.Event,D = S.DOM;
+    var sort = new T.Sort({
+    });
+    /**
+    * 初始化宿主
+    */
+    var test = new T({
+        container:'.J_container_drag',
+        selector:'div',
+        unitMargin:{
+            x :10,
+            y:10
+        },
+        plugins:[sort],              //插件实例传入插件队列
+        duration:0.1,
+        closeAnim:false
+    });
+    sort.filter({                   //添加过滤规则
+        classAttr:'red',
+        hide:true
+    });
+    test.adjust();
+});
+
+```
+
 ##优秀demo
 ####<a href="http://xudafeng.github.io/autoResponsive/demo/crossend/" target="_blank">专辑跨终端（resize例子）</a>
 ####<a href="http://xudafeng.github.io/autoResponsive/cat/demos/xfs.html" target="_blank">新风尚大促（filter例子）</a>

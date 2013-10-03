@@ -114,11 +114,11 @@ KISSY.add('gallery/autoResponsive/1.3/plugin/sort',function (S) {
             for(var j = 0;j<attrNames.length;j++){
                 var attrName =  attrNames[j]||'data-filter';
                 self.actions.push(function(queue,index,items){
-                   if( (D.hasAttr(items[index],attrName) &&  D.attr(items[index],attrName) == cfg.dataAttr)){
+                   if((D.hasAttr(items[index],attrName) &&  D.attr(items[index],attrName) == cfg.dataAttr)){
                         D.show(items[index]);
                    }else if(D.hasClass(items[index],cfg.classAttr)){
                         D.show(items[index]);
-                   }else if(S.inArray(D.attr(items[index],attrName),cfg.dataAttr)){
+                   }else if(D.hasAttr(items[index],attrName) && S.inArray(D.attr(items[index],attrName),cfg.dataAttr)){
                         D.show(items[index]);
                    }else {
                         cfg.hide && D.hide(items[index]);
