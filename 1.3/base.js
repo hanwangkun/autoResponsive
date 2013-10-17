@@ -12,9 +12,7 @@ KISSY.add(function (S, GridSort, Base) {
             /* @name Config
              * @param {String}  container            外层容器
              * @param {String}  selector             单元选择器
-             * @param {String}  filter               单元过滤器
              * @param {String}  fixedSelector        [*]占位选择器
-             * @param {String}  priority             优先选择器
              * @param {Number}  gridWidth            最小栅格单元宽度<code>px</code>
              * @param {Object}  unitMargin           单元格外边距<code>px</code>
              * @param {Boolean} closeAnim            是否关闭动画（默认开启）
@@ -31,7 +29,6 @@ KISSY.add(function (S, GridSort, Base) {
              * @param {Array}   whensRecountUnitWH   重新计算单元宽高的行为时刻（可选值：<code>'closeResize', 'adjust'</code>）
              * @param {Number}  delayOnResize        resize时延迟渲染，主要是解决css3动画对页面节点属性更新不及时导致的渲染时依赖的数据不准确问题[临时解决办法]
              * @param {Boolean} landscapeOrientation 布局方向设置为横向，默认为false，竖向
-             * @param {String}  exclude              排除设置
              * @param {String}  animType             提供css3动画'css3Anim'（针对高级浏览器），和普通模拟动画'fixedAnim'（针对低版本浏览器）两种选项，可以强制指定
              * @param {Object}  fixedSize            针对固定宽高的情况，若提供宽高则，计算量缩小{width:10,height:10}
              */
@@ -42,14 +39,7 @@ KISSY.add(function (S, GridSort, Base) {
             selector: {
                 value: EMPTY
             },
-
-            filter: {
-                value: EMPTY
-            },
             fixedSelector: {
-                value: EMPTY
-            },
-            priority: {
                 value: EMPTY
             },
             gridWidth: {
@@ -105,9 +95,6 @@ KISSY.add(function (S, GridSort, Base) {
             landscapeOrientation: {
                 value:false}
             ,
-            exclude:{
-                value:EMPTY
-            },
             animType:{
                 value:EMPTY
             },

@@ -122,20 +122,6 @@ KISSY.use('gallery/autoResponsive/1.3/base', function (S, Ar) {
         <td>单元选择器</td>
     </tr>
     <tr>
-        <td>filter</td>
-        <td>String</td>
-        <td>''</td>
-        <td>r/w</td>
-        <td>单元过滤器</td>
-    </tr>
-    <tr>
-        <td>priority</td>
-        <td>String</td>
-        <td>''</td>
-        <td>r/w</td>
-        <td>优先选择器</td>
-    </tr>
-    <tr>
         <td>gridWidth</td>
         <td>Number</td>
         <td>10</td>

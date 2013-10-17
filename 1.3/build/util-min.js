@@ -1,3 +1,3 @@
-/*! autoResponsive - v1.3 - 2013-10-03 9:45:52 PM
+/*! autoResponsive - v1.3 - 2013-10-17 11:05:58 AM
 * Copyright (c) 2013 xudafeng; Licensed  */
 KISSY.add("gallery/autoResponsive/1.3/util",function(e){"use strict";var t={};return e.mix(t,{debounce:function(e,t,n,i){var r;return function(){function o(){i||e.apply(a,s),r=null}var a=n||this,s=arguments;r?clearTimeout(r):i&&e.apply(a,s),r=setTimeout(o,t||100)}},timedChunk:function(t,n,i,r){var o,a={},s=[],u=i.config,c=u.qpt||15;return a.start=function(){s=s.concat(e.makeArray(t));var u=function(){for(var e=+new Date;s.length>0&&50>new Date-e;){var l=s.splice(0,c);n.call(i,l)}return s.length>0?(o=setTimeout(u,25),void 0):(r&&r.call(i,t),a.stop(),a=null,void 0)};u()},a.stop=function(){o&&(clearTimeout(o),s=[])},a}}),t});
