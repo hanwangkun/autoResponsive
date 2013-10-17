@@ -273,24 +273,7 @@ KISSY.use('gallery/autoResponsive/1.3/index', function (S, AutoResponsive) {
 //重新调整排序
 autoResponsive.adjust();
 ```
-####priority ()：调整优先顺序
 
-```javascript
-/**
-* 优先排序
-* demo:http://xudafeng.github.io/autoResponsive/cat/demos/#priority
-*/
-autoResponsive.priority('.red');
-```
-####filter ()：过滤排序
-
-```javascript
-/**
-* 过滤排序
-* demo:http://xudafeng.github.io/autoResponsive/cat/demos/#filter
-*/
-autoResponsive.filter();
-```
 ####margin ()：边距设置
 
 ```javascript
@@ -504,6 +487,10 @@ KISSY.use('gallery/autoResponsive/1.3/index',function(S,T){
 ####<a href="http://xudafeng.github.io/autoResponsive/demo/crossend/" target="_blank">专辑跨终端（resize例子）</a>
 ####<a href="http://xudafeng.github.io/autoResponsive/cat/demos/xfs.html" target="_blank">新风尚大促（filter例子）</a>
 ####<a href="http://xudafeng.github.io/autoResponsive/demo/loader/" target="_blank">专题List(loader例子)</a> | <a href="http://list.tmall.com/search_product.htm?cat=50025135&s=0&n=20&sort=s&style=g&vmarket=0&search_condition=7&bucket_id=12&pic_detail=1&from=sn_1_prop&active=1#J_Filter" target="_blank">线上实例</a>
+####<a href="http://gallery.kissyui.com/list/"
+target="_blank">KISSY首页模块</a><a href="http://gallery.kissyui.com/coms/"
+target="_blank">gallery 列表页排序例子</a>
+
 ##License
 >The MIT License (MIT)
 
