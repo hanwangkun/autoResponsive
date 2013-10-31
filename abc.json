@@ -1,11 +1,14 @@
 {
     "name": "autoResponsive",
-    "version": "1.2",
-    "desc": "自适应组件",
-    "cover": "http://img01.taobaocdn.com/tps/i1/T1daSUXspXXXbHYVHG-503-566.png",
+    "version": "1.3",
+    "desc": "auto responsive layout",
+    "cover": "",
+    "tag":"1.3",
     "author": {
         "name": "xudafeng",
         "email": "xudafeng@126.com",
-        "page": "http://xudafeng.github.com"
-    }
+        "page": "http://xudafeng.github.com/autoResponsive"
+    },
+    "type": "kissy-gallery",
+    "type-url": "http://gallery.kissyui.com/guide"
 }

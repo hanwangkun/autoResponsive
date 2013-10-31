@@ -33,6 +33,9 @@ module.exports = function(grunt) {
                         src: "<%= pkg.version %>/base.js",
                         dest: "<%= pkg.version %>/build/base.js"
                     },{
+                        src: "<%= pkg.version %>/util.js",
+                        dest: "<%= pkg.version %>/build/util.js"
+                    },{
                         src: "<%= pkg.version %>/plugin/drag.js",
                         dest: "<%= pkg.version %>/build/plugin/drag.js"
                     },{
@@ -41,6 +44,9 @@ module.exports = function(grunt) {
                     },{
                         src: "<%= pkg.version %>/plugin/loader.js",
                         dest: "<%= pkg.version %>/build/plugin/loader.js"
+                    },{
+                        src: "<%= pkg.version %>/plugin/sort.js",
+                        dest: "<%= pkg.version %>/build/plugin/sort.js"
                     }
                 ]
             }
@@ -49,15 +55,34 @@ module.exports = function(grunt) {
         // 压缩文件和入口文件一一对应
         uglify: {
             options: {
-                banner: '<%= banner %>'
+                banner: '<%= banner %>',
+                beautify: {
+                    ascii_only: true
+                }
             },
             base: {
                 files: {
                     '<%= pkg.version %>/build/index-min.js': ['<%= pkg.version %>/build/index.js'],
                     '<%= pkg.version %>/build/base-min.js': ['<%= pkg.version %>/build/base.js'],
+                    '<%= pkg.version %>/build/util-min.js': ['<%= pkg.version %>/build/util.js'],
                     '<%= pkg.version %>/build/plugin/drag-min.js': ['<%= pkg.version %>/build/plugin/drag.js'],
                     '<%= pkg.version %>/build/plugin/hash-min.js': ['<%= pkg.version %>/build/plugin/hash.js'],
-                    '<%= pkg.version %>/build/plugin/loader-min.js': ['<%= pkg.version %>/build/plugin/loader.js']
+                    '<%= pkg.version %>/build/plugin/loader-min.js': ['<%= pkg.version %>/build/plugin/loader.js'],
+                    '<%= pkg.version %>/build/plugin/sort-min.js': ['<%= pkg.version %>/build/plugin/sort.js']
+                }
+            }
+        },
+        copy: {
+            main: {
+                files: [
+                    {src: ['<%= pkg.version %>/index.css'], dest: '<%= pkg.version %>/build/index.css'}
+                ]
+            }
+        },
+        cssmin: {
+            combine: {
+                files: {
+                    '<%= pkg.version %>/build/index-min.css': ['<%= pkg.version %>/build/index.css']
                 }
             }
         }
@@ -66,5 +91,7 @@ module.exports = function(grunt) {
     // 使用到的任务，可以增加其他任务
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-kmc');
-    return grunt.registerTask('default', ['kmc', 'uglify']);
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-contrib-copy');
+    return grunt.registerTask('default', ['kmc', 'uglify','copy','cssmin']);
 };
