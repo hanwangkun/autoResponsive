@@ -1,0 +1,10 @@
+/**
+ * autoResponsive 基础样式
+ */ 
+.ks-autoResponsive-container{
+    position:relative;
+    overflow: hidden;
+}
+.ks-autoResponsive-container .ks-autoResponsive-cell{
+    position:absolute;
+}

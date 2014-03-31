@@ -1,0 +1,156 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8"/>
+    <script type="text/javascript" src="http://a.tbcdn.cn/s/kissy/1.3.0/kissy-min.js"></script>
+    <script src="https://rawgithub.com/xudafeng/autoResponsive/master/1.1/build/index.js"></script>
+    <style>
+        body {
+            width: auto;
+            padding-top: 60px;
+            background: transparent url(http://a.tbcdn.cn/t/mybrand/1.0.4/images/bg.png) 0 0 repeat scroll;
+            position: relative;
+        }
+        #waterfall{
+            width: 100%;
+            margin: 0 auto;
+            background: url(http://a.tbcdn.cn/t/mybrand/1.0.4/images/dots-texture.png) repeat;
+            padding-top: 30px;
+            position: relative;
+
+        }
+        div {
+            font-size: 100px;
+            text-align: center;
+            line-height: 200px;
+        }
+
+        .ks-autoResponsive-container {
+            position: relative;
+        }
+
+        .w1, .w2 {
+            position: absolute;
+            /*left: -9999px;*/
+            /*top: -9999px;*/
+            z-index: 99;
+        }
+
+        .w1 {
+            width: 260px;
+            height: 370px;
+        }
+
+        .w2 {
+            width: 260px;
+            height: 370px;
+        }
+        .slow{
+            -webkit-transition: 6s;
+            transition: 6s;
+        }
+    </style>
+</head>
+<body>
+<div id="waterfall">
+    <div class="ks-autoResponsive-container j_Container">
+        <div class="ks-waterfall w1 J_hover"><img src="http://img04.taobaocdn.com/tps/i4/T1vOtcFoFXXXamnpjT-270-373.png" /></div>
+        <div class="ks-waterfall w1"><img src="http://img02.taobaocdn.com/tps/i2/T1qOC5XsteXXc0DFjT-270-374.png" /></div>
+        <div class="ks-waterfall w2"><img src="http://img03.taobaocdn.com/tps/i3/T1bBBcFXtaXXX6.wf8-276-381.png" /></div>
+        <div class="ks-waterfall w2"><img src="http://img03.taobaocdn.com/tps/i3/T1bBBcFXtaXXX6.wf8-276-381.png" /></div>
+        <div class="ks-waterfall w2"><img src="http://img03.taobaocdn.com/tps/i3/T1bBBcFXtaXXX6.wf8-276-381.png" /></div>
+        <div class="ks-waterfall w2"><img src="http://img03.taobaocdn.com/tps/i3/T1bBBcFXtaXXX6.wf8-276-381.png" /></div>
+        <div class="ks-waterfall w2"><img src="http://img03.taobaocdn.com/tps/i3/T1bBBcFXtaXXX6.wf8-276-381.png" /></div>
+        <div class="ks-waterfall w2"><img src="http://img03.taobaocdn.com/tps/i3/T1bBBcFXtaXXX6.wf8-276-381.png" /></div>
+        <div class="ks-waterfall w2"><img src="http://img03.taobaocdn.com/tps/i3/T1bBBcFXtaXXX6.wf8-276-381.png" /></div>
+        <div class="ks-waterfall w2"><img src="http://img03.taobaocdn.com/tps/i3/T1bBBcFXtaXXX6.wf8-276-381.png" /></div>
+        <div class="ks-waterfall w2"><img src="http://img03.taobaocdn.com/tps/i3/T1bBBcFXtaXXX6.wf8-276-381.png" /></div>
+        <div class="ks-waterfall w2"><img src="http://img03.taobaocdn.com/tps/i3/T1bBBcFXtaXXX6.wf8-276-381.png" /></div>
+        <div class="ks-waterfall w2"><img src="http://img03.taobaocdn.com/tps/i3/T1bBBcFXtaXXX6.wf8-276-381.png" /></div>
+        <div class="ks-waterfall w2"><img src="http://img03.taobaocdn.com/tps/i3/T1bBBcFXtaXXX6.wf8-276-381.png" /></div>
+        <div class="ks-waterfall w2"><img src="http://img03.taobaocdn.com/tps/i3/T1bBBcFXtaXXX6.wf8-276-381.png" /></div>
+        <div class="ks-waterfall w2"><img src="http://img03.taobaocdn.com/tps/i3/T1bBBcFXtaXXX6.wf8-276-381.png" /></div>
+        <div class="ks-waterfall w2"><img src="http://img03.taobaocdn.com/tps/i3/T1bBBcFXtaXXX6.wf8-276-381.png" /></div>
+        <div class="ks-waterfall w2"><img src="http://img03.taobaocdn.com/tps/i3/T1bBBcFXtaXXX6.wf8-276-381.png" /></div>
+        <div class="ks-waterfall w2"><img src="http://img03.taobaocdn.com/tps/i3/T1bBBcFXtaXXX6.wf8-276-381.png" /></div>
+        <div class="ks-waterfall w2"><img src="http://img03.taobaocdn.com/tps/i3/T1bBBcFXtaXXX6.wf8-276-381.png" /></div>
+    </div>
+</div>
+<script>
+    var auto;
+    KISSY.use('gallery/autoResponsive/1.1/index', function (S, AutoResponsive) {
+        D = S.DOM, E = S.Event, $ = S.all;
+
+        D.css('#waterfall', {height: 0, overflow: 'hidden'});
+
+        auto = new AutoResponsive({
+            container: '.j_Container',
+            selector: 'div',
+            //closeAnim: true,
+            autoInit: false,
+            unitMargin: {
+                x: 30,
+                y: 20
+            },
+            duration:0.6
+        });
+        auto.on('beforeUnitSort', function (e) {
+            var elements = e.autoResponsive.elm;
+            D.removeAttr(elements, 'data-waterfall-col');
+        });
+        auto.on('afterUnitSort', function (e) {
+            var elements = e.autoResponsive.elm;
+            D.css(elements, {
+                visibility: 'visible',
+                opacity: 1
+            });
+        });
+        auto.init();
+
+        // 跑马灯效果组件
+        S.Node.prototype.marquee = function (inc, speed, execAsap /* execute at start of the detection period */) {
+            var timer = execAsap ? 0 : inc;
+            this.each(function (item) {
+                setTimeout(function () {
+                    item.fadeIn(speed / 1000);
+                }, timer);
+                timer += inc;
+            });
+        };
+
+        setTimeout(function () {
+            auto.adjust();
+            var $waterfall = $('#waterfall'),
+                    $units = $('.ks-waterfall');
+
+            $waterfall.css({display: 'none', height: 'auto'});
+            $units.hide().marquee(300, 100, 1);
+            $waterfall.slideDown(5);
+
+
+        }, 100);
+        var _num = 0;
+        setTimeout(function(){
+//            setInterval(function(){
+                var _target = S.get('.J_hover');
+//                if(_num>5){
+//                    return;
+//                }
+//                D.insertAfter(D.create('<div class="ks-waterfall w2" style="-webkit-transform: translate(30px, 20px);z-index: 1;"><img src="http://img03.taobaocdn.com/tps/i3/T1bBBcFXtaXXX6.wf8-276-381.png" /></div>'),_target);
+//                auto.adjust();
+//                _num++;
+//            },1000)
+              D.insertAfter(D.create('<div class="ks-waterfall w2 slow" style="-webkit-transform: translate(30px, 20px);z-index: 1;"><img src="http://img03.taobaocdn.com/tps/i3/T1bBBcFXtaXXX6.wf8-276-381.png" /></div><div class="ks-waterfall w2 slow" style="-webkit-transform: translate(30px, 20px);z-index: 1;"><img src="http://img03.taobaocdn.com/tps/i3/T1bBBcFXtaXXX6.wf8-276-381.png" /></div><div class="ks-waterfall w2 slow" style="-webkit-transform: translate(30px, 20px);z-index: 1;"><img src="http://img03.taobaocdn.com/tps/i3/T1bBBcFXtaXXX6.wf8-276-381.png" /></div><div class="ks-waterfall w2 slow" style="-webkit-transform: translate(30px, 20px);z-index: 1;"><img src="http://img03.taobaocdn.com/tps/i3/T1bBBcFXtaXXX6.wf8-276-381.png" /></div><div class="ks-waterfall w2 slow" style="-webkit-transform: translate(30px, 20px);z-index: 1;"><img src="http://img03.taobaocdn.com/tps/i3/T1bBBcFXtaXXX6.wf8-276-381.png" /></div>'),_target);
+              auto.adjust();
+        },5000)
+        E.on('.J_hover','click',function(e){
+            var _target = e.target;
+            D.insertAfter(D.create('<div class="ks-waterfall w2" style="-webkit-transform: translate(30px, 20px);z-index: 1;"><img src="http://img03.taobaocdn.com/tps/i3/T1bBBcFXtaXXX6.wf8-276-381.png" /></div>'),D.parent(_target));
+            auto.adjust();
+        })
+    })
+</script>
+</body>
+</html>

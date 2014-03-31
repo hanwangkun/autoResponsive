@@ -1,0 +1,10 @@
+.ks-autoResponsive-dd-placeHolder{
+    border: 2px dashed #4169e1;
+    background: none!important;
+}
+.ks-autoResponsive-dd-dragging{
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"; /* ie8  */
+    filter:alpha(opacity=50);    /* ie5-7  */
+    opacity: 0.5;
+    z-index: 99999;
+}

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>autoResponsive</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../../bootstrap/favicon.ico" type="image/x-icon" />
+    <!-- Le styles -->
+    <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../bootstrap/css/docs.css" />
+    <link rel="stylesheet" href="../../bootstrap/css/prettify.css" />
+    <link rel="stylesheet" href="../../css/demo.css" />
+    <script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed-min.js"></script>
+    <!--<script src="../../../../autoResponsive/1.3/build/index.js"></script>-->
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="../../../bootstrap/js/html5shiv.js"></script>
+    <![endif]-->
+    <style>
+        .ks-autoResponsive-container  div{
+            /*left: 9999px\9;*/
+            /*top: 9999px\9;*/
+            /*-webkit-transform: translate(1000px, 9999px);*/
+            /*-moz-transform: translate(9999px, 9999px);*/
+            /*-ms-transform: translate(9999px, 9999px);*/
+            /*-o-transform: translate(9999px, 9999px);*/
+            /*transform: translate(9999px, 9999px);*/
+            -webkit-transition-duration:0.2s;
+            -moz-transition-duration: 0.2s;
+            -ms-transition-duration: 0.2s;
+            -o-transition-duration: 0.2s;
+            transition-duration: 0.2s;
+        }
+        .J_container_drag div{
+            -webkit-transition-duration:0s;
+            -moz-transition-duration: 0s;
+            -ms-transition-duration: 0s;
+            -o-transition-duration: 0s;
+            transition-duration: 0s;
+        }
+        .ks-autoResponsive-dd-placeHolder{
+            outline: 2px dashed #4169e1;
+            background: none!important;
+        }
+        .ks-autoResponsive-dd-dragging{
+            -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"; /* ie8  */
+            filter:alpha(opacity=50);    /* ie5-7  */
+            opacity: 0.5;
+            z-index: 99999;
+        }
+    </style>
+</head>
+
+<body data-spy="scroll" data-target=".bs-docs-sidebar">
+<a href="https://github.com/xudafeng/autoResponsive" class="forkgit" target="_blank"><img src="http://img04.taobaocdn.com/tps/i4/T1hAu0XB4dXXb2uD3F-193-149.png" alt="Fork me on GitHub"/></a>
+<!-- Navbar
+================================================== -->
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class="nav-collapse collapse">
+                <ul class="nav">
+                    <li>
+                        <a href="../../../">Introduction</a>
+                    </li>
+                    <li>
+                        <a href="../docs">Docs</a>
+                    </li>
+                    <li   class="active">
+                        <a href="../demos">Demos</a>
+                    </li>
+                    <li class="">
+                        <a href="../custom">Custom</a>
+                    </li>
+                    <li class="">
+                        <a href="../../../../diamond" target="_blank">jQuery版本</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Subhead
+================================================== -->
+<header class="jumbotron subhead" id="overview">
+    <div class="container">
+        <h1>autoResponsive</h1>
+    </div>
+</header>
+
+<div class="container">
+    <div class="row">
+        <div class="span3 bs-docs-sidebar">
+            <ul class="nav nav-list bs-docs-sidenav affix-top">
+                <li><a href="#priority"><i class="icon-chevron-right"></i>priority</a></li>
+                <li><a href="#filter"><i class="icon-chevron-right"></i>filter</a></li>
+                <li><a href="#unitMargin"><i class="icon-chevron-right"></i>unitMargin</a></li>
+                <li><a href="#direction"><i class="icon-chevron-right"></i>direction</a></li>
+                <li><a href="#drag"><i class="icon-chevron-right"></i>drag</a></li>
+            </ul>
+        </div>
+        <div class="span9">
+            <section id="priority" data-title="priority">
+                <!--动画：<div class="btn-group" data-toggle="buttons-radio">-->
+                <!--<button type="button" class="J_button_animate_on btn">ON</button>-->
+                <!--<button type="button" class="J_button_animate_on btn btn-primary">OFF</button>-->
+                <!--</div>-->
+                <h2>priority</h2>
+
+                <ul>
+                    <li>优先排序</li>
+                </ul>
+                <div class="btn-group" data-toggle="buttons-radio">
+                    <button type="button" class="J_button_priority btn btn-primary red">red</button>
+                    <button type="button" class="J_button_priority btn btn-primary yellow">yellow</button>
+                    <button type="button" class="J_button_priority btn btn-primary blue">blue</button>
+                    <button type="button" class="J_button_priority btn btn-primary green">green</button>
+                    <button type="button" class="J_button_priority btn btn-primary circle">circle</button>
+                    <button type="button" class="J_button_priority btn btn random">random</button>
+                </div>
+                <p></p>
+                <div class="ks-autoResponsive-container J_container_priority">
+                    <div class="block red">1</div>
+                    <div class="block yellow">2</div>
+                    <div class="block blue circle">3</div>
+                    <div class="block green">4</div>
+                    <div class="block red">5</div>
+                    <div class="block yellow">6</div>
+                    <div class="block blue circle">7</div>
+                    <div class="block green">8</div>
+                    <div class="block red">9</div>
+                    <div class="block yellow">10</div>
+                    <div class="block blue">11</div>
+                    <div class="block green">12</div>
+                    <div class="block red">13</div>
+                    <div class="block yellow circle">14</div>
+                    <div class="block blue">15</div>
+                    <div class="block green">16</div>
+                </div>
+                <p></p>
+                <a href="http://mountaindew.com/" target="_blank">效果demo</a>
+            </section>
+            <section id="filter" data-title="filter">
+
+                <h2>filter</h2>
+
+                <ul>
+                    <li>排序过滤</li>
+
+                </ul>
+                <div class="btn-group" data-toggle="buttons-radio">
+                    <button type="button" class="J_button_filter btn btn-primary red">red</button>
+                    <button type="button" class="J_button_filter btn btn-primary yellow">yellow</button>
+                    <button type="button" class="J_button_filter btn btn-primary blue">blue</button>
+                    <button type="button" class="J_button_filter btn btn-primary green">green</button>
+                    <button type="button" class="J_button_filter btn btn-primary circle">circle</button>
+                </div>
+                <p></p>
+                <div class="ks-autoResponsive-container J_container_filter">
+                    <div class="block red">1</div>
+                    <div class="block yellow">2</div>
+                    <div class="block blue circle">3</div>
+                    <div class="block green">4</div>
+                    <div class="block red">5</div>
+                    <div class="block yellow">6</div>
+                    <div class="block blue circle">7</div>
+                    <div class="block green">8</div>
+                    <div class="block red">9</div>
+                    <div class="block yellow">10</div>
+                    <div class="block blue">11</div>
+                    <div class="block green">12</div>
+                    <div class="block red">13</div>
+                    <div class="block yellow circle">14</div>
+                    <div class="block blue">15</div>
+                    <div class="block green">16</div>
+                </div>
+            </section>
+            <section id="unitMargin" data-title="unitMargin">
+
+                <h2>unitMargin</h2>
+
+                <ul>
+                    <li>边距设置</li>
+
+                </ul>
+                <div class="btn-group" data-toggle="buttons-radio">
+                    <button type="button" class="J_button_margin btn btn-primary margin-0">0</button>
+                    <button type="button" class="J_button_margin btn btn-primary margin-10">10px</button>
+                    <button type="button" class="J_button_margin btn btn-primary  margin-20">10px-20px</button>
+                </div>
+                <p></p>
+                <div class="ks-autoResponsive-container J_container_margin">
+                    <div class="block red">1</div>
+                    <div class="block yellow">2</div>
+                    <div class="block blue circle">3</div>
+                    <div class="block green">4</div>
+                    <div class="block red">5</div>
+                    <div class="block yellow">6</div>
+                    <div class="block blue circle">7</div>
+                    <div class="block green">8</div>
+                    <div class="block red">9</div>
+                    <div class="block yellow">10</div>
+                    <div class="block blue">11</div>
+                    <div class="block green">12</div>
+                    <div class="block red">13</div>
+                    <div class="block yellow circle">14</div>
+                    <div class="block blue">15</div>
+                    <div class="block green">16</div>
+                </div>
+            </section>
+
+            <section id="direction" data-title="direction">
+
+                <h2>direction</h2>
+
+                <ul>
+                    <li>方向设置</li>
+
+                </ul>
+                <div class="btn-group" data-toggle="buttons-radio">
+                    <button type="button" class="J_button_direction btn btn-primary left">left</button>
+                    <button type="button" class="J_button_direction btn btn-primary right">right</button>
+                </div>
+                <p></p>
+                <div class="ks-autoResponsive-container J_container_direction">
+                    <div class="block red">1</div>
+                    <div class="block yellow">2</div>
+                    <div class="block blue circle">3</div>
+                    <div class="block green">4</div>
+                    <div class="block red">5</div>
+                    <div class="block yellow">6</div>
+                    <div class="block blue circle">7</div>
+                    <div class="block green">8</div>
+                    <div class="block red">9</div>
+                    <div class="block yellow">10</div>
+                    <div class="block blue">11</div>
+                    <div class="block green">12</div>
+                    <div class="block red">13</div>
+                    <div class="block yellow circle">14</div>
+                    <div class="block blue">15</div>
+                    <div class="block green">16</div>
+                </div>
+            </section>
+            <section id="drag" data-title="drag">
+
+                <h2>drag</h2>
+
+                <ul>
+                    <li>拖拽功能</li>
+
+                </ul>
+                <div class="btn-group" data-toggle="buttons-radio">
+                    <button type="button" class="J_button_drag btn btn-primary on">On</button>
+                    <button type="button" class="J_button_drag btn btn off">Off</button>
+                </div>
+                <p></p>
+                <div class="ks-autoResponsive-container J_container_drag">
+                    <div class="block red">1</div>
+                    <div class="block yellow">2</div>
+                    <div class="block blue circle">3</div>
+                    <div class="block green">4</div>
+                    <div class="block red">5</div>
+                    <div class="block yellow">6</div>
+                    <div class="block blue circle">7</div>
+                    <div class="block green">8</div>
+                    <div class="block red">9</div>
+                    <div class="block yellow">10</div>
+                    <div class="block blue">11</div>
+                    <div class="block green">12</div>
+                    <div class="block red">13</div>
+                    <div class="block yellow circle">14</div>
+                    <div class="block blue">15</div>
+                    <div class="block green">16</div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<footer class="footer">
+    <div class="container">
+        <p>UI by <a href="http://twitter.github.io/bootstrap/index.html" target="_blank">bootstrap</a> @ CopyRight Tmall.com</p><span style="display: none;"><script src="http://s4.cnzz.com/stat.php?id=1642323&web_id=1642323" language="JavaScript"></script></span>
+    </div>
+</footer>
+
+<script src="../../bootstrap/js/jquery.js"></script>
+<script src="../../bootstrap/js/bootstrap.min.js"></script>
+<script src="../../bootstrap/js/prettify.js"></script>
+<script src="../../bootstrap/js/application.js"></script>
+<script src="demo.js"></script>
+</body>
+</html>

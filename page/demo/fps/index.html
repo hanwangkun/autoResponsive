@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>loader压测-stress</title>
+    <script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed-min.js"></script>
+    <script src="js/index.js"></script>
+    <link rel="stylesheet" href="demo.css" type="text/css" media="all"/>
+</head>
+<body>
+selector累计：<div class="J_number">selector统计</div>
+<div id="wrapper">
+    <div class="ks-autoResponsive-container J_container_stress">
+        <div class="block red">1</div>
+        <div class="block yellow">2</div>
+        <div class="block blue circle">3</div>
+        <div class="block green">4</div>
+        <div class="block red">5</div>
+        <div class="block yellow">6</div>
+        <div class="block red">1</div>
+        <div class="block yellow">2</div>
+        <div class="block blue circle">3</div>
+        <div class="block green">4</div>
+        <div class="block red">5</div>
+        <div class="block yellow">6</div>
+        <div class="block red">1</div>
+        <div class="block yellow">2</div>
+        <div class="block blue circle">3</div>
+        <div class="block green">4</div>
+        <div class="block red">5</div>
+        <div class="block yellow">6</div>
+    </div>
+</div>
+<script>
+    KISSY.use('gallery/autoResponsive/1.1/index',function(S,T){
+        var D = S.DOM;
+        var _num = 0;
+        var stress = new T({
+            container:'.J_container_stress',
+            selector:'div',
+            unitMargin:{
+                x :10,
+                y:10
+            }
+        });
+        setInterval(function(){
+            stress.append(D.create('<div class="block gray" style="width:30px;height:50px;">+</div><div class="block gray" style="width:320px;height:450px;">+</div><div style="width:130px;height:530px;" class="block gray">+</div><div class="block gray">+</div><div class="block gray">+</div>'));
+            _num += 5;
+            D.html('.J_number',_num);
+        },100);
+    });
+</script>
+</body>
+</html>

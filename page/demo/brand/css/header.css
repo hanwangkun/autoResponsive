@@ -1,0 +1,320 @@
+/*
+ * brandsite v1.0.0
+ * author:dafeng.xdf@taobao.com
+ * Copyright 2013 Tmall
+ */
+/*reset*/
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td {
+    margin: 0;
+    padding: 0;
+}
+body, button, input, select, textarea {
+    font: 12px / 1.5 Verdana,tahoma, arial,"Microsoft YaHei",sans-serif;
+    color: #333;
+}
+article,aside,details,figcaption,figure,footer,header,hgroup,nav,section {
+    display: block;
+}
+audio,canvas,video {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+}
+audio:not([controls]) {
+    display: none;
+}
+html {
+    font-size: 100%;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-size: 100%;
+}
+address, cite, dfn, em, var {
+    font-style: normal;
+}
+code, kbd, pre, samp {
+    font-family: courier new, courier, monospace;
+}
+small {
+    font-size: 12px;
+}
+ul, ol {
+    list-style: none;
+}
+a {
+    color: #2953a6;
+    cursor: pointer;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+sup {
+    vertical-align: text-top;
+}
+sub {
+    vertical-align: text-bottom;
+}
+legend {
+    color: #000;
+}
+fieldset, img {
+    border: 0;
+}
+button, input, select, textarea {
+    font-size: 100%;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+/*base*/
+.clearfix{
+    *zoom:1;
+}
+.clearfix:after{
+    content: \20 ;
+    display:block;
+    height:0;
+    clear:both;
+}
+.inblock{
+    display: inline-block;
+}
+.inblock{
+    *display: inline;
+}
+/*header*/
+#header{
+    position: relative;
+    height: 80px;
+    margin: 0 auto;
+    background-color: #b41700;
+    border-bottom: 8px solid #901200;
+}
+#header .headerCon {
+    position: relative;
+    height: 100%;
+    margin: 0 auto;
+    width: 90%;
+    color: #ffffff;
+}
+@media screen and (max-width: 1024px) {
+    #header .headerCon{
+        width: 100%;
+    }
+}
+/*logo*/
+#mallLogo .mlogo s{
+    background: url(http://img01.taobaocdn.com/tps/i1/T1tE0IFdVXXXamH9_f-43-21.png) no-repeat;
+}
+#mallLogo {
+    float:left;
+    overflow:hidden;
+    z-index:9;
+    padding-top:26px
+}
+#mallLogo .mlogo,.subLogo {
+    float:left
+}
+#mallLogo a {
+    position:relative;
+    display:block;
+    color:#fff;
+    text-indent:0!important
+}
+
+#mallLogo s {
+    position:absolute;
+    display:block;
+    top:0;
+    cursor:pointer
+}
+#mallLogo .mlogo a {
+    height:21px;
+    font-size:18px;
+    width:43px;
+    overflow:hidden
+}
+#mallLogo .mlogo s {
+    background-position:0 0;
+    height:21px;
+    width:43px
+}
+.subLogo {
+    position: relative;
+    z-index: 1000000;
+    display: block;
+    float: left;
+    height: 80px;
+    margin: 0 0 0 10px;
+    border-right:1px solid #a01400;
+}
+@media screen and (max-width: 1024px) {
+    .subLogo{
+        display: none;
+    }
+}
+.hasSubLogo #mallLogo a {
+    padding-bottom: 4px;
+}
+.subLogo-hd {
+    width:125px;
+    display:block;
+    height:23px;
+    position:absolute;
+    top:26px;
+    left:1px;
+    color: #ffffff;
+    font-size: 16px;
+}
+.subLogo-hd s{
+    background:#b10000 url(http://img04.taobaocdn.com/tps/i4/T1C1pKFXdXXXcD77o9-125-23.png) no-repeat;
+    width:125px;
+    height: 23px;
+}
+.subLogo .brandsite {
+    width:125px;
+    height: 23px;
+}
+/*nav*/
+#header .headerCon .nav{
+}
+#header .headerCon .user{
+    float: right;
+}
+@media screen and (max-width: 1024px) {
+    #header .headerCon .user{
+        display: none;
+    }
+}
+#header .headerCon .navigator,
+#header .headerCon .blank-left,
+#header .headerCon .user .nav-main,
+#header .headerCon .navigator .nav-main{
+    float: left;
+}
+#header .headerCon .blank-left{
+    height: 80px;
+    width: 3px;
+    border-left:1px solid #c81a00;
+}
+#header .headerCon .navigator{
+    overflow: hidden;
+}
+#header .headerCon .navigator .nav-main li{
+    height: 80px;
+}
+#header .headerCon .user li,
+#header .navigator .nav-main li{
+    float: left;
+}
+#header .headerCon .user .item{
+    text-align: center;
+    padding: 0 10px 0 10px;
+    color: #fff;
+    height: 80px;
+    line-height: 80px;
+}
+#header .headerCon .navigator .item{
+    display: block;
+    *display: inline-block;
+    text-align: center;
+    padding: 0 30px 0 30px;
+    color: #fff;
+    height: 80px;
+    line-height: 80px;
+    border-left: 1px solid #c81a00;
+    border-right:1px solid #a01400;
+}
+/*content*/
+#content{
+    width: 100%!important;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-color: #ededed;
+    background-position: center top;
+}
+#content .loading{
+    opacity: 0.9;
+    background: url(http://a.tbcdn.cn/apps/tmall/mui/loading/img/loading.gif) no-repeat center;
+}
+#content .ks-autoResponsive-container{
+    overflow: hidden;
+    width: 90%;
+    margin: 0 auto;
+    position: relative;
+    background-color: #ffffff;
+}
+@media screen and (max-width: 1024px) {
+    #content .ks-autoResponsive-container{
+        width: 100%;
+    }
+}
+#content .ks-autoResponsive-container .block{
+    position:absolute;
+    -webkit-transition-duration:0.1s;
+    -moz-transition-duration: 0.1s;
+    -ms-transition-duration: 0.1s;
+    -o-transition-duration: 0.1s;
+    transition-duration: 0.1s;
+    height: 260px;
+    overflow: hidden;
+    visibility: hidden;
+}
+#content .ks-autoResponsive-container .aRps-col4{
+    width: 24%;
+}
+#content .ks-autoResponsive-container .aRps-col3{
+    width: 30%;
+}
+#content .ks-autoResponsive-container .aRps-col2{
+    width: 46%;
+}
+#content .ks-autoResponsive-container .aRps-col1{
+    width: 96%;
+}
+#content .ks-autoResponsive-container .chart{
+    border: 1px solid #e7e7e7;
+}
+#content .ks-autoResponsive-container .user{
+    border: 1px solid red;
+    background: url(http://img03.taobaocdn.com/tps/i3/T1_TlIFd4cXXcVZYAa-281-202.png) no-repeat;
+}
+#content .ks-autoResponsive-container .filter-aRps-col4{
+    width: 73%;
+}
+#content .ks-autoResponsive-container .filter-aRps-col3{
+    width: 96%;
+}
+#content .ks-autoResponsive-container .filter-aRps-col2{
+    width: 95%;
+}
+#content .ks-autoResponsive-container .filter-aRps-col1{
+    width: 96%;
+}
+#content .ks-autoResponsive-container .filter{
+    height: 30px;
+}
+#content .ks-autoResponsive-container .bord{
+    border: 1px solid #ccc;
+    background-color: #f7f7f7;
+}
+/*footer*/
+#footer{
+    position: relative;
+    margin: 0 auto;
+    background-color: #ededed;
+    text-align: center;
+    padding: 30px 0;
+    color: #666;
+}
+#footer .logo{
+    margin: 0 auto;
+    background: url(http://img03.taobaocdn.com/tps/i3/T1LiNJFohXXXXrvLo_-127-18.png);
+    width: 127px;
+    height: 18px;
+    margin-bottom: 12px;
+}
