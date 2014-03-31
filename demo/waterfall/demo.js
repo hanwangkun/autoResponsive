@@ -131,7 +131,7 @@ KISSY.use("gallery/autoResponsive/1.1/index,waterfall,node,ajax", function (S,au
         var w = $(e.currentTarget).parent(".ks-waterfall");
 
         if(D.hasData(w,'data-css')){
-            D.html(e.currentTarget,'Õ¹¿ª');
+            D.html(e.currentTarget,'ok');
             var _data = D.data(w,'data-css');
             D.removeData(w,'data-css');
             D.css(w[0],{
@@ -139,7 +139,7 @@ KISSY.use("gallery/autoResponsive/1.1/index,waterfall,node,ajax", function (S,au
                 height:_data.height
             })
         }else{
-            D.html(e.currentTarget,'¸´Ô­');
+            D.html(e.currentTarget,'ok');
             D.data(w,'data-css',{
                 width: D.width(w),
                 height: D.height(w)
@@ -157,3 +157,4 @@ KISSY.use("gallery/autoResponsive/1.1/index,waterfall,node,ajax", function (S,au
 
     });
 });
+
