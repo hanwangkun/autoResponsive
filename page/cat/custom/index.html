@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>autoResponse</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../../bootstrap/favicon.ico" type="image/x-icon" />
+    <!-- Le styles -->
+    <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../bootstrap/css/docs.css" />
+    <link rel="stylesheet" href="../../bootstrap/css/prettify.css" />
+    <link rel="stylesheet" href="../../css/demo.css" />
+    <script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed-min.js"></script>
+    <script src="https://rawgithub.com/xudafeng/autoResponsive/master/1.1/build/index.js"></script>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="../../../bootstrap/js/html5shiv.js"></script>
+    <![endif]-->
+    <style>
+        .ks-autoResponsive-container  div{
+            /*left: 9999px\9;*/
+            /*top: 9999px\9;*/
+            /*-webkit-transform: translate(1000px, 9999px);*/
+            /*-moz-transform: translate(9999px, 9999px);*/
+            /*-ms-transform: translate(9999px, 9999px);*/
+            /*-o-transform: translate(9999px, 9999px);*/
+            /*transform: translate(9999px, 9999px);*/
+            -webkit-transition-duration:0.6s;
+            -moz-transition-duration: 0.6s;
+            -ms-transition-duration: 0.6s;
+            -o-transition-duration: 0.6s;
+            transition-duration: 0.6s;
+        }
+    </style>
+</head>
+
+<body data-spy="scroll" data-target=".bs-docs-sidebar">
+<a href="https://github.com/xudafeng/autoResponsive" class="forkgit" target="_blank"><img src="http://img04.taobaocdn.com/tps/i4/T1hAu0XB4dXXb2uD3F-193-149.png" alt="Fork me on GitHub"/></a>
+<!-- Navbar
+================================================== -->
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class="nav-collapse collapse">
+                <ul class="nav">
+                    <li>
+                        <a href="../../../">Introduction</a>
+                    </li>
+                    <li>
+                        <a href="../docs">Docs</a>
+                    </li>
+                    <li>
+                        <a href="../demos">Demos</a>
+                    </li>
+                    <li   class="active">
+                        <a href="../custom">Custom</a>
+                    </li>
+                    <li class="">
+                        <a href="../../../../diamond" target="_blank">jQuery版本</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Subhead
+================================================== -->
+<header class="jumbotron subhead" id="overview">
+    <div class="container">
+        <h1>autoResponsive</h1>
+    </div>
+</header>
+<div class="container">
+    <div class="row">
+        <div class="span3 bs-docs-sidebar">
+            <ul class="nav nav-list bs-docs-sidenav affix-top">
+                <li><a href="#append"><i class="icon-chevron-right"></i>append</a></li>
+                <li><a href="#waterfall"><i class="icon-chevron-right"></i>waterfall</a></li>
+                <li><a href="#resize"><i class="icon-chevron-right"></i>resize</a></li>
+                <li><a href="#effect"><i class="icon-chevron-right"></i>effect</a></li>
+                <li><a href="#hash"><i class="icon-chevron-right"></i>hash</a></li>
+                <li><a href="#great"><i class="icon-chevron-right"></i>great</a></li>
+            </ul>
+        </div>
+        <div class="span9">
+            <section id="append" data-title="append">
+
+                <h2>append</h2>
+
+                <div class="btn-group">
+                    <button type="button" class="J_button_append btn btn-primary append">append</button>
+                    <button type="button" class="J_button_append btn btn-primary prepend">prepend</button>
+                    <button type="button" class="J_button_append btn btn-primary remove">remove</button>
+                </div>
+                <p></p>
+                <div class="ks-autoResponsive-container J_container_append">
+                    <div class="block red">1</div>
+                    <div class="block yellow">2</div>
+                    <div class="block blue circle">3</div>
+                    <div class="block green">4</div>
+                    <div class="block red">5</div>
+                    <div class="block yellow">6</div>
+                    <div class="block blue circle">7</div>
+                    <div class="block green">8</div>
+                </div>
+            </section>
+            <section id="waterfall" data-title="waterfall">
+
+                <h2>waterfall</h2>
+
+                <ul>
+                    <li><s>完全兼容kissy瀑布流</s></li>
+                    <li><s><a href="../../demo/waterfall/" target="_blank">动态调整瀑布流(整合kissy)</a> | <a href="http://docs.kissyui.com/docs/html/demo/component/waterfall/index.html" target="_blank">doc</a></s></li>
+                    <li><a href="http://xudafeng.github.io/autoResponsive/demo/loader/" target="_blank">专题List(loader例子)</a></li>
+                </ul>
+                <div class="ks-autoResponsive-container J_container_waterfall">
+                    <div class="block red" style="width: 200px;height: 120px;">1</div>
+                    <div class="block yellow" style="width: 200px;height: 200px;">2</div>
+                    <div class="block blue" style="width: 200px;height: 230px;">3</div>
+                    <div class="block green" style="width: 200px;height: 160px;">4</div>
+                    <div class="block red" style="background-color:deeppink;width: 200px;height: 210px;">5</div>
+                    <div class="block yellow" style="width: 200px;height: 250px;">6</div>
+                    <div class="block blue" style="width: 200px;height: 180px;">7</div>
+                    <div class="block green" style="width: 200px;height: 100px;">8</div>
+                    <div class="block red" style="width: 200px;height: 120px;">1</div>
+                    <div class="block yellow" style="width: 200px;height: 200px;">2</div>
+                    <div class="block blue" style="width: 200px;height: 230px;">3</div>
+                    <div class="block green" style="width: 200px;height: 160px;">4</div>
+                    <div class="block red" style="background-color:deeppink;width: 200px;height: 210px;">5</div>
+                    <div class="block yellow" style="width: 200px;height: 250px;">6</div>
+                    <div class="block blue" style="width: 200px;height: 180px;">7</div>
+                    <div class="block green" style="width: 200px;height: 100px;">8</div>
+                </div>
+
+            </section>
+            <section id="resize" data-title="resize">
+
+                <h2>resize</h2>
+
+                <ul>
+                    <li><a href="../../demo/resize/" target="_blank">效果demo</a></li>
+                    <li><a href="#">grid布局与cell布局的对比</a></li>
+
+                </ul>
+            </section>
+            <section id="effect" data-title="effect">
+
+                <h2>effect</h2>
+
+                <ul>
+                    <li><a href="../../demo/animate/" target="_blank">效果demo</a></li>
+
+                </ul>
+            </section>
+            <section id="hash" data-title="hash">
+
+                <h2>hash</h2>
+
+                <ul>
+                    <li><a href="../../demo/hash/" target="_blank">hash</a></li>
+                </ul>
+            </section>
+            <section id="great" data-title="great">
+
+                <h2>更多用法</h2>
+
+                <ul>
+                    <li><a href="../../demo/great/" target="_blank">更多扩展用法</a></li>
+                </ul>
+            </section>
+
+        </div>
+    </div>
+</div>
+<footer class="footer">
+    <div class="container">
+        <p>UI by <a href="http://twitter.github.io/bootstrap/index.html" target="_blank">bootstrap</a> @ CopyRight Tmall.com</p><span style="display: none;"><script src="http://s4.cnzz.com/stat.php?id=1642323&web_id=1642323" language="JavaScript"></script></span>
+    </div>
+</footer>
+
+<script src="../../bootstrap/js/jquery.js"></script>
+<script src="../../bootstrap/js/bootstrap.min.js"></script>
+<script src="../../bootstrap/js/prettify.js"></script>
+<script src="../../bootstrap/js/application.js"></script>
+<script src="custom.js"></script>
+</body>
+</html>

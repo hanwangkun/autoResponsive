@@ -10,8 +10,6 @@ autoResponsive，是基于 KISSY 1.3.0 或更高版本的自适应布局组件�
 
 ###建议使用1.3版本
 
-###注意，TAE用户请使用caja版本 | [文档链接](http://tpap.shopmodule.aliapp.com/kissy/gallery/autoResponsive/1.3/index.html)
-
 ###加入官方使用讨论(旺旺)群：870841201
 
 ![alt autoResponsive](http://img04.taobaocdn.com/tps/i4/T1A6FDFnlbXXcq.EHS-300-319.png "autoResponsive")

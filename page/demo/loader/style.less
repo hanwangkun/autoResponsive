@@ -1,0 +1,427 @@
+@import-once "lib";
+
+.albumPanel {
+    position: relative;
+    font-family: "Microsoft Yahei", arial; /* arial阻止文字抖动 */
+    font-size: 12px;
+    line-height: 1.5;
+    text-align: center;
+    margin: auto;
+    margin-top: 5px;
+    padding-bottom: 60px;
+    _zoom: 1; /* 很重要，否则在设置其高度为auto时，容器不会展示 */
+
+    .aP-hd i,
+    .aP-hd b,
+    .album .a-mask i,
+    .album .a-more,
+    .aP-collapse i,
+    .aP-expand i,
+    .aP-expand.absolute{
+        background:url(http://img01.taobaocdn.com/tps/i1/T1yONIFapgXXaw9EUt-1000-274.png) no-repeat -9999px -9999px;
+        _background-image: url(http://img02.taobaocdn.com/tps/i2/T1XhBKFoReXXaw9EUt-1000-274.png);
+    }
+
+    .aP-hd{
+        text-align: left;
+        color: #6d5c53;
+        i{
+            background-position: -294px 0;
+            display: inline-block;
+            width: 18px;
+            height: 17px;
+            margin-bottom: -4px;
+            margin-right: 5px;
+        }
+        b{
+            background-position: -294px -30px;
+            display: inline-block;
+            width: 127px;
+            height: 18px;
+            color: transparent;
+            margin-left: 15px;
+            vertical-align: middle;
+            s{
+                display: none;
+            }
+        }
+    }
+
+    .aP-bd {
+        position: relative;
+        margin-left: -10px;
+    }
+    .album {
+        display: block;
+        overflow: hidden;
+        text-decoration: none;
+        img {
+            border: none;
+        }
+        .a-cont,
+        .a-cover {
+            position: absolute;
+            left: 0;
+            top: 0;
+            .transition(opacity .3s ease-in);
+        }
+        .a-cover {
+            opacity: 1;
+        }
+        .a-cont {
+            opacity: 0;
+        }
+        &:hover {
+            text-decoration: none;
+            .a-cover {
+                opacity: 0;
+            }
+            .a-cont {
+                opacity: 1;
+            }
+            .a-mask i {
+                opacity: 1;
+                visibility: visible\9;
+                .transition(opacity .2s ease-in .3s);
+            }
+        }
+        .a-mask {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            left: 0;
+            margin: 0;
+            padding: 0;
+            i {
+                display: block;
+                visibility: hidden\9;
+                opacity: 0;
+                left: 50%;
+                top: 40%;
+                position: absolute;
+            }
+        }
+        .a-layer {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 72px;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            .gradient('linear-gradient(top, rgba(240, 234, 228, 0.8) 0%,rgba(240, 234, 228, 1)17%)');
+            @startArgb: argb(fade(rgb(240, 234, 228), 80%));
+            @endArgb: argb(fade(rgb(240, 234, 228), 100%));
+            filter: ~"@{IE_FILTER}.gradient(startcolorstr=@{startArgb},endcolorstr=@{endArgb},gradientType=0)";
+            .transition(all .3s ease-in);
+
+            .al-brand,
+            .al-title {
+                .transition(all .5s ease-in .1s);
+            }
+
+            .al-brand {
+                display: block;
+                margin: 0;
+                color: #6d5c53;
+                text-decoration: none;
+                line-height: 22px;
+            }
+            .al-title {
+                display: inline-block;
+                color: #6d5c53;
+                text-decoration: none;
+                font-size: 16px;
+                line-height: 26px;
+                height: 26px;
+                min-width: 80%;
+                _width: 95%;
+                white-space: nowrap; /* 可防止title过长导致count位置下降的问题发生 */
+                border-top: 1px dotted #a8a39f;
+                overflow: hidden;
+            }
+            .al-count {
+                display: block;
+                color: #beb5ae;
+                text-decoration: none;
+            }
+        }
+        .a-more {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-size: 16px;
+            line-height: 2.4;
+            letter-spacing: .3em;
+            font-family: arial;
+            background-color: #dbdbdb;
+            font-weight: bold;
+            text-decoration: none;
+            color: #000;
+            z-index: 1;
+            cursor: pointer;
+            background-position: 0 0;
+        }
+
+        &:hover {
+            .a-mask {
+                filter: ~"@{IE_FILTER}.gradient(startcolorstr=#00000000,endcolorstr=#FF000000,gradientType=0)";
+                background-color: transparent;
+            }
+
+            .a-layer {
+                background: none;
+                filter: ~"@{IE_FILTER}.gradient(startcolorstr=#00000000,endcolorstr=#00000000,gradientType=0)";
+                .al-brand,
+                .al-title {
+                    color: white;
+                }
+            }
+        }
+
+    }
+
+    .hasAlbums {
+        .album:last-child {
+            .a-more {
+                display: block;
+                .transition(all .2s ease-in 0s);
+            }
+            &:hover {
+                .a-more {
+                    background-color: #999A99;
+                }
+            }
+        }
+        .album-last-child { /* 没有与:last-child合并，是因为IE8不识别:last-child，顾对其的css规则不解析 */
+            .a-more {
+                display: block;
+                .transition(all .2s ease-in 0s);
+            }
+            &:hover {
+                .a-more {
+                    background-color: #999A99;
+                }
+            }
+        }
+    }
+
+    .w1, .w2 {
+        position: absolute;
+        left: ~"-450px\9";
+        top: ~"999999px\9";
+        .transform(translate(-450px, 999999px));
+        -ms-transform: none;
+        //        .transition(all .3s ease-in 0s); // 会感觉出loader比较慢，它比较适合在resize时使用
+    }
+
+    .w1 {
+        width: 190px;
+        height: 240px;
+        img {
+            width: 190px;
+        }
+        .al-brand {
+            padding-top: 3px;
+        }
+        &:hover {
+            .a-mask {
+                .gradient('linear-gradient(top, rgba(0, 0, 0, 0) 45%, rgba(0, 0, 0, 0.1) 52%, rgba(0, 0, 0, 0.55) 67%,rgba(0, 0, 0, .7) 70%, rgba(0, 0, 0, 1) 81%)');
+                i {
+                    background-position: -292px -60px;
+                    width: 78px;
+                    height: 78px;
+                    .zoom(0.5);
+                    margin-left: -40px;   /* 使用偶数，否则在chrome下hover时出现抖动 */
+                    margin-left: ~"-20px\9";
+                    margin-top: -40px;
+                    margin-top: ~"-20px\9";
+                }
+            }
+        }
+    }
+    .w2 {
+        width: 390px;
+        height: 490px;
+        img {
+            width: 390px;
+        }
+        .a-layer {
+            padding: 28px 0 20px;
+            .al-title {
+                min-width: 60%;
+            }
+        }
+        &:hover {
+            .a-mask {
+                .gradient('linear-gradient(top, rgba(0, 0, 0, 0) 53%,rgba(0, 0, 0, 0.65) 74%,rgba(0, 0, 0, 1) 81%)');
+                i {
+                    background-position: -371px -56px;
+                    width: 170px;
+                    height: 170px;
+                    .zoom(.5);
+                    margin-left: -86px;
+                    margin-left: ~"-43px\9";
+                    margin-top: -86px;
+                    margin-top: ~"-43px\9";
+                }
+            }
+        }
+    }
+    .aP-expand,
+    .aP-collapse {
+        background-image: url(about:blank);
+        display: block;
+        left: 0;
+        bottom: 0;
+        height: 60px;
+        width: 100%;
+        color: transparent;
+        font-size: 12px;
+        line-height: 36px;
+        text-decoration: none;
+        outline: none;
+        .bgOpacity(#fff, 70%);
+        .transition(~"background-color .2s ease-in 0s, color .2s ease-in 0s");
+        i {
+            display: block;
+            margin: auto;
+            line-height: 25px;
+            width: 50px;
+            height: 50px;
+            margin-top: -26px;
+        }
+        &:hover {
+            color: white;
+            text-decoration: none;
+            .bgOpacity(#000, 50%);
+        }
+    }
+    .aP-collapse {
+        position: absolute;
+        z-index: 1;
+        opacity: 0;
+        i{
+            background-position: -201px -129px;
+            width: 76px;
+        }
+        &:hover{
+            color: transparent;
+            i{
+                background-position: -201px -194px;
+            }
+        }
+    }
+    .aP-expand {
+        position: fixed;
+        .bgOpacity(#eee, 70%);
+        i {
+            background-position: -202px 0;
+        }
+        &:hover{
+            color: transparent;
+            i{
+                background-position: -202px -63px;
+            }
+        }
+    }
+}
+
+.fixedH {
+    height: 290px;
+    overflow: hidden;
+}
+
+.ie8, .ks-ie8,
+.ie9, .ks-ie9{
+    .albumPanel {
+        .al-count{
+            margin-top: -5px;
+        }
+    }
+}
+
+.ie8, .ks-ie8 {
+    .albumPanel {
+        .w1 {
+            .a-mask {
+                i {
+                    width: 39px;
+                    height: 39px;
+                    margin-top: 55px;
+                    margin-left: 55px;
+                }
+            }
+        }
+        .w2 {
+            .a-mask{
+                i{
+                    width: 85px;
+                    height: 85px;
+                    margin-top: 110px;
+                    margin-left: 110px;
+                }
+            }
+        }
+    }
+}
+.ie6, .ks-ie6,
+.ie7, .ks-ie7,
+.ie8, .ks-ie8 {
+    .aP-expand,
+    .aP-collapse{
+        text-indent: -99999px;  /* 解决文字重影（color:transparent IE8下失效）*/
+    }
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (min-device-pixel-ratio: 2) { /* retina screen */
+    .albumPanel{
+        .aP-hd b s{
+            display: inline;
+            color: #6d5c53;
+            margin-left: 17px;
+            text-decoration: none;
+            background: white;
+            padding: 2px 0;
+        }
+        .aP-collapse{
+            color: #6d5c53;
+            i{
+                background-position: -201px -151px;
+                margin-top: -5px;
+            }
+            &:hover{
+                color: #fff;
+                i{
+                    background-position: -201px -216px;
+                }
+            }
+        }
+        .aP-expand{
+            color: #6d5c53;
+            i{
+                background-position: -202px -22px;
+                margin-top: -5px;
+            }
+            &:hover{
+                color: #fff;
+                i{
+                    background-position: -202px -84px;
+                }
+            }
+        }
+    }
+}
+
+// tmp
+.a-mask{
+    color: white;
+    font-size: 25px;
+}

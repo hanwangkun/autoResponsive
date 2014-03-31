@@ -1,0 +1,48 @@
+body{
+    color: #ffff00;
+    font-size: 20px;
+}
+
+.container{
+    position: relative;
+    overflow: hidden;
+    width:100%;
+    margin:10px auto;
+}
+.container div{
+    position: absolute;
+    -webkit-transform: translate(0px, 480px);
+}
+.block{
+    border-radius: 2px;
+    width:100%;
+    height:200px;
+}
+.col1 .block{
+    width:100%!important;
+    height:108px!important;
+    background:url(http://gtms02.alicdn.com/tps/i2/T1u4KVFaxfXXcKohQo-320-108.jpg)!important;
+     background:url(http://gtms04.alicdn.com/tps/i4/T1uD9YFa4XXXX7vsYM-160-229.jpg)!important;
+
+}
+.col2 .block{
+    width:50%!important;
+    height:229px!important;
+    background:url(http://gtms04.alicdn.com/tps/i4/T1uD9YFa4XXXX7vsYM-160-229.jpg)!important;
+     background:url(http://gtms02.alicdn.com/tps/i2/T1u4KVFaxfXXcKohQo-320-108.jpg)!important;
+      background:url(http://gtms04.alicdn.com/tps/i4/T1uD9YFa4XXXX7vsYM-160-229.jpg)!important;
+
+
+}
+.col3 .block{
+    width:100%!important;
+    height:393px!important;
+    background:url(http://gtms01.alicdn.com/tps/i1/T1VyqQFX8gXXbOoQko-320-393.jpg)!important;
+     background:url(http://gtms02.alicdn.com/tps/i2/T1u4KVFaxfXXcKohQo-320-108.jpg)!important;
+      background:url(http://gtms04.alicdn.com/tps/i4/T1uD9YFa4XXXX7vsYM-160-229.jpg)!important;
+
+
+}
+.animation{
+    -webkit-transition: all 0.4s;
+}

@@ -1,0 +1,29 @@
+body{
+    color: #ffff00;
+    font-size: 20px;
+}
+
+.container{
+    position: relative;
+    overflow: hidden;
+}
+.container div{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    -webkit-transition-duration: 0.8s;
+    -moz-transition-duration: 0.8s;
+    -ms-transition-duration: 0.8s;
+    -o-transition-duration: 0.8s;
+    transition-duration: 0.8s;
+    left:0;
+    top:0;
+    visibility: hidden;
+}
+.block{
+    width: 200px;
+    height: 100px;
+    border-radius: 10px;
+    box-shadow: 1px 2px 1px  #666;
+}
+
