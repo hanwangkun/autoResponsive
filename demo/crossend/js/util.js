@@ -308,7 +308,6 @@ KISSY.add('tmallpromotion/util', function(S, XTemplate, Pager, PagerTemplate) {
         /**
          * 表单刷新
          * @public
-         * @param {Object} list 格式请参见 http://work.tmall.net/projects/tsp/wiki/Interface#成功
          */
         refresh: function(list) {
             var me = this;
