@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  
+  <title>AutoResponsive Demo</title>
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script type="text/javascript" src="http://a.tbcdn.cn/s/kissy/1.3.0/kissy-min.js"></script>
+  <script src="https://rawgithub.com/xudafeng/autoResponsive/master/1.1/build/index.js"></script>
+  <style type="text/css">
+    /**** Base styles ****/
+
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+html {
+  overflow-y: scroll;
+}
+
+body { 
+  font: 13px 'Helvetica Neue', Arial, sans-serif;
+  color: #222;
+  line-height: 1.6em;
+}
+
+a {
+  color: #A2C;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a:hover {
+  color: #D26;
+}
+
+a:active {
+  background: hsla( 0, 100%, 100%, 0.5 );
+}
+
+h1, h2 {
+  font-weight: 100;
+  line-height: 1.2em;
+  margin-bottom: 0.6em;
+}
+
+h1 {
+  font-size: 36px;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+h3 {
+  font-size: 17px;
+  font-weight: bold;
+}
+
+h3, p, ul, ol, pre, dl {
+  margin-bottom: 1.0em;
+}
+
+em { font-style: italic; }
+strong { font-weight: bold; }
+
+/**** Demos ****/
+#container {
+  background: #FFF;
+  position: relative;
+  border-radius: 5px;
+  clear: both;
+  -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+          border-radius: 5px;
+}
+
+.centered { margin: 0 auto; }
+
+.box {
+  margin: 5px;
+  padding: 5px;
+  background: #D8D5D2;
+  font-size: 11px;
+  line-height: 1.4em;
+  float: left;
+  -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+          border-radius: 5px;
+}
+
+.box h2 {
+  font-size: 14px;
+  font-weight: 200;
+}
+
+.box img,
+#tumblelog img {
+  display: block;
+  width: 100%;
+}
+
+.rtl .box {
+  float: right;
+  text-align: right; 
+  direction: rtl;
+}
+
+
+
+.col1 { width: 80px; }
+.col2 { width: 180px; }
+.col3 { width: 280px; }
+.col4 { width: 380px; }
+.col5 { width: 480px; }
+
+.col1 img { max-width: 80px; }
+.col2 img { max-width: 180px; }
+.col3 img { max-width: 280px; }
+.col4 img { max-width: 380px; }
+.col5 img { max-width: 480px; }
+
+/**** Gutters ****/
+
+.has-gutters .box {
+  margin: 5px 0;
+}
+
+.has-gutters .col1 { width: 90px; }
+.has-gutters .col2 { width: 230px; }
+.has-gutters .col3 { width: 370px; }
+.has-gutters .col4 { width: 550px; }
+
+/**** Transitions ****/
+
+.transitions-enabled.masonry,
+.transitions-enabled.masonry .masonry-brick {
+  -webkit-transition-duration: 0.7s;
+     -moz-transition-duration: 0.7s;
+      -ms-transition-duration: 0.7s;
+       -o-transition-duration: 0.7s;
+          transition-duration: 0.7s;
+}
+
+.transitions-enabled.masonry {
+  -webkit-transition-property: height, width;
+     -moz-transition-property: height, width;
+      -ms-transition-property: height, width;
+       -o-transition-property: height, width;
+          transition-property: height, width;
+}
+
+.transitions-enabled.masonry  .masonry-brick {
+  -webkit-transition-property: left, right, top;
+     -moz-transition-property: left, right, top;
+      -ms-transition-property: left, right, top;
+       -o-transition-property: left, right, top;
+          transition-property: left, right, top;
+}
+
+
+/* disable transitions on container */
+.transitions-enabled.infinite-scroll.masonry {
+  -webkit-transition-property: none;
+     -moz-transition-property: none;
+      -ms-transition-property: none;
+       -o-transition-property: none;
+          transition-property: none;
+}
+
+/* Homepage */
+
+.homepage .item {
+  width:200px;
+  float: left;
+  background: #00ee80;
+  font-weight: 300;
+  -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+          border-radius: 5px;
+  position:absolute;        
+}
+
+.homepage .big-text,
+.homepage .link {
+  font-size: 24px;
+  line-height: 1.2em;
+}
+
+.homepage .link {
+  padding: 0;
+}
+
+.homepage .link a {
+  display: block;
+  padding: 10px;
+  background: #d51;
+  text-decoration: none;
+  color: white;
+  -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+          border-radius: 5px;
+}
+
+.homepage .link a:hover {
+  background: #00f;
+  text-decoration: none;
+}
+
+.homepage .col2 {
+  /*width: 440px;*/
+}
+
+.homepage .example {
+  padding: 0;
+  /*width: 220px;*/
+  background: transparent;
+}
+
+.homepage .example a { display: block; }
+
+.homepage .example img {
+  display: block;
+  width: 100%;
+}
+
+.homepage .example a:hover { 
+  background: #D26;
+  color: white;
+}
+
+.homepage .loading {
+  background: black;
+  color: #D8D5D2;
+}
+
+.homepage .loading img {
+  float: left; 
+  padding-right: 5px;
+  width: 54px;
+}
+
+.homepage .bower,
+.homepage .bower code {
+  font-size: 17px;
+}
+
+/* mini example */
+
+.homepage .mini div {
+  float: left;
+  background: white;
+  margin: 3px;
+  color: #D8D5D2;
+  font-weight: bold;
+  font-size: 32px;
+  line-height: 46px;
+  text-align: center;
+  -webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+          border-radius: 3px;
+}
+
+.homepage .mini .w1 { width: 44px; }
+.homepage .mini .h1 { height: 44px; }
+.homepage .mini .w2 { width: 94px; }
+.homepage .mini .h2 { height: 94px; }
+
+/**** Clearfix ****/
+.clearfix:before, .clearfix:after { content: ""; display: table; }
+.clearfix:after { clear: both; }
+.clearfix { zoom: 1; }
+  </style>
+</head>
+<body class="homepage">
+ 
+  <div id="container" class="transitions-enabled clearfix">
+  
+  <div class="item big-text col2">
+    A dynamic layout plugin AutoResponsive<br />
+    The flip-side of CSS floats<br />
+  </div>
+  
+  <div class="item big-text">
+    Before: CSS Floats
+    <div class="mini">
+      
+        <div class="w1 h1">A</div>
+      
+        <div class="w1 h1">B</div>
+      
+        <div class="w1 h2">C</div>
+      
+        <div class="w1 h1">D</div>
+      
+    </div>
+  </div>
+  
+  <div class="item big-text">
+    After: AutoResponsive
+    <div id="mini-container" class="mini">
+      
+        <div class="w1 h1">1</div>
+      
+        <div class="w1 h1">2</div>
+      
+        <div class="w1 h2">3</div>
+      
+        <div class="w1 h1">4</div>
+      
+        <div class="w2 h1">5</div>
+      
+        <div class="w1 h2">6</div>
+      
+        <div class="w1 h1">7</div>
+      
+        <div class="w2 h2">8</div>
+      
+        <div class="w2 h1">9</div>
+      
+        <div class="w1 h1">10</div>
+      
+        <div class="w2 h2">11</div>
+      
+        <div class="w2 h1">12</div>
+      
+    </div>
+  </div>
+  
+  <div class="item link">
+    <a href="jquery.masonry.min.js">Download the AutoResponsive script.</a>
+  </div>
+  
+  <div class="item link">
+    <a href="http://meta.metafizzy.co/files/masonry-site.zip">This AutoResponsive project</a>
+  </div>
+  
+  <div class="item link">
+    <a href="https://github.com/desandro/masonry">AutoResponsive</a>
+  </div>
+  
+  <div class="item big-text loading">
+    
+    Loading Examples
+  </div>
+
+  <div class="item big-text col2">
+    Also try <a href="http://vanilla-masonry.desandro.com">XDF AutoResponsive</a>.<br />
+    <span style="font-size: 0.6em; font-weight: 400;">Just like AutoResponsive.<em>It&rsquo;s layout plugin!</em></span>
+  </div>
+
+  <div class="item col2 bower">
+    <p>If you are cool with the command line,<br>
+      install AutoResponsive as a <a href="http://twitter.github.com/bower">Bower</a> package:</p>
+    <pre><code>bower install</code></pre>
+  </div>
+
+</div> <!-- #container -->
+
+<script type="text/javascript">
+  KISSY.use('gallery/autoResponsive/1.1/index',function(S,R){
+    
+    var res=new R({
+      container:'#container',
+      selector:'.item',
+      unitMargin:{
+        x:5,
+        y:5
+      },
+      sortBy:'grid'
+    });
+    
+  });
+</script>
+</body>
+</html>

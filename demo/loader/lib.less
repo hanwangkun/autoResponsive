@@ -1,0 +1,292 @@
+/**
+ *
+ * Self-defined Less Functions Lib
+ *
+ * What follows is the result of common less functions.
+ * You can use it by the method of ' @import-once "{{your directories/}}lib"; '.
+ *
+ * @version 1.0.0
+ * @author zhuofeng.ls@tmall.com
+ *
+ * Ref:
+ *  <CSS Reference>.http://www.w3schools.com/cssref/
+ *  <IE Hacks>.http://flyworld.github.io/IE-Hacks/
+ *  Smallni.<Some IE10>.http://www.smallni.com/ie10/
+ *  Zoltan Hawryluk and Zoe Mickley Gillenwater.<IE's CSS3 Transforms Translator>.http://www.useragentman.com/IETransformsTranslator/
+ *  ...
+ *
+ * @Log
+ *    - 2013.04.11 zhuofeng.ls
+ *      1.[+] build this file.
+ *
+ */
+
+/* ==========================================================================
+   Common variables
+   ========================================================================== */
+@IE_FILTER: ~"progid:DXImageTransform.Microsoft";
+
+/* ==========================================================================
+   Common IE6/7 hacks
+   ========================================================================== */
+.fixIE6DbMargin() {
+    _display: inline; /* fix IE6 double margin bug */
+}
+
+.fixIE67DbMargin() {
+    *display: inline; /* fix IE6/7 double margin bug */
+}
+
+.fixIE6HeightOverflowBug() {
+    _overflow: hidden;
+}
+
+.fixIE6BorderTransparent() {
+    _border-color: tomato;
+    _filter: ~"chroma(color=tomato)"; /* fix border transparent for IE6 */
+}
+
+.fixIE7UnderlineAlignBug() {
+    /* fix underline align bug in IE7 */
+    *zoom: 1;
+    *vertical-align: baseline;
+}
+
+/* ==========================================================================
+   Common cross-browser layout solutions
+   ========================================================================== */
+.clearfix() {
+    & {
+        *zoom: 1;
+    }
+    &:after {
+        display: block;
+        clear: both;
+        height: 0;
+        content: ' '; /* Earlier browsers do not support empty content (such as IE<8); note: content:" " probably conflict with filter, So you can try content:normal */
+    }
+}
+
+/**
+ * Note:
+ *      1.IE7 can also recognise css expression, so need to filter out IE7 through browser UA.
+ *      2.Css expression is suitable for elements whose max or min layouts are changeless.
+ * Ref:
+ *      1.<optimization_of_css_expression>.http://www.planabc.net/2009/09/21/optimization_of_css_eexpression/
+ *      2.old9.<CSS Expression Reloaded>.http://old9.blogsome.com/2008/10/26/css-expression-reloaded/
+ *
+ */
+.maxHeight(@value) {
+    max-height: @value;
+    @tmp: unit(@value);
+    _height: ~"expression(function(el){if(/msie 6/i.test(navigator.userAgent))el.style.height = (el.scrollHeight > @{tmp}) ? '@{value}' : 'auto';}(this))";
+}
+
+.maxWidth(@value) {
+    max-width: @value;
+    @tmp: unit(@value);
+    _width: ~"expression(function(el){if(/msie 6/i.test(navigator.userAgent))el.style.width = (el.clientWidth > @{tmp}) ? '@{value}' : 'auto';}(this))";
+}
+
+.minHeight(@value) {
+    min-height: @value;
+    @tmp: unit(@value);
+    _height: ~"expression(function(el){if(/msie 6/i.test(navigator.userAgent))el.style.height = (el.scrollHeight < @{tmp}) ? '@{value}' : 'auto';}(this))";
+}
+
+.minWidth(@value) {
+    min-width: @value;
+    @tmp: unit(@value);
+    _width: ~"expression(function(el){if(/msie 6/i.test(navigator.userAgent))el.style.width = (el.clientWidth < @{tmp}) ? '@{value}' : 'auto';}(this))";
+}
+
+/* ==========================================================================
+   Common cross-browser content compose type solutions
+   ========================================================================== */
+/**
+ * Note:
+ *      1. The 'auto' is valid only for chrome and firefox, and the '100%' for IE. Such as:
+ *          clip: rect(0 100% 1000px 0); // for IE6~9
+ *          clip: rect(0,auto,1000px,0); // for chrome and firefox
+ *      2. The clip property does not work if "overflow:visible".
+ */
+.clip(@top, @right, @bottom, @left) {
+    clip: rect(@top @right @bottom @left); /* for IE6~9 */
+    clip: rect(@top, @right, @bottom, @left); /* for chrome and firefox */
+}
+
+.escapeWS() {
+    & {
+        font-size: 0; /* avoid gap caused by CRLF and whitespace */
+    }
+    & * {
+        font-size: 12px; /* restored default normal font size */
+    }
+}
+
+.center(@fontSize: 100%) {
+    display: table-cell;
+    *display: inline-block;
+    *font-size: @fontSize;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.ellipsis() {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.vMiddle() {
+    // TODO ...
+}
+
+.hideFocus() {
+    &:focus {
+        outline: none;
+    }
+    *cursor: ~"expression(function(el){if(/msie (6|7)/i.test(navigator.userAgent)){el.setAttribute('hideFocus', 'true');el.style.cursor='pointer';}}(this))";
+}
+
+/* ==========================================================================
+   Common cross-browser effect solutions
+   ========================================================================== */
+.gradient(@arguments) {
+    background-image: ~"-webkit-@{arguments}";
+    background-image: ~"-moz-@{arguments}";
+    background-image: ~"-ms-@{arguments}";
+    background-image: ~"-o-@{arguments}";
+    background-image: ~"@{arguments}";
+}
+
+.dbColorGradient(@startRgb:#000, @endRgb:#000, @startAlpha:100%, @endAlpha:100%) {
+    @startColor: fade(@startRgb, @startAlpha);
+    @endColor: fade(@endRgb, @endAlpha);
+    @startArgb: argb(@startColor);
+    @endArgb: argb(@endColor);
+    filter: ~"@{IE_FILTER}.gradient(startcolorstr=@{startArgb},endcolorstr=@{endArgb},gradientType=0)";
+    background-image: ~"-moz-linear-gradient(top, @{startColor}, @{endColor})";
+    background-image: ~"-webkit-gradient(linear, 0 0, 0 bottom, from(@{startColor}), to(@{endColor}))";
+    background-image: ~"-o-linear-gradient(top, @{startColor}, @{endColor})";
+}
+
+.tdGradient(@startRgb:#000, @endRgb:#000, @alternateRgb:#000, @startAlpha:100%, @endAlpha:100%, @alternateAlpha) {
+    /* for table */
+    @startColor: fade(@startRgb, @startAlpha);
+    @endColor: fade(@endRgb, @endAlpha);
+    @alternateColor: fade(@alternateRgb, @alternateAlpha);
+    @startArgb: argb(@startColor);
+    @endArgb: argb(@endColor);
+    background-color: ~"@alternateColor\9";
+    background-color: ~"@alternateRgb\0"; /* In the Internet, many people wrote that the IE8 hack is '\0', but whether '\0' is recognized by IE9 or not ? Here no validation, please readers do a try! */
+    *filter: ~"@{IE_FILTER}.gradient(startcolorstr=@{startArgb},endcolorstr=@{endArgb},gradientType=0)";
+    background-image: ~"-moz-linear-gradient(top, @{startColor}, @{endColor})";
+    background-image: ~"-webkit-gradient(linear, 0 0, 0 bottom, from(@{startColor}), to(@{endColor}))";
+    background-image: ~"-o-linear-gradient(top, @{startColor}, @{endColor})";
+}
+
+/**
+ * Syntax:
+ *      transition: property1 duration1 easing1 delay1, property2 duration2 easing2 delay2, ...;
+ */
+.transition(@arguments){
+    -webkit-transition: @arguments;
+    -moz-transition: @arguments;
+    -ms-transition: @arguments;
+    -o-transition: @arguments;
+    transition: @arguments;
+}
+
+.transform(@arguments) {
+    -webkit-transform: @arguments;
+    -moz-transform: @arguments;
+    -ms-transform: @arguments;
+    -o-transform: @arguments;
+    transform: @arguments;
+}
+
+/**
+ * Syntax:
+ *      box-shadow: h-offset v-offset blur-radius spread-radius color inset;
+ * Config:
+ *      h-offset [Required] The position of the horizontal shadow. Negative values are allowed
+ *      v-offset [Required] The position of the vertical shadow. Negative values are allowed
+ *      blur-radius [Optional] The blur distance
+ *      spread-radius [Optional] The size of shadow
+ *      color [Optional] The color of the shadow
+ *      inset [Optional] Changes the shadow from an outer shadow (outset) to an inner shadow
+ * Support:
+ *      The box-shadow property is supported in IE9+, Firefox 4, Chrome, Opera, and Safari 5.1.1.
+ * Note:
+ *      The box-shadow property attaches one or more drop-shadows to the box. The property is a comma-separated list of shadows,
+ *      each specified by 2-4 length values, an optional color, and an optional inset keyword. Omitted lengths are 0.
+ */
+.boxShadow(@arguments) {
+    -webkit-box-shadow: @arguments;
+    -moz-box-shadow: @arguments;
+    -ms-box-shadow: @arguments;
+    -o-box-shadow: @arguments;
+    box-shadow: @arguments;
+}
+
+/**
+ * Syntax:
+ *      text-shadow: h-offset v-offset blur-radius color;
+ * Config:
+ *      h-offset [Required] The position of the horizontal shadow. Negative values are allowed
+ *      v-offset [Required] The position of the vertical shadow. Negative values are allowed
+ *      blur-radius [Optional] The blur distance
+ *      color [Optional] The color of the shadow
+ * Support:
+ *      The text-shadow property is supported in all major browsers, and not supported in IE9 and earlier versions.
+ * Note:
+ *      The text-shadow property attaches one or more shadows to text. The property is a comma-separated list of shadows,
+ *      each specified by 2 or 3 length values and an optional color. Omitted lengths are 0.
+ */
+.textShadow(@arguments) {
+    -webkit-text-shadow: @arguments;
+    -moz-text-shadow: @arguments;
+    -ms-text-shadow: @arguments;
+    -o-text-shadow: @arguments;
+    text-shadow: @arguments;
+}
+
+.borderRadius(@arguments) {
+    border-radius: @arguments;
+    -webkit-border-radius: @arguments;
+    -moz-border-radius: @arguments;
+    -ms-border-radius: @arguments;
+}
+
+.opacity(@value: 1) {
+    opacity: @value;
+    @forIE: @value * 100;
+    filter: Alpha(opactiy=@forIE);
+}
+
+.bgOpacity(@rgb:#000, @alpha:100%) { // TODO 目前会影响IE10没有背景
+    @color: fade(@rgb, @alpha);
+    background-color: @color;
+    background: ~"url(about:blank) transparent\0"; /* avoid IE9's DXImageTransform and rgba accumulation */
+    @argb: argb(@color);
+    filter: ~"@{IE_FILTER}.gradient(startcolorstr=@{argb},endcolorstr=@{argb})"; /* for IE6~9(startcolorstr=AARRGGBB) */
+    *zoom: 1; /* trigger IE6/7 hasLayout */
+}
+
+.zoom(@value:1) {
+    zoom: @value;
+    -moz-transform: scale(@value);
+}
+
+/* ==========================================================================
+   Common cross-browser customized icon solutions
+   ========================================================================== */
+.triangle(@orientation, @width, @color) {
+    /* for tip, dropdown and so on */
+    // TODO ...
+}
+
+.more() {
+    // TODO ...
+}

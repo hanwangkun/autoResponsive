@@ -1,0 +1,593 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>KISSY-Gallery</title>
+    <link rel="stylesheet" href="http://g.tbcdn.cn/kissy/k/1.3.1/css/dpl/??base-min.css">
+    <link rel="stylesheet" href="http://g.tbcdn.cn/kissy/k/1.3.1/??button/assets/dpl-min.css">
+    <link rel="stylesheet" href="gallery.css"/>
+    <script src="http://g.tbcdn.cn/kissy/k/1.3.0/seed-min.js"></script>
+    <script src="../../../../autoResponsive/1.3/build/index.js"></script>
+  </head>
+  <body>
+    <div id="page">
+      <div id="header">
+        <div class="logo"><a href="http://gallery.kissyui.com"></a></div>
+        <ul class="clearfix count-list">
+          <li class="l-left animated bounce">
+            <p class="number">91</p>
+            <p class="text">组件数</p>
+          </li>
+          <li class="l-left animated bounce authors-count">
+            <p class="number">58</p>
+            <p class="text">贡献者</p>
+          </li>
+        </ul>
+      </div>
+      <div id="main">
+        <div class="component">
+          <div class="controls ks-button-group">
+            <button data-sort="data-create" data-order="asc" title="按照组件fork到官方库的时间排序" class="sort ks-button J_SortNew">最新 ↓</button>
+            <button data-sort="data-star" data-order="asc" title="按照组件的star数排序" class="sort ks-button">热度 ↓</button>
+            <button data-sort="data-updated" data-order="asc" title="按照组件更新时间排序" class="sort ks-button">更新 ↓</button>
+            <button data-sort="data-name" data-order="desc" title="按照组件名称字母数排序" class="sort ks-button">字母 ↑</button>
+          </div>
+          <div class="search-box">
+            <input id="J_Search" type="text" placeholder="可以使用组件名、作者、描述来筛选组件">
+          </div>
+          <ul class="clearfix tag-list system-tags">
+            <li data-coms="kcharts,calendar,limiter" class="l-left J_Tag">isv</li>
+          </ul>
+          <ul class="clearfix tag-list author-tags">
+            <li data-coms="starrating,textbox,tsearch,textMagnifier,uploader,auth,formValidation,calendar,linkage,numberSpinner,butterfly,radio,select,checkcode,checkbox,spinbox,cityselector,placeholder,validation,colorPicker,limiter,auth,auth,auth,auth,auth,auth,auth,auth,auth,auth,auth,auth,auth,auth,auth,auth,auth,auth,auth,auth,auth,auth,auth,auth,auth" class="l-left J_Tag">表单</li>
+            <li data-coms="auth,validation,formValidation,auth,auth,auth,auth,auth,auth,auth,auth,auth,auth,auth,auth,auth,auth,auth,auth,auth,auth,auth,auth,auth,auth,auth,auth,auth" class="l-left J_Tag">表单验证</li>
+            <li data-coms="rtip,tooltip,powerTips,iToolTip,tip" class="l-left J_Tag">提示层</li>
+            <li data-coms="bidi,velocity,jquery-adapter,aop,pluginhost" class="l-left J_Tag">框架</li>
+            <li data-coms="kcharts" class="l-left J_Tag">图表</li>
+            <li data-coms="ringNavi,simple-mask,simple-mask,photoswipe,photoswipe,simple-mask,photoswipe,photoswipe,photoswipe,photoswipe,photoswipe,photoswipe,slide,slide,app,app,app,photoswipe,simple-mask,app,slide,simple-mask,app,app,app,app,app" class="l-left J_Tag">mobile</li>
+            <li data-coms="slide" class="l-left J_Tag">幻灯片</li>
+            <li data-coms="calendar-deprecated,calendar,switchable,calendar,calendar,calendar,calendar,calendar,calendar" class="l-left J_Tag">日历</li>
+            <li data-coms="scrollFloat,layer-anim,scrollAnim,ringNavi,digitalScroll,randombox,kThrow,lineParallax,lineParallax,cutter,cutter,cutter" class="l-left J_Tag">动画</li>
+            <li data-coms="pagesidebar,autoResponsive,waterfallx,galleria,affix,waterfall" class="l-left J_Tag">布局</li>
+            <li data-coms="randombox" class="l-left J_Tag">抽奖</li>
+            <li data-coms="stepbar" class="l-left J_Tag">步骤条</li>
+            <li data-coms="countdown" class="l-left J_Tag">倒计时</li>
+            <li data-coms="smartmenu,ringNavi,menu-aim,treemenu,treemenu,treemenu,treemenu,treemenu,treemenu,treemenu,treemenu,treemenu,treemenu,treemenu,treemenu,treemenu" class="l-left J_Tag">菜单</li>
+            <li data-coms="kscroll" class="l-left J_Tag">滚动条</li>
+            <li data-coms="anti-ie6,editorUploader,ua-extra" class="l-left J_Tag">hack</li>
+            <li data-coms="image-tagging,lightBox,image-dd" class="l-left J_Tag">灯箱</li>
+            <li data-coms="offline" class="l-left J_Tag">本地存储</li>
+            <li data-coms="qrcode" class="l-left J_Tag">二维码</li>
+            <li data-coms="pagination" class="l-left J_Tag">翻页</li>
+            <li data-coms="scroll-monitor,datalazyload" class="l-left J_Tag">懒加载</li>
+            <li data-coms="notification" class="l-left J_Tag">通知</li>
+            <li data-coms="pinyin" class="l-left J_Tag">拼音</li>
+            <li data-coms="detect-zoom" class="l-left J_Tag">放大镜</li>
+            <li data-coms="mqa" class="l-left J_Tag">响应式</li>
+            <li data-coms="reflection" class="l-left J_Tag">效果</li>
+            <li data-coms="redirectToNative,redirectToNative,redirectToNative,redirectToNative,redirectToNative,redirectToNative,redirectToNative,redirectToNative,redirectToNative" class="l-left J_Tag">1.1</li>
+            <li data-coms="time_line,time_line,TimeLines,TimeLines" class="l-left J_Tag">timeline</li>
+            <li data-coms="oop,oop,oop,oop,oop,oop,oop,oop,oop,oop" class="l-left J_Tag">oop</li>
+            <li data-coms="oui,oui,oui,oui,oui,oui,oui,oui,oui,oui,oui,oui,oui,oui,oui" class="l-left J_Tag">ui component</li>
+            <li data-coms="RichDate,RichDate,RichDate,RichDate,RichDate,RichDate,RichDate,RichDate,RichDate,RichDate,RichDate,RichDate,RichDate" class="l-left J_Tag">date</li>
+            <li data-coms="RichDate,RichDate,RichDate,RichDate,RichDate,RichDate,RichDate,RichDate,RichDate,RichDate,RichDate,RichDate,RichDate" class="l-left J_Tag">util</li>
+            <li data-coms="limitfixed" class="l-left J_Tag">元素浮动</li>
+            <li data-coms="limitfixed" class="l-left J_Tag">fixed兼容</li>
+            <li data-coms="bidi,bidi,bidi" class="l-left J_Tag">MVVM</li>
+            <li data-coms="form-storage,form-storage,form-storage,form-storage" class="l-left J_Tag">form</li>
+            <li data-coms="form-storage,form-storage,form-storage,form-storage" class="l-left J_Tag">storage</li>
+            <li data-coms="form-storage,form-storage,form-storage,form-storage" class="l-left J_Tag">auto</li>
+            <li data-coms="form-storage,form-storage,form-storage,form-storage" class="l-left J_Tag">save</li>
+            <li data-coms="autoResponsive,autoResponsive,autoResponsive,autoResponsive,autoResponsive,autoResponsive,autoResponsive,autoResponsive,autoResponsive,autoResponsive,autoResponsive,autoResponsive,autoResponsive,autoResponsive,autoResponsive,autoResponsive,autoResponsive,autoResponsive,autoResponsive,autoResponsive,autoResponsive,autoResponsive,autoResponsive,autoResponsive,autoResponsive" class="l-left J_Tag">1.3</li>
+            <li data-coms="easydialog,easydialog,easydialog,easydialog,easydialog,easydialog,easydialog,easydialog" class="l-left J_Tag">dialog</li>
+            <li data-coms="easydialog,easydialog,easydialog,easydialog,easydialog,easydialog,easydialog,easydialog" class="l-left J_Tag">alert</li>
+            <li data-coms="easydialog,easydialog,easydialog,easydialog,easydialog,easydialog,easydialog,easydialog" class="l-left J_Tag">confirm</li>
+            <li data-coms="easydialog,easydialog,easydialog,easydialog,easydialog,easydialog,easydialog,easydialog" class="l-left J_Tag">prompt</li>
+            <li data-coms="kds,kds,kds,kds,kds,kds" class="l-left J_Tag">kissy demo gallery util doc 文档</li>
+            <li data-coms="cityselector,cityselector" class="l-left J_Tag">cityselector</li>
+            <li data-coms="simulate-select,simulate-select,simulate-select,simulate-select,simulate-select,simulate-select,simulate-select,simulate-select,simulate-select,simulate-select,simulate-select,simulate-select,musicPlayer,musicPlayer,musicPlayer,musicPlayer,musicPlayer,musicPlayer,musicPlayer,musicPlayer,musicPlayer,musicPlayer,musicPlayer,simulate-select,simulate-select,simulate-select,simulate-select,simulate-select,simulate-select,simulate-select,simulate-select,simulate-select,simulate-select" class="l-left J_Tag">1.0</li>
+            <li data-coms="lineParallax,lineParallax,lineParallax" class="l-left J_Tag">parallax</li>
+            <li data-coms="lineParallax,lineParallax" class="l-left J_Tag">视差</li>
+            <li data-coms="checkBoxTree,checkBoxTree" class="l-left J_Tag">树</li>
+            <li data-coms="checkBoxTree,checkBoxTree" class="l-left J_Tag">tree</li>
+            <li data-coms="checkBoxTree,checkBoxTree" class="l-left J_Tag">checkbox</li>
+            <li data-coms="checkBoxTree,checkBoxTree" class="l-left J_Tag">树形控件</li>
+            <li data-coms="checkBoxTree,checkBoxTree" class="l-left J_Tag">多选树形控件</li>
+            <li data-coms="checkBoxTree,checkBoxTree" class="l-left J_Tag">checkBoxTree</li>
+            <li data-coms="kheatmap,kheatmap,kheatmap,kheatmap" class="l-left J_Tag">heatmap</li>
+            <li data-coms="WKeditor,WKeditor,WKeditor,WKeditor,WKeditor" class="l-left J_Tag">editor</li>
+            <li data-coms="kDataGenerator,kDataGenerator,kDataGenerator" class="l-left J_Tag">数据</li>
+            <li data-coms="kDataGenerator,kDataGenerator,kDataGenerator" class="l-left J_Tag">生成</li>
+            <li data-coms="pageNotification,pageNotification,pageNotification,pageNotification,pageNotification,pageNotification,pageNotification,pageNotification,pageNotification,pageNotification,pageNotification,pageNotification,pageNotification,pageNotification,pageNotification,pageNotification,pageNotification,pageNotification,pageNotification,pageNotification,pageNotification,pageNotification,pageNotification,pageNotification,pageNotification,pageNotification,pageNotification,pageNotification,pageNotification,pageNotification,pageNotification" class="l-left J_Tag">notification</li>
+            <li data-coms="checkbox,checkbox" class="l-left J_Tag"> </li>
+            <li data-coms="trees,trees,trees,trees,trees,trees,trees,trees,trees,trees,trees" class="l-left J_Tag">1.0.0</li>
+          </ul>
+          <ul id="J_List" class="component-list">
+            <li data-name="powerTips" data-desc="KISSY tips提示组件" data-author="Letao" data-star="1" data-create="1372225082000" data-updated="1373588941000" class="item mix">
+              <div class="detail-link-wrap"><a href="/powerTips/1.0/guide/index.html" title="powerTips" target="_blank" class="item-link item-detail"><strong class="name l-block">powerTips</strong><span class="author l-block">Letao</span><span class="desc l-block">KISSY tips提示组件</span></a>
+                <div class="star">star：1</div><a href="/powerTips/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="RichDate" data-desc="基于Kissy对Date对象和原型的扩展" data-author="弘树" data-star="0" data-create="1378697444000" data-updated="1379330498000" class="item mix">
+              <div class="detail-link-wrap"><a href="/RichDate/1.1/guide/index.html" title="RichDate" target="_blank" class="item-link item-detail"><strong class="name l-block">RichDate</strong><span class="author l-block">弘树</span><span class="desc l-block">基于Kissy对Date对象和原型的扩展</span></a>
+                <div class="star">star：0</div><a href="/RichDate/1.1/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="ringNavi" data-desc="移动设备上常见的环状导航组件" data-author="Letao" data-star="1" data-create="1377481734000" data-updated="1378391432000" class="item mix">
+              <div class="detail-link-wrap"><a href="/ringNavi/1.0/guide/index.html" title="ringNavi" target="_blank" class="item-link item-detail"><strong class="name l-block">ringNavi</strong><span class="author l-block">Letao</span><span class="desc l-block">移动设备上常见的环状导航组件</span></a>
+                <div class="star">star：1</div><a href="/ringNavi/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="affix" data-desc="（测试中请勿使用）用于固定一个容器在某个位置，当容器不在视口时滚动该容器" data-author="明河" data-star="2" data-create="1370689911000" data-updated="1374646467000" class="item mix">
+              <div class="detail-link-wrap"><a href="/affix/1.0/guide/index.html" title="affix" target="_blank" class="item-link item-detail"><strong class="name l-block">affix</strong><span class="author l-block">明河</span><span class="desc l-block">（测试中请勿使用）用于固定一个容器在某个位置，当容器不在视口时滚动该容器</span></a>
+                <div class="star">star：2</div><a href="/affix/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="anti-ie6" data-desc="请修改组件描述" data-author="hanwen.sah" data-star="2" data-create="1365320420000" data-updated="1378958423000" class="item mix">
+              <div class="detail-link-wrap"><a href="/anti-ie6/1.0/guide/index.html" title="anti-ie6" target="_blank" class="item-link item-detail"><strong class="name l-block">anti-ie6</strong><span class="author l-block">hanwen.sah</span><span class="desc l-block">请修改组件描述</span></a>
+                <div class="star">star：2</div><a href="/anti-ie6/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="aop" data-desc="AOP功能，提供before与after的代码注入API" data-author="虎牙" data-star="2" data-create="1370491759000" data-updated="1371608643000" class="item mix">
+              <div class="detail-link-wrap"><a href="/aop/1.0/guide/index.html" title="aop" target="_blank" class="item-link item-detail"><strong class="name l-block">aop</strong><span class="author l-block">虎牙</span><span class="desc l-block">AOP功能，提供before与after的代码注入API</span></a>
+                <div class="star">star：2</div><a href="/aop/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="auth" data-desc="最强大的表单校验组件" data-author="张挺/明河" data-star="6" data-create="1369624383000" data-updated="1379488165000" class="item mix">
+              <div class="detail-link-wrap"><a href="/auth/1.5/guide/index.html" title="auth" target="_blank" class="item-link item-detail"><strong class="name l-block">auth</strong><span class="author l-block">张挺/明河</span><span class="desc l-block">最强大的表单校验组件</span></a>
+                <div class="star">star：6</div><a href="/auth/1.5/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="autoResponsive" data-desc="auto responsive layout" data-author="xudafeng" data-star="12" data-create="1369101503000" data-updated="1379997699000" class="item mix">
+              <div class="detail-link-wrap"><a href="/autoResponsive/1.3/guide/index.html" title="autoResponsive" target="_blank" class="item-link item-detail"><strong class="name l-block">autoResponsive</strong><span class="author l-block">xudafeng</span><span class="desc l-block">auto responsive layout</span></a>
+                <div class="star">star：12</div><a href="/autoResponsive/1.3/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="autocomplete" data-desc="自动完成组件，可自行定制数据源和展示模板，支持热门推荐及输入框获得焦点及展示默认提示" data-author="舒克" data-star="5" data-create="1370418821000" data-updated="1378174987000" class="item mix">
+              <div class="detail-link-wrap"><a href="/autocomplete/1.2/guide/index.html" title="autocomplete" target="_blank" class="item-link item-detail"><strong class="name l-block">autocomplete</strong><span class="author l-block">舒克</span><span class="desc l-block">自动完成组件，可自行定制数据源和展示模板，支持热门推荐及输入框获得焦点及展示默认提示</span></a>
+                <div class="star">star：5</div><a href="/autocomplete/1.2/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="bidi" data-desc="mvvm for kissy" data-author="hanwen.sah" data-star="5" data-create="1375428008000" data-updated="1379061201000" class="item mix">
+              <div class="detail-link-wrap"><a href="/bidi/1.0/guide/index.html" title="bidi" target="_blank" class="item-link item-detail"><strong class="name l-block">bidi</strong><span class="author l-block">hanwen.sah</span><span class="desc l-block">mvvm for kissy</span></a>
+                <div class="star">star：5</div><a href="/bidi/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="calendar" data-desc="旅行日历组件" data-author="昂天" data-star="9" data-create="1365318650000" data-updated="1379831878000" class="item mix">
+              <div class="detail-link-wrap"><a href="/calendar/1.2/guide/index.html" title="calendar" target="_blank" class="item-link item-detail"><strong class="name l-block">calendar</strong><span class="author l-block">昂天</span><span class="desc l-block">旅行日历组件</span></a>
+                <div class="star">star：9</div><a href="/calendar/1.2/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="calendar-deprecated" data-desc="" data-author="kissyteam" data-star="1" data-create="1376985903000" data-updated="1377090695000" class="item mix">
+              <div class="detail-link-wrap"><a href="/calendar-deprecated/1.0/guide/index.html" title="calendar-deprecated" target="_blank" class="item-link item-detail"><strong class="name l-block">calendar-deprecated</strong><span class="author l-block">kissyteam</span><span class="desc l-block"></span></a>
+                <div class="star">star：1</div><a href="/calendar-deprecated/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="checkbox" data-desc="checkbox beautiful" data-author="sirzxj" data-star="0" data-create="1374651465000" data-updated="1374656154000" class="item mix">
+              <div class="detail-link-wrap"><a href="/checkbox/1.4/guide/index.html" title="checkbox" target="_blank" class="item-link item-detail"><strong class="name l-block">checkbox</strong><span class="author l-block">sirzxj</span><span class="desc l-block">checkbox beautiful</span></a>
+                <div class="star">star：0</div><a href="/checkbox/1.4/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="checkcode" data-desc="统一图片、语音验证码组件" data-author="棪木" data-star="3" data-create="1374819814000" data-updated="1376046066000" class="item mix">
+              <div class="detail-link-wrap"><a href="/checkcode/1.1/guide/index.html" title="checkcode" target="_blank" class="item-link item-detail"><strong class="name l-block">checkcode</strong><span class="author l-block">棪木</span><span class="desc l-block">统一图片、语音验证码组件</span></a>
+                <div class="star">star：3</div><a href="/checkcode/1.1/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="cityselector" data-desc="基于kissy 1.3的城市选择器，支持国内和国际城市，并支持联动" data-author="baxian" data-star="1" data-create="1373973361000" data-updated="1379319655000" class="item mix">
+              <div class="detail-link-wrap"><a href="/cityselector/1.1/guide/index.html" title="cityselector" target="_blank" class="item-link item-detail"><strong class="name l-block">cityselector</strong><span class="author l-block">baxian</span><span class="desc l-block">基于kissy 1.3的城市选择器，支持国内和国际城市，并支持联动</span></a>
+                <div class="star">star：1</div><a href="/cityselector/1.1/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="colorPicker" data-desc="KISSY拾色器插件" data-author="Letao" data-star="0" data-create="1372643303000" data-updated="1373531090000" class="item mix">
+              <div class="detail-link-wrap"><a href="/colorPicker/1.0/guide/index.html" title="colorPicker" target="_blank" class="item-link item-detail"><strong class="name l-block">colorPicker</strong><span class="author l-block">Letao</span><span class="desc l-block">KISSY拾色器插件</span></a>
+                <div class="star">star：0</div><a href="/colorPicker/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="countdown" data-desc="" data-author="jide" data-star="0" data-create="1373881040000" data-updated="1374658832000" class="item mix">
+              <div class="detail-link-wrap"><a href="/countdown/1.3/guide/index.html" title="countdown" target="_blank" class="item-link item-detail"><strong class="name l-block">countdown</strong><span class="author l-block">jide</span><span class="desc l-block"></span></a>
+                <div class="star">star：0</div><a href="/countdown/1.3/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="datalazyload" data-desc="kissy 延迟加载组件" data-author="kissy-team" data-star="3" data-create="1366594244000" data-updated="1378435304000" class="item mix">
+              <div class="detail-link-wrap"><a href="/datalazyload/1.0/guide/index.html" title="datalazyload" target="_blank" class="item-link item-detail"><strong class="name l-block">datalazyload</strong><span class="author l-block">kissy-team</span><span class="desc l-block">kissy 延迟加载组件</span></a>
+                <div class="star">star：3</div><a href="/datalazyload/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="detect-zoom" data-desc="探测窗口缩放比例" data-author="yiminghe" data-star="2" data-create="1369728799000" data-updated="1373652666000" class="item mix">
+              <div class="detail-link-wrap"><a href="/detect-zoom/1.0/guide/index.html" title="detect-zoom" target="_blank" class="item-link item-detail"><strong class="name l-block">detect-zoom</strong><span class="author l-block">yiminghe</span><span class="desc l-block">探测窗口缩放比例</span></a>
+                <div class="star">star：2</div><a href="/detect-zoom/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="digitalScroll" data-desc="数字滚动组件" data-author="函谷" data-star="0" data-create="1376555219000" data-updated="1376555219000" class="item mix">
+              <div class="detail-link-wrap"><a href="/digitalScroll/1.0/guide/index.html" title="digitalScroll" target="_blank" class="item-link item-detail"><strong class="name l-block">digitalScroll</strong><span class="author l-block">函谷</span><span class="desc l-block">数字滚动组件</span></a>
+                <div class="star">star：0</div><a href="/digitalScroll/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="editorUploader" data-desc="Kissy Editor新的图片上传插件" data-author="minghe" data-star="3" data-create="1368757493000" data-updated="1373420575000" class="item mix">
+              <div class="detail-link-wrap"><a href="/editorUploader/1.0/guide/index.html" title="editorUploader" target="_blank" class="item-link item-detail"><strong class="name l-block">editorUploader</strong><span class="author l-block">minghe</span><span class="desc l-block">Kissy Editor新的图片上传插件</span></a>
+                <div class="star">star：3</div><a href="/editorUploader/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="formValidation" data-desc="form表单本地验证控件" data-author="知了" data-star="1" data-create="1377581334000" data-updated="1378195073000" class="item mix">
+              <div class="detail-link-wrap"><a href="/formValidation/1.0/guide/index.html" title="formValidation" target="_blank" class="item-link item-detail"><strong class="name l-block">formValidation</strong><span class="author l-block">知了</span><span class="desc l-block">form表单本地验证控件</span></a>
+                <div class="star">star：1</div><a href="/formValidation/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="galleria" data-desc="淘宝标准相册组件" data-author="bachi" data-star="2" data-create="1369206433000" data-updated="1372241468000" class="item mix">
+              <div class="detail-link-wrap"><a href="/galleria/1.0/guide/index.html" title="galleria" target="_blank" class="item-link item-detail"><strong class="name l-block">galleria</strong><span class="author l-block">bachi</span><span class="desc l-block">淘宝标准相册组件</span></a>
+                <div class="star">star：2</div><a href="/galleria/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="iToolTip" data-desc="为图片添加图钉说明" data-author="Letao" data-star="0" data-create="1372086494000" data-updated="1372242548000" class="item mix">
+              <div class="detail-link-wrap"><a href="/iToolTip/1.0/guide/index.html" title="iToolTip" target="_blank" class="item-link item-detail"><strong class="name l-block">iToolTip</strong><span class="author l-block">Letao</span><span class="desc l-block">为图片添加图钉说明</span></a>
+                <div class="star">star：0</div><a href="/iToolTip/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="image-dd" data-desc="请修改组件描述" data-author="yumen.gk" data-star="1" data-create="1371088744000" data-updated="1371608757000" class="item mix">
+              <div class="detail-link-wrap"><a href="/image-dd/1.0/guide/index.html" title="image-dd" target="_blank" class="item-link item-detail"><strong class="name l-block">image-dd</strong><span class="author l-block">yumen.gk</span><span class="desc l-block">请修改组件描述</span></a>
+                <div class="star">star：1</div><a href="/image-dd/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="image-tagging" data-desc="请修改组件描述" data-author="乔福" data-star="2" data-create="1373365250000" data-updated="1373608474000" class="item mix">
+              <div class="detail-link-wrap"><a href="/image-tagging/1.0/guide/index.html" title="image-tagging" target="_blank" class="item-link item-detail"><strong class="name l-block">image-tagging</strong><span class="author l-block">乔福</span><span class="desc l-block">请修改组件描述</span></a>
+                <div class="star">star：2</div><a href="/image-tagging/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="imgcrop" data-desc="图像剪裁组件" data-author="元泉" data-star="5" data-create="1367028332000" data-updated="1377840187000" class="item mix">
+              <div class="detail-link-wrap"><a href="/imgcrop/2.1/guide/index.html" title="imgcrop" target="_blank" class="item-link item-detail"><strong class="name l-block">imgcrop</strong><span class="author l-block">元泉</span><span class="desc l-block">图像剪裁组件</span></a>
+                <div class="star">star：5</div><a href="/imgcrop/2.1/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="itemSelector" data-desc="" data-author="知了" data-star="0" data-create="1378115836000" data-updated="1378115837000" class="item mix">
+              <div class="detail-link-wrap"><a href="/itemSelector/1.0/guide/index.html" title="itemSelector" target="_blank" class="item-link item-detail"><strong class="name l-block">itemSelector</strong><span class="author l-block">知了</span><span class="desc l-block"></span></a>
+                <div class="star">star：0</div><a href="/itemSelector/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="jquery-adapter" data-desc="kissy to jquery adapter" data-author="dxq" data-star="1" data-create="1372224821000" data-updated="1378190794000" class="item mix">
+              <div class="detail-link-wrap"><a href="/jquery-adapter/1.0/guide/index.html" title="jquery-adapter" target="_blank" class="item-link item-detail"><strong class="name l-block">jquery-adapter</strong><span class="author l-block">dxq</span><span class="desc l-block">kissy to jquery adapter</span></a>
+                <div class="star">star：1</div><a href="/jquery-adapter/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="kThrow" data-desc="拖拽盒子并抛出去，模拟自然碰撞运动" data-author="Letao" data-star="2" data-create="1375171810000" data-updated="1380080615000" class="item mix">
+              <div class="detail-link-wrap"><a href="/kThrow/1.0/guide/index.html" title="kThrow" target="_blank" class="item-link item-detail"><strong class="name l-block">kThrow</strong><span class="author l-block">Letao</span><span class="desc l-block">拖拽盒子并抛出去，模拟自然碰撞运动</span></a>
+                <div class="star">star：2</div><a href="/kThrow/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="kcharts" data-desc="KISSY图表组件集" data-author="数据可视化小组" data-star="18" data-create="1365318298000" data-updated="1379475628000" class="item mix">
+              <div class="detail-link-wrap"><a href="/kcharts/1.2/guide/index.html" title="kcharts" target="_blank" class="item-link item-detail"><strong class="name l-block">kcharts</strong><span class="author l-block">数据可视化小组</span><span class="desc l-block">KISSY图表组件集</span></a>
+                <div class="star">star：18</div><a href="/kcharts/1.2/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="kissy-mscroller" data-desc="更mobile化的scroller" data-author="岑安" data-star="1" data-create="1377853686000" data-updated="1379990712000" class="item mix">
+              <div class="detail-link-wrap"><a href="/kissy-mscroller/1.3/guide/index.html" title="kissy-mscroller" target="_blank" class="item-link item-detail"><strong class="name l-block">kissy-mscroller</strong><span class="author l-block">岑安</span><span class="desc l-block">更mobile化的scroller</span></a>
+                <div class="star">star：1</div><a href="/kissy-mscroller/1.3/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="kscroll" data-desc="基于KISSY的滚动条组件。支持滚轮、拖拽、上下箭头加速滚动。样式可定制，支持hover,active两种状态。自适应内容区大小调整。" data-author="satans17" data-star="1" data-create="1370331420000" data-updated="1378395141000" class="item mix">
+              <div class="detail-link-wrap"><a href="/kscroll/1.2/guide/index.html" title="kscroll" target="_blank" class="item-link item-detail"><strong class="name l-block">kscroll</strong><span class="author l-block">satans17</span><span class="desc l-block">基于KISSY的滚动条组件。支持滚轮、拖拽、上下箭头加速滚动。样式可定制，支持hover,active两种状态。自适应内容区大小调整。</span></a>
+                <div class="star">star：1</div><a href="/kscroll/1.2/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="layer-anim" data-desc="分层动画组件" data-author="阿古" data-star="8" data-create="1368411378000" data-updated="1376634442000" class="item mix">
+              <div class="detail-link-wrap"><a href="/layer-anim/1.1/guide/index.html" title="layer-anim" target="_blank" class="item-link item-detail"><strong class="name l-block">layer-anim</strong><span class="author l-block">阿古</span><span class="desc l-block">分层动画组件</span></a>
+                <div class="star">star：8</div><a href="/layer-anim/1.1/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="lightBox" data-desc="KISSY图片LightBox组件" data-author="Letao" data-star="0" data-create="1373279803000" data-updated="1373348212000" class="item mix">
+              <div class="detail-link-wrap"><a href="/lightBox/1.0/guide/index.html" title="lightBox" target="_blank" class="item-link item-detail"><strong class="name l-block">lightBox</strong><span class="author l-block">Letao</span><span class="desc l-block">KISSY图片LightBox组件</span></a>
+                <div class="star">star：0</div><a href="/lightBox/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="limiter" data-desc="文本框字数限制和统计器" data-author="明河" data-star="3" data-create="1369474389000" data-updated="1375532784000" class="item mix">
+              <div class="detail-link-wrap"><a href="/limiter/1.4/guide/index.html" title="limiter" target="_blank" class="item-link item-detail"><strong class="name l-block">limiter</strong><span class="author l-block">明河</span><span class="desc l-block">文本框字数限制和统计器</span></a>
+                <div class="star">star：3</div><a href="/limiter/1.4/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="limitfixed" data-desc="在指定容器中相对页面定位。实现fixed效果。" data-author="wuake" data-star="0" data-create="1376555387000" data-updated="1379043221000" class="item mix">
+              <div class="detail-link-wrap"><a href="/limitfixed/1.0/guide/index.html" title="limitfixed" target="_blank" class="item-link item-detail"><strong class="name l-block">limitfixed</strong><span class="author l-block">wuake</span><span class="desc l-block">在指定容器中相对页面定位。实现fixed效果。</span></a>
+                <div class="star">star：0</div><a href="/limitfixed/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="linkage" data-desc="元素联动关系处理组件" data-author="明河" data-star="2" data-create="1377694042000" data-updated="1379384134000" class="item mix">
+              <div class="detail-link-wrap"><a href="/linkage/1.0/guide/index.html" title="linkage" target="_blank" class="item-link item-detail"><strong class="name l-block">linkage</strong><span class="author l-block">明河</span><span class="desc l-block">元素联动关系处理组件</span></a>
+                <div class="star">star：2</div><a href="/linkage/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="menu-aim" data-desc="undefined" data-author="莫争" data-star="3" data-create="1365401253000" data-updated="1372242021000" class="item mix">
+              <div class="detail-link-wrap"><a href="/menu-aim/1.1/guide/index.html" title="menu-aim" target="_blank" class="item-link item-detail"><strong class="name l-block">menu-aim</strong><span class="author l-block">莫争</span><span class="desc l-block"></span></a>
+                <div class="star">star：3</div><a href="/menu-aim/1.1/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="mqa" data-desc="媒体查询假名组件" data-author="踏风" data-star="3" data-create="1367742799000" data-updated="1371608816000" class="item mix">
+              <div class="detail-link-wrap"><a href="/mqa/1.0/guide/index.html" title="mqa" target="_blank" class="item-link item-detail"><strong class="name l-block">mqa</strong><span class="author l-block">踏风</span><span class="desc l-block">媒体查询假名组件</span></a>
+                <div class="star">star：3</div><a href="/mqa/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="notification" data-desc="桌面通知组件" data-author="踏风" data-star="2" data-create="1369100415000" data-updated="1372676043000" class="item mix">
+              <div class="detail-link-wrap"><a href="/notification/1.0/guide/index.html" title="notification" target="_blank" class="item-link item-detail"><strong class="name l-block">notification</strong><span class="author l-block">踏风</span><span class="desc l-block">桌面通知组件</span></a>
+                <div class="star">star：2</div><a href="/notification/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="numberSpinner" data-desc="numberSpinner是一个html5form中input的type=number的增强版，兼容所有浏览器，支持键盘输入，外观可配置" data-author="知了" data-star="0" data-create="1377671575000" data-updated="1377671576000" class="item mix">
+              <div class="detail-link-wrap"><a href="/numberSpinner/1.0/guide/index.html" title="numberSpinner" target="_blank" class="item-link item-detail"><strong class="name l-block">numberSpinner</strong><span class="author l-block">知了</span><span class="desc l-block">numberSpinner是一个html5form中input的type=number的增强版，兼容所有浏览器，支持键盘输入，外观可配置</span></a>
+                <div class="star">star：0</div><a href="/numberSpinner/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="offline" data-desc="undefined" data-author="bofang" data-star="5" data-create="1364781156000" data-updated="1376801470000" class="item mix">
+              <div class="detail-link-wrap"><a href="/offline/1.1/guide/index.html" title="offline" target="_blank" class="item-link item-detail"><strong class="name l-block">offline</strong><span class="author l-block">bofang</span><span class="desc l-block"></span></a>
+                <div class="star">star：5</div><a href="/offline/1.1/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="oop" data-desc="OOP库" data-author="goto100" data-star="0" data-create="1378276811000" data-updated="1379044362000" class="item mix">
+              <div class="detail-link-wrap"><a href="/oop/0.1/guide/index.html" title="oop" target="_blank" class="item-link item-detail"><strong class="name l-block">oop</strong><span class="author l-block">goto100</span><span class="desc l-block">OOP库</span></a>
+                <div class="star">star：0</div><a href="/oop/0.1/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="oui" data-desc="oui 是基于 oop 实现的组件开发库" data-author="goto100" data-star="0" data-create="1378287060000" data-updated="1378451906000" class="item mix">
+              <div class="detail-link-wrap"><a href="/oui/0.1/guide/index.html" title="oui" target="_blank" class="item-link item-detail"><strong class="name l-block">oui</strong><span class="author l-block">goto100</span><span class="desc l-block">oui 是基于 oop 实现的组件开发库</span></a>
+                <div class="star">star：0</div><a href="/oui/0.1/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="pagesidebar" data-desc="带滑动效果的页内导航，回到顶部等功能。实现正向和逆向流程" data-author="舒克" data-star="1" data-create="1371093247000" data-updated="1378695084000" class="item mix">
+              <div class="detail-link-wrap"><a href="/pagesidebar/1.0/guide/index.html" title="pagesidebar" target="_blank" class="item-link item-detail"><strong class="name l-block">pagesidebar</strong><span class="author l-block">舒克</span><span class="desc l-block">带滑动效果的页内导航，回到顶部等功能。实现正向和逆向流程</span></a>
+                <div class="star">star：1</div><a href="/pagesidebar/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="pagination" data-desc="分页组件，可配置页码展现形式和数量，监听页码切换" data-author="首作" data-star="3" data-create="1371538124000" data-updated="1377350762000" class="item mix">
+              <div class="detail-link-wrap"><a href="/pagination/2.0/guide/index.html" title="pagination" target="_blank" class="item-link item-detail"><strong class="name l-block">pagination</strong><span class="author l-block">首作</span><span class="desc l-block">分页组件，可配置页码展现形式和数量，监听页码切换</span></a>
+                <div class="star">star：3</div><a href="/pagination/2.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="pinyin" data-desc="汉字转拼音" data-author="yiminghe" data-star="5" data-create="1369816532000" data-updated="1374842134000" class="item mix">
+              <div class="detail-link-wrap"><a href="/pinyin/1.0/guide/index.html" title="pinyin" target="_blank" class="item-link item-detail"><strong class="name l-block">pinyin</strong><span class="author l-block">yiminghe</span><span class="desc l-block">汉字转拼音</span></a>
+                <div class="star">star：5</div><a href="/pinyin/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="placeholder" data-desc="基于kissy的Placeholder" data-author="舒克" data-star="2" data-create="1370417984000" data-updated="1378432759000" class="item mix">
+              <div class="detail-link-wrap"><a href="/placeholder/1.0/guide/index.html" title="placeholder" target="_blank" class="item-link item-detail"><strong class="name l-block">placeholder</strong><span class="author l-block">舒克</span><span class="desc l-block">基于kissy的Placeholder</span></a>
+                <div class="star">star：2</div><a href="/placeholder/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="pluginhost" data-desc="插件宿主扩充类，提供插件插拔功能" data-author="虎牙" data-star="2" data-create="1369381453000" data-updated="1371608839000" class="item mix">
+              <div class="detail-link-wrap"><a href="/pluginhost/1.0/guide/index.html" title="pluginhost" target="_blank" class="item-link item-detail"><strong class="name l-block">pluginhost</strong><span class="author l-block">虎牙</span><span class="desc l-block">插件宿主扩充类，提供插件插拔功能</span></a>
+                <div class="star">star：2</div><a href="/pluginhost/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="qrcode" data-desc="生成二维码" data-author="拔赤" data-star="2" data-create="1372240378000" data-updated="1374743239000" class="item mix">
+              <div class="detail-link-wrap"><a href="/qrcode/1.0/guide/index.html" title="qrcode" target="_blank" class="item-link item-detail"><strong class="name l-block">qrcode</strong><span class="author l-block">拔赤</span><span class="desc l-block">生成二维码</span></a>
+                <div class="star">star：2</div><a href="/qrcode/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="radio" data-desc="radio美化组件" data-author="sirzxj" data-star="1" data-create="1373954612000" data-updated="1375880662000" class="item mix">
+              <div class="detail-link-wrap"><a href="/radio/1.4/guide/index.html" title="radio" target="_blank" class="item-link item-detail"><strong class="name l-block">radio</strong><span class="author l-block">sirzxj</span><span class="desc l-block">radio美化组件</span></a>
+                <div class="star">star：1</div><a href="/radio/1.4/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="redirectToNative" data-desc="打开native app，没安装引导去下载" data-author="妙净" data-star="0" data-create="1378274109000" data-updated="1378283571000" class="item mix">
+              <div class="detail-link-wrap"><a href="/redirectToNative/1.1/guide/index.html" title="redirectToNative" target="_blank" class="item-link item-detail"><strong class="name l-block">redirectToNative</strong><span class="author l-block">妙净</span><span class="desc l-block">打开native app，没安装引导去下载</span></a>
+                <div class="star">star：0</div><a href="/redirectToNative/1.1/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="reflection" data-desc="图片倒影" data-author="元泉" data-star="3" data-create="1365320031000" data-updated="1371608841000" class="item mix">
+              <div class="detail-link-wrap"><a href="/reflection/1.1/guide/index.html" title="reflection" target="_blank" class="item-link item-detail"><strong class="name l-block">reflection</strong><span class="author l-block">元泉</span><span class="desc l-block">图片倒影</span></a>
+                <div class="star">star：3</div><a href="/reflection/1.1/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="responsive" data-desc="响应式相关兼容实现、响应式模式" data-author="miaojing" data-star="29" data-create="1365745663000" data-updated="1378447537000" class="item mix">
+              <div class="detail-link-wrap"><a href="/responsive/1.0/guide/index.html" title="responsive" target="_blank" class="item-link item-detail"><strong class="name l-block">responsive</strong><span class="author l-block">miaojing</span><span class="desc l-block">响应式相关兼容实现、响应式模式</span></a>
+                <div class="star">star：29</div><a href="/responsive/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="rtip" data-desc="tip自适应" data-author="yuanhuang" data-star="0" data-create="1375774193000" data-updated="1379818650000" class="item mix">
+              <div class="detail-link-wrap"><a href="/rtip/1.1/guide/index.html" title="rtip" target="_blank" class="item-link item-detail"><strong class="name l-block">rtip</strong><span class="author l-block">yuanhuang</span><span class="desc l-block">tip自适应</span></a>
+                <div class="star">star：0</div><a href="/rtip/1.1/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="sapper" data-desc="勤奋的挖掘工，帮您快速查找页面入口" data-author="迟伤" data-star="1" data-create="1378973011000" data-updated="1379387537000" class="item mix">
+              <div class="detail-link-wrap"><a href="/sapper/1.1/guide/index.html" title="sapper" target="_blank" class="item-link item-detail"><strong class="name l-block">sapper</strong><span class="author l-block">迟伤</span><span class="desc l-block">勤奋的挖掘工，帮您快速查找页面入口</span></a>
+                <div class="star">star：1</div><a href="/sapper/1.1/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="scroll-monitor" data-desc="滚动监听器，获取滚动信息，添加不同状态的滚动事件，适用于下拉加载" data-author="虎牙" data-star="3" data-create="1369909111000" data-updated="1378264181000" class="item mix">
+              <div class="detail-link-wrap"><a href="/scroll-monitor/1.0/guide/index.html" title="scroll-monitor" target="_blank" class="item-link item-detail"><strong class="name l-block">scroll-monitor</strong><span class="author l-block">虎牙</span><span class="desc l-block">滚动监听器，获取滚动信息，添加不同状态的滚动事件，适用于下拉加载</span></a>
+                <div class="star">star：3</div><a href="/scroll-monitor/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="scrollAnim" data-desc="滚动动画效果小组件" data-author="mohen" data-star="1" data-create="1373437505000" data-updated="1376469026000" class="item mix">
+              <div class="detail-link-wrap"><a href="/scrollAnim/1.3/guide/index.html" title="scrollAnim" target="_blank" class="item-link item-detail"><strong class="name l-block">scrollAnim</strong><span class="author l-block">mohen</span><span class="desc l-block">滚动动画效果小组件</span></a>
+                <div class="star">star：1</div><a href="/scrollAnim/1.3/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="scrollFloat" data-desc="设置元素在滚动中悬停的小组件" data-author="mohen" data-star="1" data-create="1376638856000" data-updated="1377233620000" class="item mix">
+              <div class="detail-link-wrap"><a href="/scrollFloat/1.0/guide/index.html" title="scrollFloat" target="_blank" class="item-link item-detail"><strong class="name l-block">scrollFloat</strong><span class="author l-block">mohen</span><span class="desc l-block">设置元素在滚动中悬停的小组件</span></a>
+                <div class="star">star：1</div><a href="/scrollFloat/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="uploader" data-desc="异步文件上传组件" data-author="明河" data-star="58" data-create="1365563272000" data-updated="1380101375000" class="item mix">
+              <div class="detail-link-wrap"><a href="/uploader/1.5/guide/index.html" title="uploader" target="_blank" class="item-link item-detail"><strong class="name l-block">uploader</strong><span class="author l-block">明河</span><span class="desc l-block">异步文件上传组件</span></a>
+                <div class="star">star：58</div><a href="/uploader/1.5/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="slide" data-desc="兼容多种端的Slide组件，实现幻灯、Tab、跑马灯等效果" data-author=" 拔赤" data-star="14" data-create="1365318427000" data-updated="1379985273000" class="item mix">
+              <div class="detail-link-wrap"><a href="/slide/1.1/guide/index.html" title="slide" target="_blank" class="item-link item-detail"><strong class="name l-block">slide</strong><span class="author l-block"> 拔赤</span><span class="desc l-block">兼容多种端的Slide组件，实现幻灯、Tab、跑马灯等效果</span></a>
+                <div class="star">star：14</div><a href="/slide/1.1/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="velocity" data-desc="velocity template in js" data-author="hanwen.sah" data-star="3" data-create="1364889231000" data-updated="1373341784000" class="item mix">
+              <div class="detail-link-wrap"><a href="/velocity/1.1/guide/index.html" title="velocity" target="_blank" class="item-link item-detail"><strong class="name l-block">velocity</strong><span class="author l-block">hanwen.sah</span><span class="desc l-block">velocity template in js</span></a>
+                <div class="star">star：3</div><a href="/velocity/1.1/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="stepbar" data-desc="" data-author="明河" data-star="0" data-create="1374808175000" data-updated="1379050574000" class="item mix">
+              <div class="detail-link-wrap"><a href="/stepbar/1.1/guide/index.html" title="stepbar" target="_blank" class="item-link item-detail"><strong class="name l-block">stepbar</strong><span class="author l-block">明河</span><span class="desc l-block"></span></a>
+                <div class="star">star：0</div><a href="/stepbar/1.1/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="waterfallx" data-desc="inline-block布局的瀑布流" data-author="踏风" data-star="1" data-create="1371200604000" data-updated="1372991646000" class="item mix">
+              <div class="detail-link-wrap"><a href="/waterfallx/1.0/guide/index.html" title="waterfallx" target="_blank" class="item-link item-detail"><strong class="name l-block">waterfallx</strong><span class="author l-block">踏风</span><span class="desc l-block">inline-block布局的瀑布流</span></a>
+                <div class="star">star：1</div><a href="/waterfallx/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="form-storage" data-desc="基于本地存储实现的表单临时存储，解决表单内容重复填写，意外丢失等问题." data-author="舒克" data-star="0" data-create="1379139916000" data-updated="1379140110000" class="item mix">
+              <div class="detail-link-wrap"><a href="/form-storage/1.0/guide/index.html" title="form-storage" target="_blank" class="item-link item-detail"><strong class="name l-block">form-storage</strong><span class="author l-block">舒克</span><span class="desc l-block">基于本地存储实现的表单临时存储，解决表单内容重复填写，意外丢失等问题.</span></a>
+                <div class="star">star：0</div><a href="/form-storage/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="NGuide" data-desc="Newcomer guide plugin" data-author="Letao" data-star="22" data-create="1379217091000" data-updated="1380070538000" class="item mix">
+              <div class="detail-link-wrap"><a href="/NGuide/1.0/guide/index.html" title="NGuide" target="_blank" class="item-link item-detail"><strong class="name l-block">NGuide</strong><span class="author l-block">Letao</span><span class="desc l-block">Newcomer guide plugin</span></a>
+                <div class="star">star：22</div><a href="/NGuide/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="easydialog" data-desc="Easydialog 封装了alert,confirm,prompt" data-author="bofang.zxj" data-star="1" data-create="1379152809000" data-updated="1379299625000" class="item mix">
+              <div class="detail-link-wrap"><a href="/easydialog/1.0/guide/index.html" title="easydialog" target="_blank" class="item-link item-detail"><strong class="name l-block">easydialog</strong><span class="author l-block">bofang.zxj</span><span class="desc l-block">Easydialog 封装了alert,confirm,prompt</span></a>
+                <div class="star">star：1</div><a href="/easydialog/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="kds" data-desc="这是一个集合了kissy各种api的demo库" data-author="zhangting" data-star="3" data-create="1379299137000" data-updated="1379840214000" class="item mix">
+              <div class="detail-link-wrap"><a href="/kds/1.0/guide/index.html" title="kds" target="_blank" class="item-link item-detail"><strong class="name l-block">kds</strong><span class="author l-block">zhangting</span><span class="desc l-block">这是一个集合了kissy各种api的demo库</span></a>
+                <div class="star">star：3</div><a href="/kds/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="verify" data-desc="垂直表单验证" data-author="迟伤" data-star="1" data-create="1379382695000" data-updated="1380020380000" class="item mix">
+              <div class="detail-link-wrap"><a href="/verify/1.1/guide/index.html" title="verify" target="_blank" class="item-link item-detail"><strong class="name l-block">verify</strong><span class="author l-block">迟伤</span><span class="desc l-block">垂直表单验证</span></a>
+                <div class="star">star：1</div><a href="/verify/1.1/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="app" data-desc="KISSY Mobile App：WebView 转场动画框架" data-author="bachi@taobao.com" data-star="1" data-create="1379412368000" data-updated="1380018008000" class="item mix">
+              <div class="detail-link-wrap"><a href="/app/1.3/guide/index.html" title="app" target="_blank" class="item-link item-detail"><strong class="name l-block">app</strong><span class="author l-block">bachi@taobao.com</span><span class="desc l-block">KISSY Mobile App：WebView 转场动画框架</span></a>
+                <div class="star">star：1</div><a href="/app/1.3/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="simulate-select" data-desc="模拟下拉框" data-author="兰梦" data-star="8" data-create="1379414333000" data-updated="1380110446000" class="item mix">
+              <div class="detail-link-wrap"><a href="/simulate-select/1.0/guide/index.html" title="simulate-select" target="_blank" class="item-link item-detail"><strong class="name l-block">simulate-select</strong><span class="author l-block">兰梦</span><span class="desc l-block">模拟下拉框</span></a>
+                <div class="star">star：8</div><a href="/simulate-select/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="albums" data-desc="请修改组件描述" data-author="hanwen.sah" data-star="6" data-create="1379424184000" data-updated="1379840478000" class="item mix">
+              <div class="detail-link-wrap"><a href="/albums/1.0/guide/index.html" title="albums" target="_blank" class="item-link item-detail"><strong class="name l-block">albums</strong><span class="author l-block">hanwen.sah</span><span class="desc l-block">请修改组件描述</span></a>
+                <div class="star">star：6</div><a href="/albums/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="kschedule" data-desc="kissy日程组件" data-author="Letao" data-star="13" data-create="1379814086000" data-updated="1380080420000" class="item mix">
+              <div class="detail-link-wrap"><a href="/kschedule/1.0/guide/index.html" title="kschedule" target="_blank" class="item-link item-detail"><strong class="name l-block">kschedule</strong><span class="author l-block">Letao</span><span class="desc l-block">kissy日程组件</span></a>
+                <div class="star">star：13</div><a href="/kschedule/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="simple-mask" data-desc="触屏设备中的简单蒙层组件" data-author="bachi" data-star="1" data-create="1379838489000" data-updated="1379936266000" class="item mix">
+              <div class="detail-link-wrap"><a href="/simple-mask/1.0/guide/index.html" title="simple-mask" target="_blank" class="item-link item-detail"><strong class="name l-block">simple-mask</strong><span class="author l-block">bachi</span><span class="desc l-block">触屏设备中的简单蒙层组件</span></a>
+                <div class="star">star：1</div><a href="/simple-mask/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="photoswipe" data-desc="Mobile终端里的大图滚动预览组件" data-author="bachi" data-star="0" data-create="1379839177000" data-updated="1379839599000" class="item mix">
+              <div class="detail-link-wrap"><a href="/photoswipe/1.0/guide/index.html" title="photoswipe" target="_blank" class="item-link item-detail"><strong class="name l-block">photoswipe</strong><span class="author l-block">bachi</span><span class="desc l-block">Mobile终端里的大图滚动预览组件</span></a>
+                <div class="star">star：0</div><a href="/photoswipe/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="lineParallax" data-desc="视差组件（动画组件）" data-author="mingzheng" data-star="4" data-create="1379903580000" data-updated="1379915068000" class="item mix">
+              <div class="detail-link-wrap"><a href="/lineParallax/0.5/guide/index.html" title="lineParallax" target="_blank" class="item-link item-detail"><strong class="name l-block">lineParallax</strong><span class="author l-block">mingzheng</span><span class="desc l-block">视差组件（动画组件）</span></a>
+                <div class="star">star：4</div><a href="/lineParallax/0.5/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="cutter" data-desc="图片切割插件，用于图片hover时的信息提示" data-author="bachi" data-star="0" data-create="1379915667000" data-updated="1379916025000" class="item mix">
+              <div class="detail-link-wrap"><a href="/cutter/1.0/guide/index.html" title="cutter" target="_blank" class="item-link item-detail"><strong class="name l-block">cutter</strong><span class="author l-block">bachi</span><span class="desc l-block">图片切割插件，用于图片hover时的信息提示</span></a>
+                <div class="star">star：0</div><a href="/cutter/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="musicPlayer" data-desc="MP3音乐播放器组件" data-author="韩升" data-star="5" data-create="1379918563000" data-updated="1380105240000" class="item mix">
+              <div class="detail-link-wrap"><a href="/musicPlayer/1.0/guide/index.html" title="musicPlayer" target="_blank" class="item-link item-detail"><strong class="name l-block">musicPlayer</strong><span class="author l-block">韩升</span><span class="desc l-block">MP3音乐播放器组件</span></a>
+                <div class="star">star：5</div><a href="/musicPlayer/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="treemenu" data-desc="多级树形菜单组件" data-author="moxiao" data-star="0" data-create="1379918718000" data-updated="1380002894000" class="item mix">
+              <div class="detail-link-wrap"><a href="/treemenu/1.0/guide/index.html" title="treemenu" target="_blank" class="item-link item-detail"><strong class="name l-block">treemenu</strong><span class="author l-block">moxiao</span><span class="desc l-block">多级树形菜单组件</span></a>
+                <div class="star">star：0</div><a href="/treemenu/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="checkBoxTree" data-desc="多选树形控件" data-author="知了" data-star="0" data-create="1379924319000" data-updated="1379924319000" class="item mix">
+              <div class="detail-link-wrap"><a href="/checkBoxTree/1.0/guide/index.html" title="checkBoxTree" target="_blank" class="item-link item-detail"><strong class="name l-block">checkBoxTree</strong><span class="author l-block">知了</span><span class="desc l-block">多选树形控件</span></a>
+                <div class="star">star：0</div><a href="/checkBoxTree/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="kheatmap" data-desc="基于KISSY的热图组件" data-author="oldj" data-star="1" data-create="1379928331000" data-updated="1379933320000" class="item mix">
+              <div class="detail-link-wrap"><a href="/kheatmap/1.0/guide/index.html" title="kheatmap" target="_blank" class="item-link item-detail"><strong class="name l-block">kheatmap</strong><span class="author l-block">oldj</span><span class="desc l-block">基于KISSY的热图组件</span></a>
+                <div class="star">star：1</div><a href="/kheatmap/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="tip" data-desc="mini提示层" data-author="xijian.py" data-star="2" data-create="1369212689000" data-updated="1378866956000" class="item mix">
+              <div class="detail-link-wrap"><a href="/tip/1.0/guide/index.html" title="tip" target="_blank" class="item-link item-detail"><strong class="name l-block">tip</strong><span class="author l-block">xijian.py</span><span class="desc l-block">mini提示层</span></a>
+                <div class="star">star：2</div><a href="/tip/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="WKeditor" data-desc="" data-author="changyuan.lcy" data-star="1" data-create="1379934372000" data-updated="1379936359000" class="item mix">
+              <div class="detail-link-wrap"><a href="/WKeditor/1.0/guide/index.html" title="WKeditor" target="_blank" class="item-link item-detail"><strong class="name l-block">WKeditor</strong><span class="author l-block">changyuan.lcy</span><span class="desc l-block"></span></a>
+                <div class="star">star：1</div><a href="/WKeditor/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="kDataGenerator" data-desc="一个假数据生成模块" data-author="mingzheng" data-star="0" data-create="1379938524000" data-updated="1379938731000" class="item mix">
+              <div class="detail-link-wrap"><a href="/kDataGenerator/1.0/guide/index.html" title="kDataGenerator" target="_blank" class="item-link item-detail"><strong class="name l-block">kDataGenerator</strong><span class="author l-block">mingzheng</span><span class="desc l-block">一个假数据生成模块</span></a>
+                <div class="star">star：0</div><a href="/kDataGenerator/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="shootGame" data-desc="" data-author="xiaowuming" data-star="0" data-create="1379987581000" data-updated="1379987582000" class="item mix">
+              <div class="detail-link-wrap"><a href="/shootGame/1.0/guide/index.html" title="shootGame" target="_blank" class="item-link item-detail"><strong class="name l-block">shootGame</strong><span class="author l-block">xiaowuming</span><span class="desc l-block"></span></a>
+                <div class="star">star：0</div><a href="/shootGame/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="TimeLines" data-desc="一个事件轮播的TimeLine" data-author="jixiangac" data-star="0" data-create="1379987819000" data-updated="1379987820000" class="item mix">
+              <div class="detail-link-wrap"><a href="/TimeLines/1.0/guide/index.html" title="TimeLines" target="_blank" class="item-link item-detail"><strong class="name l-block">TimeLines</strong><span class="author l-block">jixiangac</span><span class="desc l-block">一个事件轮播的TimeLine</span></a>
+                <div class="star">star：0</div><a href="/TimeLines/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="tooltip" data-desc="" data-author="yinruo.nyj" data-star="2" data-create="1365318696000" data-updated="1378693368000" class="item mix">
+              <div class="detail-link-wrap"><a href="/tooltip/1.1/guide/index.html" title="tooltip" target="_blank" class="item-link item-detail"><strong class="name l-block">tooltip</strong><span class="author l-block">yinruo.nyj</span><span class="desc l-block"></span></a>
+                <div class="star">star：2</div><a href="/tooltip/1.1/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="pageNotification" data-desc="页面级消息通知组件" data-author="鱼相" data-star="2" data-create="1380014640000" data-updated="1380030007000" class="item mix">
+              <div class="detail-link-wrap"><a href="/pageNotification/1.0/guide/index.html" title="pageNotification" target="_blank" class="item-link item-detail"><strong class="name l-block">pageNotification</strong><span class="author l-block">鱼相</span><span class="desc l-block">页面级消息通知组件</span></a>
+                <div class="star">star：2</div><a href="/pageNotification/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="trees" data-desc="树形结构组件" data-author="桐人" data-star="12" data-create="1380023065000" data-updated="1380100667000" class="item mix">
+              <div class="detail-link-wrap"><a href="/trees/1.0/guide/index.html" title="trees" target="_blank" class="item-link item-detail"><strong class="name l-block">trees</strong><span class="author l-block">桐人</span><span class="desc l-block">树形结构组件</span></a>
+                <div class="star">star：12</div><a href="/trees/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+            <li data-name="temple" data-desc="(线上慎用)Temple 模板引擎" data-author="tom" data-star="1" data-create="1380025361000" data-updated="1380091311000" class="item mix">
+              <div class="detail-link-wrap"><a href="/temple/1.0/guide/index.html" title="temple" target="_blank" class="item-link item-detail"><strong class="name l-block">temple</strong><span class="author l-block">tom</span><span class="desc l-block">(线上慎用)Temple 模板引擎</span></a>
+                <div class="star">star：1</div><a href="/temple/1.0/demo/index.html" target="_blank" class="demo-link">demo</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div id="footer">
+        <div class="contact">
+          <ul class="clearfix">
+            <li class="item">
+              <p class="title">开发者旺旺群</p>
+              <p class="desc"> 600859238</p>
+            </li>
+            <li class="item">
+              <p class="title">邮箱</p>
+              <p class="desc">kissyteam@gmail.com</p>
+            </li>
+            <li class="item">
+              <p class="title">讨论组</p>
+              <p class="desc"><a href="http://groups.google.com/group/kissy-ui/" target="_blank">kissy-ui</a></p>
+            </li>
+            <li class="item">
+              <p class="title">&nbsp;</p>
+              <p class="desc"><a href="http://docs.kissyui.com/" target="_blank">Kissy首页</a></p>
+            </li>
+          </ul>
+        </div>
+        <div class="index-author">
+          <script src="gallery.js"></script>
+          <div class="author-name l-right"><script src="http://s9.cnzz.com/stat.php?id=5379789&web_id=5379789&online=2" language="JavaScript"></script></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
